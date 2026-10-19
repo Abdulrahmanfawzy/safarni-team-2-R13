@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 
 const poppins = Poppins({
-  weight: "500",
+  weight: "400",
   subsets: ["latin"],
   variable: "--font-poppins",
 });
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${poppins.variable}  h-full antialiased`}>
+    <html lang="en" className={`${poppins.className} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
