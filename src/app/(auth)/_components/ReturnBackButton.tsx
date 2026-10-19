@@ -7,7 +7,9 @@ const ReturnBackButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  return pathname === "/welcome" ? null : (
+  return pathname === "/welcome" || pathname === "/reset-password" ? (
+    <span />
+  ) : (
     <Button
       onClick={() => router.back()}
       className="rounded-full"
