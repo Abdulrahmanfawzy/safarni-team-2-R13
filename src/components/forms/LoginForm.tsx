@@ -1,8 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
-import MyInput from "./MyInput";
+import MyInput from "../shared/MyInput";
 import { Lock, Mail } from "lucide-react";
-import FormHeader from "./FormHeader";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import GoogleIcon from "../ui/GooglIcon";
@@ -18,12 +17,7 @@ const LoginForm = () => {
     console.log(formValues);
   };
   return (
-    <div className="flex flex-col gap-2 text-center w-full">
-      <FormHeader
-        title="Welcome Again"
-        description="welcome back! please fill your Data"
-      />
-
+    <>
       <form
         onSubmit={handleSubmit(submitLogin)}
         className="w-full flex flex-col gap-3.5"
@@ -70,17 +64,7 @@ const LoginForm = () => {
       <Button variant={"outline"} className={"p-2 w-xs mx-auto "}>
         <GoogleIcon />
       </Button>
-
-      <p className="text-sm font-medium">
-        Don't have an account?{" "}
-        <Link
-          href={"/register"}
-          className="text-app-primary hover:underline font-semibold"
-        >
-          sign up
-        </Link>
-      </p>
-    </div>
+    </>
   );
 };
 

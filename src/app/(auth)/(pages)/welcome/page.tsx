@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AuthLayout from "../../_components/AuthLayouts";
 import welcomeIamge from "@/assets/images/auth-images/welcome.jpg";
 import Link from "next/link";
-import FormHeader from "@/components/forms/FormHeader";
+import FormHeader from "@/components/shared/FormHeader";
 const Welcome = () => {
   return (
     <AuthLayout image={welcomeIamge}>
