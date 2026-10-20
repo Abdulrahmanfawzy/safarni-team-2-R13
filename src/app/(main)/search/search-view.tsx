@@ -20,7 +20,13 @@ function BackButton({ onClick }: { onClick: () => void }) {
       aria-label="Back"
       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
     >
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        viewBox="0 0 24 24"
+        className="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <path d="m15 6-6 6 6 6" />
       </svg>
     </button>
@@ -33,7 +39,9 @@ export default function SearchView() {
   const { filters, setFilters } = useTourFilters();
 
   const [draft, setDraft] = useState("");
-  const [filtersOpen, setFiltersOpen] = useState(params.get("filters") === "open");
+  const [filtersOpen, setFiltersOpen] = useState(
+    params.get("filters") === "open",
+  );
   const [favorites, setFavorites] = useState<string[]>([]);
 
   const typed = draft.trim();
@@ -49,10 +57,12 @@ export default function SearchView() {
   };
 
   const toggleFavorite = (id: string) =>
-    setFavorites((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
+    setFavorites((f) =>
+      f.includes(id) ? f.filter((x) => x !== id) : [...f, id],
+    );
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-16 md:px-[100px]">
+    <>
       {showResults ? (
         /* ---------- results ---------- */
         <section className="space-y-5">
@@ -72,7 +82,13 @@ export default function SearchView() {
               aria-label="Open filters"
               className="relative rounded-xl border border-gray-200 bg-white p-2.5 hover:bg-gray-50"
             >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M4 6h16M7 12h10M10 18h4" />
               </svg>
               {activeCount > 0 && (
@@ -129,7 +145,9 @@ export default function SearchView() {
           ) : (
             // nothing matched: let the user search the raw text
             <PlaceList
-              places={[{ id: "typed", name: typed, label: `Search for "${typed}"` }]}
+              places={[
+                { id: "typed", name: typed, label: `Search for "${typed}"` },
+              ]}
               variant="suggestion"
               onSelect={(p) => commit(p.name)}
             />
@@ -144,6 +162,6 @@ export default function SearchView() {
           onClose={() => setFiltersOpen(false)}
         />
       )}
-    </main>
+    </>
   );
 }
