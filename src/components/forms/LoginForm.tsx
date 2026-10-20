@@ -5,6 +5,9 @@ import { Lock, Mail } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import GoogleIcon from "../ui/GooglIcon";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/schemas/auth.schemas";
+import { LoginPayload } from "@/types/auth.types";
 
 const LoginForm = () => {
   const { control, handleSubmit } = useForm({
@@ -12,8 +15,9 @@ const LoginForm = () => {
       email: "",
       password: "",
     },
+    resolver: zodResolver(loginSchema),
   });
-  const submitLogin = (formValues: any) => {
+  const submitLogin = (formValues: LoginPayload) => {
     console.log(formValues);
   };
   return (

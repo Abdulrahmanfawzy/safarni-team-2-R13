@@ -2,9 +2,10 @@
 import { useForm } from "react-hook-form";
 import MyInput from "../shared/MyInput";
 import { Lock, Mail, User } from "lucide-react";
-
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema } from "@/schemas/auth.schemas";
+import { RegisterPayload } from "@/types/auth.types";
 
 const RegisterForm = () => {
   const { control, handleSubmit } = useForm({
@@ -13,8 +14,9 @@ const RegisterForm = () => {
       email: "",
       password: "",
     },
+    resolver: zodResolver(registerSchema),
   });
-  const submitRegister = (formValues: any) => {
+  const submitRegister = (formValues: RegisterPayload) => {
     console.log(formValues);
   };
   return (
