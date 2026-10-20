@@ -8,6 +8,8 @@ import GoogleIcon from "../ui/GooglIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/auth.schemas";
 import { LoginPayload } from "@/types/auth.types";
+import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
   const { control, handleSubmit } = useForm({
@@ -17,8 +19,15 @@ const LoginForm = () => {
     },
     resolver: zodResolver(loginSchema),
   });
-  const submitLogin = (formValues: LoginPayload) => {
+  const submitLogin = async (formValues: LoginPayload) => {
     console.log(formValues);
+
+    // api fetch from next auth
+    const response = await signIn("credentials", {
+      ...formValues,
+      redirect: false,
+    });
+    console.log("from login form", response);
   };
   return (
     <>
