@@ -39,10 +39,10 @@ export default function SearchView() {
   const { filters, setFilters } = useTourFilters();
 
   const [draft, setDraft] = useState("");
-  const [filtersOpen, setFiltersOpen] = useState(
-    params.get("filters") === "open",
-  );
   const [favorites, setFavorites] = useState<string[]>([]);
+
+  // popup is controlled by the URL (?filters=open), so the navbar icon can open it
+  const filtersOpen = params.get("filters") === "open";
 
   const typed = draft.trim();
   const activeCount = countActiveFilters(filters);
@@ -54,6 +54,13 @@ export default function SearchView() {
   const commit = (query: string) => {
     const value = query.trim();
     if (value) router.push(`/search?q=${encodeURIComponent(value)}`);
+  };
+
+  const closeFilters = () => {
+    const sp = new URLSearchParams(params.toString());
+    sp.delete("filters");
+    const qs = sp.toString();
+    router.replace(qs ? `/search?${qs}` : "/search", { scroll: false });
   };
 
   const toggleFavorite = (id: string) =>
@@ -68,36 +75,12 @@ export default function SearchView() {
         <section className="space-y-5">
           <BackButton onClick={() => router.push("/search")} />
 
-          <div className="flex items-center justify-between">
-            <h1 className="text-sm font-semibold text-gray-900">
-              {filters.q || "All tours"}{" "}
-              <span className="text-[10px] font-normal text-gray-400">
-                {results.length} Result
-              </span>
-            </h1>
-
-            <button
-              type="button"
-              onClick={() => setFiltersOpen(true)}
-              aria-label="Open filters"
-              className="relative rounded-xl border border-gray-200 bg-white p-2.5 hover:bg-gray-50"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M4 6h16M7 12h10M10 18h4" />
-              </svg>
-              {activeCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-app-primary text-[10px] text-white">
-                  {activeCount}
-                </span>
-              )}
-            </button>
-          </div>
+          <h1 className="text-sm font-semibold text-gray-900">
+            {filters.q || "All tours"}{" "}
+            <span className="text-[10px] font-normal text-gray-400">
+              {results.length} Result
+            </span>
+          </h1>
 
           {results.length === 0 ? (
             <p className="py-20 text-center text-sm text-gray-400">
@@ -143,7 +126,6 @@ export default function SearchView() {
               onSelect={(p) => commit(p.name)}
             />
           ) : (
-            // nothing matched: let the user search the raw text
             <PlaceList
               places={[
                 { id: "typed", name: typed, label: `Search for "${typed}"` },
@@ -158,8 +140,8 @@ export default function SearchView() {
       {filtersOpen && (
         <FilterPanel
           initial={filters}
-          onApply={(f) => setFilters(f)}
-          onClose={() => setFiltersOpen(false)}
+          onApply={(f) => setFilters(f)} // rebuilds the URL without ?filters=open, which closes the popup
+          onClose={closeFilters}
         />
       )}
     </>
