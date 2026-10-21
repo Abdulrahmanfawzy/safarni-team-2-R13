@@ -175,3 +175,8 @@
   box-shadow: 0 0 0 1px #3f83f8;
   cursor: grab;
 }
+@layer utilities {
+  .main_container {
+    @apply mx-auto w-full max-w-360 flex-1 space-y-10 px-4 pb-16 md:px-25;
+  }
+}
