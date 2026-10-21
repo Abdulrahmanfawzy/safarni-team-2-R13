@@ -1,6 +1,8 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
+import { spawn } from "child_process";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
+import { Spinner } from "./spinner";
 
 const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center rounded-[10px] border border-transparent bg-clip-padding text-lg font-medium whitespace-nowrap transition-all outline-none select-none  cursor-pointer",
@@ -44,14 +46,27 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  isloading,
+  children,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants> & {
+    isloading?: boolean;
+  }) {
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {isloading ? (
+        <span>
+          <Spinner /> Loading...
+        </span>
+      ) : (
+        children
+      )}
+    </ButtonPrimitive>
   );
 }
 

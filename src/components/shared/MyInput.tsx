@@ -82,7 +82,9 @@ const MyInput = <T extends FieldValues>({
               </div>
             </Field>
             {fieldState?.error && (
-              <FieldError>{fieldState?.error?.message}</FieldError>
+              <FieldError className="text-start">
+                {fieldState?.error?.message}
+              </FieldError>
             )}
           </>
         ) : (
@@ -102,7 +104,9 @@ const MyInput = <T extends FieldValues>({
               </div>
             </Field>
             {fieldState?.error && (
-              <FieldError>{fieldState?.error?.message}</FieldError>
+              <FieldError className="text-start">
+                {fieldState?.error?.message}
+              </FieldError>
             )}
           </>
         )

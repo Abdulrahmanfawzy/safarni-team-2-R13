@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import MyInput from "../shared/MyInput";
 import { Lock } from "lucide-react";
 import { Button } from "../ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { resetPasswordSchema } from "@/schemas/auth.schemas";
+import { ResetPasswordPayload } from "@/types/auth.types";
 
 const ResetPasswordForm = () => {
   const { control, handleSubmit } = useForm({
@@ -10,8 +13,9 @@ const ResetPasswordForm = () => {
       password: "",
       confirm_password: "",
     },
+    resolver: zodResolver(resetPasswordSchema),
   });
-  const submitRegister = (formValues: any) => {
+  const submitRegister = (formValues: ResetPasswordPayload) => {
     console.log(formValues);
   };
   return (

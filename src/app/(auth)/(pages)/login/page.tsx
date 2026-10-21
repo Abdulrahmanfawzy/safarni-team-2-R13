@@ -20,7 +20,7 @@ const Login = () => {
 
         {/* Sign Up Link */}
         <p className="text-sm font-medium">
-          Don't have an account?{" "}
+          {"Don't"} have an account?{" "}
           <Link
             href={"/register"}
             className="text-app-primary hover:underline font-semibold"

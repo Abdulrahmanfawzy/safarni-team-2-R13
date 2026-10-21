@@ -6,7 +6,6 @@
 
 @theme inline {
   --color-app-primary: var(--app-primary);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);

@@ -1,18 +1,20 @@
 "use client";
-import FormHeader from "../shared/FormHeader";
 import MyInput from "../shared/MyInput";
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { forgetPasswordSchema } from "@/schemas/auth.schemas";
+import { ForgetPasswordPayload } from "@/types/auth.types";
 
 const ForgetPasswordForm = () => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
     },
+    resolver: zodResolver(forgetPasswordSchema),
   });
-  const submitForgetPassword = (formValues: any) => {
+  const submitForgetPassword = (formValues: ForgetPasswordPayload) => {
     console.log(formValues);
   };
   return (

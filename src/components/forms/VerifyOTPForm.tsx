@@ -4,25 +4,27 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { verifyOtpSchema } from "@/schemas/auth.schemas";
+import { VerifyOtpPayload } from "@/types/auth.types";
 
 const VerifyOTPForm = () => {
-  const [isResend, setIsResend] = useState(false);
   const [resendTime, setResendTime] = useState(60);
   const form = useForm({
     defaultValues: {
       code: "",
     },
+    resolver: zodResolver(verifyOtpSchema),
   });
 
-  const onSubmit = (formvalues: any) => {
+  const onSubmit = (formvalues: VerifyOtpPayload) => {
     console.log(formvalues);
   };
 
+  const isResend = resendTime === 0;
+
   useEffect(() => {
-    if (resendTime === 0) {
-      setIsResend(true);
-      return;
-    }
+    if (resendTime <= 0) return;
     const interval = setInterval(() => {
       setResendTime((prev) => prev - 1);
     }, 1000);
