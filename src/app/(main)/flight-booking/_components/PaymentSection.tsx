@@ -25,7 +25,7 @@ export default function PaymentSection() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-[1200px]">
+    <section className="mx-auto w-full max-w-[1200px] main_container">
       <button
         type="button"
         onClick={() => router.back()}
@@ -35,15 +35,17 @@ export default function PaymentSection() {
         <ChevronLeft aria-hidden="true" className="size-4" />
       </button>
 
-      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] md:gap-10 lg:gap-16">
-        <div className="flex min-h-[280px] items-center justify-center rounded-[20px] bg-[#f4f4f5] p-8 sm:min-h-[360px]">
+      <div className="grid grid-cols-1 items-stretch gap-6 
+      md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-10 lg:gap-16">
+        <div className="flex min-h-[280px] items-center justify-center rounded-[20px]
+         bg-[#f4f4f5] p-8 sm:min-h-[360px]">
           <CheckoutCard
             className="max-w-[224px]"
             cardholder={fullName || "SAFARNI TRAVEL"}
           />
         </div>
 
-        <div className="flex min-w-0 flex-col py-1">
+        <div className="flex min-w-0 flex-col items-center justify-center py-1">
           <h1 className="text-base font-semibold text-slate-900">
             Payment Method
           </h1>
