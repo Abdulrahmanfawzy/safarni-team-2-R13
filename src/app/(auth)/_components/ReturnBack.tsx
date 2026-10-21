@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
-const ReturnBackButton = () => {
+const ReturnBack = () => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -21,4 +21,4 @@ const ReturnBackButton = () => {
   );
 };
 
-export default ReturnBackButton;
+export default ReturnBack;
