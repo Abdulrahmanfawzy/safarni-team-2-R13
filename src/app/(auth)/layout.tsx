@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import logo from "@/assets/images/logo.png";
-import ReturnBackButton from "./_components/ReturnBackButton";
+import ReturnBack from "./_components/ReturnBack";
+
 interface AuthGroupLayoutProps {
   children: ReactNode;
 }
@@ -11,7 +12,7 @@ const AuthGroupLayout = ({ children }: AuthGroupLayoutProps) => {
     <div className="container mx-auto h-screen px-4 py-4">
       <div className="flex justify-between items-center">
         {/* return back button */}
-        <ReturnBackButton />
+        <ReturnBack />
         {/* Logo */}
         <div>
           <div className="relative flex justify-center w-fit gap-1 flex-col">

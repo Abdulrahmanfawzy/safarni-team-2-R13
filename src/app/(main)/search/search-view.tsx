@@ -11,27 +11,7 @@ import SearchBar from "@/components/shared/search-bar";
 import FilterPanel from "@/components/shared/filter-panel";
 import TourCard from "@/components/shared/tour-card";
 import PlaceList from "@/components/search/place-list";
-
-function BackButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label="Back"
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="m15 6-6 6 6 6" />
-      </svg>
-    </button>
-  );
-}
+import { BackButton } from "@/components/shared/BackButton";
 
 export default function SearchView() {
   const router = useRouter();
@@ -42,6 +22,7 @@ export default function SearchView() {
   const [filtersOpen, setFiltersOpen] = useState(
     params.get("filters") === "open",
   );
+
   const [favorites, setFavorites] = useState<string[]>([]);
 
   const typed = draft.trim();
