@@ -7,7 +7,7 @@ import { AVAILABLE_TOURS, RECOMMENDATIONS } from "@/constants/home";
 
 export default function HomePage() {
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 space-y-10 px-4 pb-16 md:px-[100px]">
+    <>
       <Hero />
 
       <Categories />
@@ -29,6 +29,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-    </main>
+    </>
   );
 }
