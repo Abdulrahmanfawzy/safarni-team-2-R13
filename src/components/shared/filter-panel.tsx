@@ -181,15 +181,12 @@ export default function FilterPanel({
             Clear All
           </button>
           <button
-            type="button"
-            onClick={() => {
-              onApply(draft);
-              onClose();
-            }}
-            className="flex-1 rounded-lg bg-app-primary py-2.5 text-sm text-white"
-          >
-            {count} Tours Found
-          </button>
+  type="button"
+  onClick={() => onApply(draft)}
+  className="flex-1 rounded-lg bg-app-primary py-2.5 text-sm text-white"
+>
+  {count} Tours Found
+</button>
         </div>
       </div>
     </div>
