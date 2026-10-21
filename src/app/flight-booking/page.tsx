@@ -1,4 +1,4 @@
-import FlightBookingSection from "../../_components/FlightBookingSection";
+import FlightBookingSection from "./_components/FlightBookingSection";
 
 export default function FlightBookingPage() {
   return (
