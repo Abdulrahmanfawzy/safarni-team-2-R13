@@ -3,6 +3,7 @@ import Image, { StaticImageData } from "next/image";
 import { MapPin, Star } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Badge from "@/components/shared/Badge";
 
 interface HotelCardProps {
   name: string;
@@ -55,13 +56,7 @@ const HotelCard = ({
         {/* discount and rating */}
         {(discount || rating) && (
           <div className="flex items-center justify-between gap-2">
-            {discount ? (
-              <span className="rounded-full bg-sky-50 px-4 py-2 text-sm text-app-primary font-medium">
-                {discount}% Off
-              </span>
-            ) : (
-              <span />
-            )}
+            {discount ? <Badge>{discount}% Off</Badge> : <span />}
 
             {rating && (
               <span className="flex items-center gap-1 text-sm font-semibold text-neutral-500">

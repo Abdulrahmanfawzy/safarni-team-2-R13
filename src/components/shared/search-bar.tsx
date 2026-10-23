@@ -1,17 +1,26 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-
 interface SearchBarProps {
-  keySearch: string;
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit?: (value: string) => void;
+  placeholder?: string;
+  autoFocus?: boolean;
 }
 
-export default function SearchBar({}: SearchBarProps) {
+export default function SearchBar({
+  value,
+  onChange,
+  onSubmit,
+  placeholder = "Search destinations or tours...",
+  autoFocus = false,
+}: SearchBarProps) {
   return (
     <form
       role="search"
       onSubmit={(e) => {
         e.preventDefault();
+        onSubmit?.(value.trim());
       }}
       className="flex flex-1 items-center gap-2 rounded-xl border border-app-primary/30 bg-white px-3 py-2.5 focus-within:border-app-primary"
     >
