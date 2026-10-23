@@ -1,26 +1,16 @@
-"use client";
-import { BackButton } from "@/components/shared/BackButton";
 import CompareCard from "./_components/CompareCard";
 import ComparePriceCard from "./_components/ComparePriceCard";
-import SearchBar from "@/components/shared/search-bar";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-const ComparePage = () => {
-  const [compare, setCompare] = useState("");
-  const router = useRouter();
-
-  const hasSearch = compare.trim().length > 0;
+const ComparePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ name: string }>;
+}) => {
+  const searchValue = await searchParams;
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Search */}
-      <div className="flex items-center gap-3">
-        <BackButton onClick={() => router.push("/")} />
-        <SearchBar value={compare} onChange={setCompare} autoFocus />
-      </div>
-
-      {hasSearch ? (
+      {searchValue ? (
         <>
           {/* Compare Items */}
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">

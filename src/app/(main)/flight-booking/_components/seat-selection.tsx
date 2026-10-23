@@ -59,7 +59,7 @@ export function SeatSelection() {
         </div>
 
         <div
-          className="grid  w-full max-w-[240px] grid-cols-[repeat(6,minmax(55px,1fr))] gap-x-2 
+          className="grid  w-full max-w-60 grid-cols-[repeat(6,minmax(55px,1fr))] gap-x-2
           gap-y-1"
           role="group"
           aria-label="Choose an airplane seat"

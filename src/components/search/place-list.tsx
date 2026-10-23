@@ -1,4 +1,5 @@
 import type { Place } from "@/constants/places";
+import { MapPin } from "lucide-react";
 
 interface PlaceListProps {
   places: Place[];
@@ -23,24 +24,28 @@ function LandmarkIcon() {
   );
 }
 
-function PinIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
-      <circle cx="12" cy="10" r="2.5" />
-    </svg>
-  );
-}
+// function PinIcon() {
+//   return (
+//     <svg
+//       viewBox="0 0 24 24"
+//       className="h-5 w-5"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="1.8"
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//     >
+//       <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+//       <circle cx="12" cy="10" r="2.5" />
+//     </svg>
+//   );
+// }
 
-export default function PlaceList({ places, variant, onSelect }: PlaceListProps) {
+export default function PlaceList({
+  places,
+  variant,
+  onSelect,
+}: PlaceListProps) {
   return (
     <ul className="space-y-1">
       {places.map((p) => (
@@ -51,7 +56,7 @@ export default function PlaceList({ places, variant, onSelect }: PlaceListProps)
             className="flex w-full items-center gap-4 rounded-xl px-2 py-2.5 text-left transition hover:bg-gray-50"
           >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-app-primary/10 text-app-primary">
-              {variant === "popular" ? <LandmarkIcon /> : <PinIcon />}
+              {variant === "popular" ? <LandmarkIcon /> : <MapPin />} 
             </span>
 
             <span className="min-w-0">
@@ -59,7 +64,9 @@ export default function PlaceList({ places, variant, onSelect }: PlaceListProps)
                 {p.label}
               </span>
               {p.tagline && (
-                <span className="block text-[11px] text-gray-400">{p.tagline}</span>
+                <span className="block text-[11px] text-gray-400">
+                  {p.tagline}
+                </span>
               )}
             </span>
           </button>

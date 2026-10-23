@@ -21,7 +21,13 @@ function BackButton({ onClick }: { onClick: () => void }) {
       aria-label="Back"
       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
     >
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        viewBox="0 0 24 24"
+        className="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <path d="m15 6-6 6 6 6" />
       </svg>
     </button>
@@ -33,13 +39,10 @@ export default function SearchView() {
   const params = useSearchParams();
   const { filters, setFilters } = useTourFilters();
   const { term, setTerm } = useSearchTerm();
-
   // favorites are not part of search, so they stay in state for now
   const [favorites, setFavorites] = useState<string[]>([]);
-
   // popup is controlled by the URL (?filters=open)
   const filtersOpen = params.get("filters") === "open";
-
   const typed = term.trim();
   const activeCount = countActiveFilters(filters);
   const showResults = Boolean(filters.q) || activeCount > 0;
@@ -61,12 +64,13 @@ export default function SearchView() {
   };
 
   const toggleFavorite = (id: string) =>
-    setFavorites((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
+    setFavorites((f) =>
+      f.includes(id) ? f.filter((x) => x !== id) : [...f, id],
+    );
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-16 md:px-[100px]">
+    <main className="mx-auto w-ful max-w-360 flex-1 px-4 pb-16 md:px-25">
       {showResults ? (
-        
         <section className="space-y-5">
           <BackButton onClick={() => router.push("/search")} />
 
@@ -122,7 +126,9 @@ export default function SearchView() {
             />
           ) : (
             <PlaceList
-              places={[{ id: "typed", name: typed, label: `Search for "${typed}"` }]}
+              places={[
+                { id: "typed", name: typed, label: `Search for "${typed}"` },
+              ]}
               variant="suggestion"
               onSelect={(p) => commit(p.name)}
             />
