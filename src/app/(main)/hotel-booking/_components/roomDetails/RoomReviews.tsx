@@ -1,6 +1,8 @@
 import { Star, SquarePen } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import AddReview from "../AddReview";
 
 type Review = {
   id: number;
@@ -57,14 +59,24 @@ const RoomReviews = () => {
           Review
         </h2>
 
-        <Button
-          type="button"
-          variant="ghost"
-          className="text-blue-800 hover:bg-blue-50 hover:text-blue-800"
-        >
-          <SquarePen className="size-5 sm:size-6" />
-          <span className="text-base sm:text-xl">add review</span>
-        </Button>
+        {/* Add Review Dialog */}
+        <div>
+          <Dialog>
+            <DialogTrigger
+              render={
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="text-blue-800 hover:bg-blue-50 hover:text-blue-800"
+                >
+                  <SquarePen className="size-5 sm:size-6" />
+                  <span className="text-base sm:text-xl">add review</span>
+                </Button>
+              }
+            />
+            <AddReview />
+          </Dialog>
+        </div>
       </div>
 
       {reviews.map((review) => (

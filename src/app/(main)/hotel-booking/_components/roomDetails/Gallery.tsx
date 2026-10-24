@@ -61,7 +61,7 @@ const Gallery = ({
 
       {/* Thumbnail Gallery */}
       {images.length > 1 && (
-        <div className="absolute inset-x-4 bottom-4 z-10 rounded-xl bg-white/95 p-2 shadow-lg sm:inset-x-6 sm:bottom-5 sm:p-2.5">
+        <div className="absolute inset-x-4 bottom-4 z-10 rounded-xl bg-white/95 p-2 shadow-lg sm:inset-x-6 sm:bottom-5 sm:p-2">
           <Swiper
             onSwiper={setThumbsSwiper}
             spaceBetween={8}

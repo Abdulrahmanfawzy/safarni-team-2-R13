@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Camera, ChevronLeft, ChevronRight } from "lucide-react";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 

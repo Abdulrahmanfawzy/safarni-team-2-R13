@@ -3,11 +3,7 @@ import roomImage from "@/assets/images/room.jpg";
 import Title from "../_components/Title";
 import ReturnBack from "@/app/(auth)/_components/ReturnBack";
 
-const HotelRooms = async ({ searchParams }: any) => {
-  const searchParam = await searchParams;
-
-  console.log("hotelroom search param", searchParam);
-
+const HotelRooms = async () => {
   return (
     <>
       <div className="flex items-center gap-3">
