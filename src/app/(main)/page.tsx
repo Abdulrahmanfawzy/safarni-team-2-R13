@@ -1,8 +1,8 @@
 import Hero from "@/components/home/hero";
 import Categories from "@/components/home/categories";
-import SectionHeader from "@/components/shared/section-header";
+import SectionHeader from "@/components/shared/SectionHeader";
 import DestinationCard from "@/components/shared/destination-card";
-import TourRowCard from "@/components/shared/tour-row-card";
+import TourRowCard from "@/components/shared/TourRowCard";
 import { AVAILABLE_TOURS, RECOMMENDATIONS } from "@/constants/home";
 
 export default function HomePage() {

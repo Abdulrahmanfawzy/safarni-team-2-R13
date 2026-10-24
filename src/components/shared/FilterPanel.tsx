@@ -11,7 +11,7 @@ import {
 import type { AdventureStyle } from "@/constants/tours";
 import { DEFAULT_FILTERS, filterTours } from "@/lib/filter-tours";
 import type { TourFilters } from "@/lib/filter-tours";
-import BudgetRange from "@/components/shared/budget-range";
+import BudgetRange from "@/components/shared/BudgetRange";
 
 interface FilterPanelProps {
   initial: TourFilters;

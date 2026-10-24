@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CATEGORIES } from "@/constants/home";
-import SectionHeader from "@/components/shared/section-header";
+import SectionHeader from "@/components/shared/SectionHeader";
 
 export default function Categories() {
   return (

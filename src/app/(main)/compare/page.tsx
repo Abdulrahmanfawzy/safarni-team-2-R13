@@ -2,7 +2,7 @@
 import { BackButton } from "@/components/shared/BackButton";
 import CompareCard from "./_components/CompareCard";
 import ComparePriceCard from "./_components/ComparePriceCard";
-import SearchBar from "@/components/shared/search-bar";
+import SearchBar from "@/components/shared/SearchBar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
