@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
-import SearchBar from "@/components/shared/search-bar";
-import TourCard from "@/components/shared/tour-card";
+import SearchBar from "@/components/shared/SearchBar";
+import TourCard from "@/components/shared/TourCard";
 import { TOURS } from "@/constants/tours";
 
 export default function TourListing() {

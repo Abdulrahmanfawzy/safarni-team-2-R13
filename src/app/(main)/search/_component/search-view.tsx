@@ -7,39 +7,20 @@ import { POPULAR_PLACES } from "@/constants/places";
 import { countActiveFilters, filterTours } from "@/lib/filter-tours";
 import { searchPlaces } from "@/lib/search-places";
 import { useTourFilters } from "@/hooks/use-tour-filters";
-import { useSearchTerm } from "@/hooks/use-search-term";
-import SearchBar from "@/components/shared/search-bar";
-import FilterPanel from "@/components/shared/filter-panel";
-import TourCard from "@/components/shared/tour-card";
+import { useSearchParam,useSearchTerm} from "@/hooks/use-search-term";
+import SearchBar from "@/components/shared/SearchBar";
+import FilterPanel from "@/components/shared/FilterPanel";
+import TourCard from "@/components/shared/TourCard";
 import PlaceList from "@/components/search/place-list";
-
-function BackButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label="Back"
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="m15 6-6 6 6 6" />
-      </svg>
-    </button>
-  );
-}
-
+import { BackButton } from "@/components/shared/BackButton";
+ 
 export default function SearchView() {
   const router = useRouter();
   const params = useSearchParams();
   const { filters, setFilters } = useTourFilters();
-  const { term, setTerm } = useSearchTerm();
-  // favorites are not part of search, so they stay in state for now
+  const [term, setTerm] = useSearchParam("term");
+
+  
   const [favorites, setFavorites] = useState<string[]>([]);
   // popup is controlled by the URL (?filters=open)
   const filtersOpen = params.get("filters") === "open";
@@ -100,7 +81,7 @@ export default function SearchView() {
           )}
         </section>
       ) : (
-        /* ---------- search input + popular / suggestions ---------- */
+        
         <section className="space-y-6">
           <div className="flex items-center gap-3">
             <BackButton onClick={() => router.push("/")} />

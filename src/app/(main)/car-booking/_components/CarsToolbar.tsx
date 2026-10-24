@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowLeft, SlidersHorizontal } from "lucide-react";
-import SearchBar from "@/components/shared/search-bar";
+import SearchBar from "@/components/shared/SearchBar";
 
 type CarsToolbarProps = {
   search: string;
