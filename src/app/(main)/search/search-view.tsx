@@ -7,7 +7,7 @@ import { POPULAR_PLACES } from "@/constants/places";
 import { countActiveFilters, filterTours } from "@/lib/filter-tours";
 import { searchPlaces } from "@/lib/search-places";
 import { useTourFilters } from "@/hooks/use-tour-filters";
-import { useSearchTerm } from "@/hooks/use-search-term";
+import { useSearchParam,useSearchTerm} from "@/hooks/use-search-term";
 import SearchBar from "@/components/shared/search-bar";
 import FilterPanel from "@/components/shared/filter-panel";
 import TourCard from "@/components/shared/tour-card";
@@ -32,7 +32,7 @@ export default function SearchView() {
   const router = useRouter();
   const params = useSearchParams();
   const { filters, setFilters } = useTourFilters();
-  const { term, setTerm } = useSearchTerm();
+  const [term, setTerm] = useSearchParam("term");
 
   // favorites are not part of search, so they stay in state for now
   const [favorites, setFavorites] = useState<string[]>([]);
