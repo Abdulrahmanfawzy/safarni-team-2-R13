@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 interface SearchInputProps {
   placeholder?: string;
@@ -13,13 +13,10 @@ const SearchInput = ({
   paramKey,
 }: SearchInputProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [value, setValue] = useState(searchParams.get(paramKey) ?? "");
-
-  useEffect(() => {
-    setValue(searchParams.get(paramKey) ?? "");
-  }, [searchParams, paramKey]);
 
   const setParams = (inputValue: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -32,10 +29,11 @@ const SearchInput = ({
     }
 
     const query = params.toString();
-    const url = query ? `?${query}` : window.location.pathname;
-    console.log(url);
+    console.log("query param= ", query);
 
-    router.replace(url, { scroll: false });
+    const url = query ? `?${query}` : pathname;
+
+    router.replace(url);
   };
 
   return (
