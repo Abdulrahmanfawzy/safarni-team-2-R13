@@ -20,7 +20,7 @@ const CHECK_OUT = [
 
 export default function BookHotel() {
   return (
-    <form className="mx-auto flex w-full  flex-col gap-3 bg-white">
+    <form className="flex w-full  flex-col gap-3 bg-white">
       <div className="flex items-center justify-between">
         <h1 className="text-center text-xl font-medium text-blue-800">
           Book Room

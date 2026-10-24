@@ -7,17 +7,17 @@ const HotelLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {/* Search */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center ">
         <ReturnBack />
       </div>
       {/* Content */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 gap-4">
         <div>
           <Gallery />
         </div>
 
         {/* room details */}
-        <div className="flex flex-col gap-7 px-8">
+        <div className="flex flex-col gap-7 md:px-8">
           {/* badge and rating */}
           <div className="flex justify-between items-center">
             <Badge>20%Off</Badge>

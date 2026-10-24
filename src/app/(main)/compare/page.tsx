@@ -1,9 +1,15 @@
+import { BackButton } from "@/components/shared/BackButton";
 import CompareCard from "./_components/CompareCard";
 import ComparePriceCard from "./_components/ComparePriceCard";
+import SearchInput from "@/components/shared/SearchInput";
 
 const ComparePage = async () => {
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex items-center gap-3">
+        <BackButton />
+        <SearchInput paramKey="compare" />
+      </div>
       {/* Compare Items */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {[1, 2, 3, 4, 5, 6].map((item) => (
