@@ -22,10 +22,8 @@ export default function SearchView() {
 
   
   const [favorites, setFavorites] = useState<string[]>([]);
-
   // popup is controlled by the URL (?filters=open)
   const filtersOpen = params.get("filters") === "open";
-
   const typed = term.trim();
   const activeCount = countActiveFilters(filters);
   const showResults = Boolean(filters.q) || activeCount > 0;
@@ -47,12 +45,13 @@ export default function SearchView() {
   };
 
   const toggleFavorite = (id: string) =>
-    setFavorites((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
+    setFavorites((f) =>
+      f.includes(id) ? f.filter((x) => x !== id) : [...f, id],
+    );
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-16 md:px-[100px]">
+    <main className="mx-auto w-ful max-w-360 flex-1 px-4 pb-16 md:px-25">
       {showResults ? (
-        
         <section className="space-y-5">
           <BackButton onClick={() => router.push("/search")} />
 
@@ -108,7 +107,9 @@ export default function SearchView() {
             />
           ) : (
             <PlaceList
-              places={[{ id: "typed", name: typed, label: `Search for "${typed}"` }]}
+              places={[
+                { id: "typed", name: typed, label: `Search for "${typed}"` },
+              ]}
               variant="suggestion"
               onSelect={(p) => commit(p.name)}
             />
