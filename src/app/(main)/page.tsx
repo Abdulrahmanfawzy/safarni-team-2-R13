@@ -14,7 +14,7 @@ export default function HomePage() {
 
       <section>
         <SectionHeader title="Recommendation" href="/search" />
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {RECOMMENDATIONS.map((d) => (
             <DestinationCard key={d.id} item={d} />
           ))}
@@ -23,7 +23,7 @@ export default function HomePage() {
 
       <section>
         <SectionHeader title="Available Tours" href="/search" />
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {AVAILABLE_TOURS.map((t) => (
             <TourRowCard key={t.id} tour={t} />
           ))}
