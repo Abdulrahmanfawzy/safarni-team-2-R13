@@ -7,20 +7,19 @@ import { POPULAR_PLACES } from "@/constants/places";
 import { countActiveFilters, filterTours } from "@/lib/filter-tours";
 import { searchPlaces } from "@/lib/search-places";
 import { useTourFilters } from "@/hooks/use-tour-filters";
-import { useSearchParam,useSearchTerm} from "@/hooks/use-search-term";
-import SearchBar from "@/components/shared/SearchBar";
+import { useSearchParam, useSearchTerm } from "@/hooks/use-search-term";
+// import SearchBar from "@/components/shared/SearchBar";
 import FilterPanel from "@/components/shared/FilterPanel";
 import TourCard from "@/components/shared/TourCard";
 import PlaceList from "@/components/search/place-list";
 import { BackButton } from "@/components/shared/BackButton";
- 
+
 export default function SearchView() {
   const router = useRouter();
   const params = useSearchParams();
   const { filters, setFilters } = useTourFilters();
   const [term, setTerm] = useSearchParam("term");
 
-  
   const [favorites, setFavorites] = useState<string[]>([]);
   // popup is controlled by the URL (?filters=open)
   const filtersOpen = params.get("filters") === "open";
@@ -81,16 +80,15 @@ export default function SearchView() {
           )}
         </section>
       ) : (
-        
         <section className="space-y-6">
           <div className="flex items-center gap-3">
-            <BackButton onClick={() => router.push("/")} />
-            <SearchBar
+            <BackButton />
+            {/* <SearchBar
               value={term}
               onChange={setTerm}
               onSubmit={commit}
               autoFocus
-            />
+            /> */}
           </div>
 
           {typed === "" ? (

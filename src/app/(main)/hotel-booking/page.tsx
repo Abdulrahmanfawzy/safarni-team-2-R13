@@ -1,12 +1,24 @@
 import Title from "./_components/Title";
 import HotelCard from "./_components/HotelCard";
 import cardImage from "@/assets/images/hotel.jpg";
-const ComparePage = async (props: any) => {
-  const { searchParam } = await props.searchParams;
-  console.log("server search param", searchParam);
+import { BackButton } from "@/components/shared/BackButton";
+import SearchInput from "@/components/shared/SearchInput";
+
+const ComparePage = async ({
+  searchParams,
+}: {
+  searchParams?: Promise<{ q: string }>;
+}) => {
+  const searchParamsValue = await searchParams;
+  console.log("server search param", searchParamsValue);
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Search and back button */}
+      <div className="flex items-center gap-3">
+        <BackButton />
+        <SearchInput paramKey="q" />
+      </div>
       {/* Recommendation cards  */}
       <div className="space-y-3">
         {/* Header */}

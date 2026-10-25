@@ -8,8 +8,9 @@ const ComparePage = async () => {
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <BackButton />
-        <SearchInput paramKey="compare" />
+        <SearchInput paramKey="q" />
       </div>
+
       {/* Compare Items */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {[1, 2, 3, 4, 5, 6].map((item) => (
