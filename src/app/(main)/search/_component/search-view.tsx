@@ -7,25 +7,22 @@ import { POPULAR_PLACES } from "@/constants/places";
 import { countActiveFilters, filterTours } from "@/lib/filter-tours";
 import { searchPlaces } from "@/lib/search-places";
 import { useTourFilters } from "@/hooks/use-tour-filters";
-import { useSearchParam,useSearchTerm} from "@/hooks/use-search-term";
-import SearchBar from "@/components/shared/SearchBar";
+import { useSearchParam, useSearchTerm } from "@/hooks/use-search-term";
+// import SearchBar from "@/components/shared/SearchBar";
 import FilterPanel from "@/components/shared/FilterPanel";
 import TourCard from "@/components/shared/TourCard";
 import PlaceList from "@/components/search/place-list";
 import { BackButton } from "@/components/shared/BackButton";
- 
+
 export default function SearchView() {
   const router = useRouter();
   const params = useSearchParams();
   const { filters, setFilters } = useTourFilters();
   const [term, setTerm] = useSearchParam("term");
 
-  
   const [favorites, setFavorites] = useState<string[]>([]);
-
   // popup is controlled by the URL (?filters=open)
   const filtersOpen = params.get("filters") === "open";
-
   const typed = term.trim();
   const activeCount = countActiveFilters(filters);
   const showResults = Boolean(filters.q) || activeCount > 0;
@@ -47,12 +44,13 @@ export default function SearchView() {
   };
 
   const toggleFavorite = (id: string) =>
-    setFavorites((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
+    setFavorites((f) =>
+      f.includes(id) ? f.filter((x) => x !== id) : [...f, id],
+    );
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-16 md:px-[100px]">
+    <main className="mx-auto w-ful max-w-360 flex-1 px-4 pb-16 md:px-25">
       {showResults ? (
-        
         <section className="space-y-5">
           <BackButton onClick={() => router.push("/search")} />
 
@@ -82,16 +80,15 @@ export default function SearchView() {
           )}
         </section>
       ) : (
-        
         <section className="space-y-6">
           <div className="flex items-center gap-3">
-            <BackButton onClick={() => router.push("/")} />
-            <SearchBar
+            <BackButton />
+            {/* <SearchBar
               value={term}
               onChange={setTerm}
               onSubmit={commit}
               autoFocus
-            />
+            /> */}
           </div>
 
           {typed === "" ? (
@@ -108,7 +105,9 @@ export default function SearchView() {
             />
           ) : (
             <PlaceList
-              places={[{ id: "typed", name: typed, label: `Search for "${typed}"` }]}
+              places={[
+                { id: "typed", name: typed, label: `Search for "${typed}"` },
+              ]}
               variant="suggestion"
               onSelect={(p) => commit(p.name)}
             />
