@@ -1,13 +1,16 @@
-'use client';
-
-import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Plane, Car, MapPin, Building2, Star } from 'lucide-react';
 
 type BookingCategory = 'flight' | 'cars' | 'tours' | 'hotel';
 
-export default function MyBookingPage() {
-  const [activeTab, setActiveTab] = useState<BookingCategory>('flight');
+interface PageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function MyBookingPage({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
+  const activeTab = (resolvedParams?.tab as BookingCategory) || 'flight';
 
   const tabs = [
     { id: 'flight', label: 'Flight', icon: Plane },
@@ -22,16 +25,15 @@ export default function MyBookingPage() {
         My Booking
       </h1>
 
-      {/* Tabs Filter Bar */}
+      {/* Tabs Filter Bar (Using Next.js Links for Server-side Navigation) */}
       <div className="flex items-center justify-between gap-2 bg-white p-1 rounded-full border border-gray-200/80 mb-6 shadow-sm max-w-md mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           return (
-            <button
+            <Link
               key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id as BookingCategory)}
+              href={`/profile/booking?tab=${tab.id}`}
               className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-full text-xs font-medium transition-all ${
                 isActive
                   ? 'bg-blue-50 text-blue-600 font-semibold'
@@ -40,7 +42,7 @@ export default function MyBookingPage() {
             >
               <Icon className="w-3.5 h-3.5" />
               <span>{tab.label}</span>
-            </button>
+            </Link>
           );
         })}
       </div>

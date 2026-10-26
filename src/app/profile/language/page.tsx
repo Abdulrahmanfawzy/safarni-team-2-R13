@@ -1,11 +1,13 @@
-'use client';
-
-import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Check } from 'lucide-react';
 
-export default function AppLanguagePage() {
-  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ar'>('en');
+interface PageProps {
+  searchParams: Promise<{ lang?: string }>;
+}
+
+export default async function AppLanguagePage({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
+  const selectedLanguage = resolvedParams?.lang || 'en';
 
   const languages = [
     {
@@ -39,15 +41,14 @@ export default function AppLanguagePage() {
         App Language
       </h1>
 
-      {/* Language Selection List */}
+      {/* Language Selection List (Using Next.js Links for Server-side Navigation) */}
       <div className="space-y-3 max-w-md mx-auto">
         {languages.map((lang) => {
           const isSelected = selectedLanguage === lang.id;
           return (
-            <button
+            <Link
               key={lang.id}
-              type="button"
-              onClick={() => setSelectedLanguage(lang.id as 'en' | 'ar')}
+              href={`/profile/language?lang=${lang.id}`}
               className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all text-left ${
                 isSelected
                   ? 'border-blue-500 bg-blue-50/30 text-blue-600'
@@ -67,7 +68,7 @@ export default function AppLanguagePage() {
                   <Check className="w-4 h-4" />
                 </div>
               )}
-            </button>
+            </Link>
           );
         })}
       </div>

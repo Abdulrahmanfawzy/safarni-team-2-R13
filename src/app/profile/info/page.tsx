@@ -1,22 +1,12 @@
-'use client';
-
-import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 export default function ProfileInfoPage() {
-  const [formData, setFormData] = useState({
+  const initialData = {
     name: 'Knee Due',
     email: 'kneedue@gmail.com',
     location: 'San Francisco, CA',
     phone: '+1 234 567 8900',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   return (
@@ -38,7 +28,7 @@ export default function ProfileInfoPage() {
           Personal Information
         </h1>
 
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <div className="space-y-5">
           {/* Name Field */}
           <div className="space-y-1.5">
             <label htmlFor="name" className="text-xs font-medium text-gray-500 block">
@@ -48,10 +38,9 @@ export default function ProfileInfoPage() {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-              placeholder="Enter your name"
+              defaultValue={initialData.name}
+              readOnly
+              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
           </div>
 
@@ -64,10 +53,9 @@ export default function ProfileInfoPage() {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-              placeholder="Enter your email"
+              defaultValue={initialData.email}
+              readOnly
+              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
           </div>
 
@@ -80,10 +68,9 @@ export default function ProfileInfoPage() {
               type="text"
               id="location"
               name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-              placeholder="Enter your location"
+              defaultValue={initialData.location}
+              readOnly
+              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
           </div>
 
@@ -96,13 +83,12 @@ export default function ProfileInfoPage() {
               type="tel"
               id="phone"
               name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-              placeholder="Enter your phone number"
+              defaultValue={initialData.phone}
+              readOnly
+              className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
