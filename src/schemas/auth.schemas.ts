@@ -28,6 +28,7 @@ export const forgetPasswordSchema = z.object({
 // Verify OTP schema
 export const verifyOtpSchema = z.object({
   code: z.string().min(1, "OTP  is required"),
+  email: z.email().optional(),
 });
 
 // reset password schema

@@ -1,5 +1,4 @@
 "use client";
-
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
@@ -7,18 +6,48 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyOtpSchema } from "@/schemas/auth.schemas";
 import { VerifyOtpPayload } from "@/types/auth.types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const VerifyOTPForm = () => {
   const [resendTime, setResendTime] = useState(60);
-  const form = useForm({
+  // Get URl Search Param
+  const searchParam = useSearchParams();
+
+  // Navigation
+  const router = useRouter();
+
+  // Hook Control
+  const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       code: "",
+      email: searchParam.get("email") || undefined,
     },
     resolver: zodResolver(verifyOtpSchema),
   });
 
+  // submit Verify OTP function
+  const { verifyOtp } = useAuth();
+
   const onSubmit = (formvalues: VerifyOtpPayload) => {
-    console.log(formvalues);
+    verifyOtp.mutate(formvalues, {
+      onSuccess: (data) => {
+        reset();
+        if (data.ok) {
+          toast.success("Account verified successfully, welcome");
+          reset();
+
+          // redirect user
+          const callbackUrl = searchParam.get("callbackUrl");
+          router.replace(String(callbackUrl) || "/");
+        }
+      },
+      onError: (error) => {
+        console.error("verify otp failed", error);
+        toast.error(error.message || "Account verified failed");
+      },
+    });
   };
 
   const isResend = resendTime === 0;
@@ -33,7 +62,7 @@ const VerifyOTPForm = () => {
   }, [resendTime]);
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
       {/* Resend timer */}
       {!isResend && (
         <p className="text-center">
@@ -44,7 +73,7 @@ const VerifyOTPForm = () => {
       {/* OTP input */}
       <Controller
         name="code"
-        control={form.control}
+        control={control}
         render={({ field }) => (
           <InputOTP {...field} maxLength={4} defaultValue="1234">
             <InputOTPGroup>
@@ -71,7 +100,12 @@ const VerifyOTPForm = () => {
         </div>
       )}
 
-      <Button type="submit" className="w-full">
+      <Button
+        isLoading={verifyOtp.isPending}
+        disabled={verifyOtp.isPending}
+        type="submit"
+        className="w-full"
+      >
         Verify
       </Button>
     </form>

@@ -9,7 +9,7 @@ import { registerSchema } from "@/schemas/auth.schemas";
 import { RegisterPayload } from "@/types/auth.types";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RegisterForm = () => {
   const { control, handleSubmit, reset } = useForm({
@@ -23,6 +23,9 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  // search params hook
+  const searchParams = useSearchParams();
+
   // navigation hook
   const router = useRouter();
 
@@ -33,21 +36,25 @@ const RegisterForm = () => {
   const submitRegister = (formValues: RegisterPayload) => {
     register.mutate(formValues, {
       onSuccess: (data) => {
-        console.log("Registration successful:", data);
         toast.success(
           data.message || "Register successfully , Verify Your Email.",
         );
-        router.push(
-          `/verify-otp?email=${encodeURIComponent(data.data.user.email)}`,
-        );
+
+        // Redirect user to verify otp nad save search params
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("email", data.data.user.email);
+        router.push(`/verify-otp?${params.toString()}`);
+
+        // reset form
         reset();
       },
       onError: (error) => {
         console.error("Registration failed:", error);
-        toast.success(error.message || "Register Failed ,  try again!");
+        toast.error(error.message || "Register Failed ,  try again!");
       },
     });
   };
+
   return (
     <>
       <form

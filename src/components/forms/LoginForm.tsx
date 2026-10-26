@@ -8,26 +8,43 @@ import GoogleIcon from "../ui/GooglIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/auth.schemas";
 import { LoginPayload } from "@/types/auth.types";
-import { signIn } from "next-auth/react";
-// import { signIn } from "next-auth/react";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginForm = () => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     resolver: zodResolver(loginSchema),
   });
-  const submitLogin = async (formValues: LoginPayload) => {
-    console.log(formValues);
 
-    // api fetch from next auth
-    const response = await signIn("credentials", {
-      ...formValues,
-      redirect: false,
+  const searchParam = useSearchParams();
+  const router = useRouter();
+
+  // useAuth hook
+  const { login } = useAuth();
+
+  const submitLogin = async (formValues: LoginPayload) => {
+    login.mutate(formValues, {
+      onSuccess: (data) => {
+        if (data.ok) {
+          toast.success("Login successful.");
+
+          // redirect user
+          const callbackUrl = searchParam.get("callbackUrl");
+          router.replace(String(callbackUrl) || "/");
+
+          reset();
+        }
+      },
+      onError: (error) => {
+        console.error("login failed", error);
+        toast.error(error.message || "login failed");
+      },
     });
-    console.log("from login form", response);
   };
   return (
     <>
@@ -65,7 +82,14 @@ const LoginForm = () => {
             </Button>
           </Link>
         </div>
-        <Button type="submit">Sign In</Button>
+
+        <Button
+          isLoading={login.isPending}
+          disabled={login.isPending}
+          type="submit"
+        >
+          Sign In
+        </Button>
       </form>
 
       <div className="flex justify-center items-center gap-4 my-2">
