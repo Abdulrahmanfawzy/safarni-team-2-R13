@@ -14,35 +14,29 @@ export const nextAuthOption: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      //   Login
+      // Login
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null;
+          throw new Error("Email and password are required");
         }
 
-        try {
-          const response = await loginUser({
-            email: credentials.email,
-            password: credentials.password,
-          });
+        const response = await loginUser({
+          email: credentials.email,
+          password: credentials.password,
+        });
 
-          // Adjust this condition to match your ApiResponse type.
-          if (!response.success) {
-            return null;
-          }
-
-          const data = response.data;
-
-          return {
-            id: String(data.user.id),
-            email: data.user.email,
-            name: data.user.name,
-            accessToken: data.token,
-          };
-        } catch (error) {
-          console.error("login failed:", error);
-          return null;
+        if (!response.success) {
+          throw new Error(response.message || "login failed");
         }
+
+        const data = response.data;
+
+        return {
+          id: String(data.user.id),
+          email: data.user.email,
+          name: data.user.name,
+          accessToken: data.token,
+        };
       },
     }),
 
@@ -58,45 +52,39 @@ export const nextAuthOption: NextAuthOptions = {
 
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.code) {
-          return null;
+          throw new Error("Otp code are required");
         }
 
-        try {
-          const response = await verifyOtp({
-            email: credentials.email,
-            code: credentials.code,
-          });
+        const response = await verifyOtp({
+          email: credentials.email,
+          code: credentials.code,
+        });
 
-          // Adjust this condition to match your ApiResponse type.
-          if (!response.success) {
-            return null;
-          }
-
-          const data = response.data;
-
-          return {
-            id: String(data.user.id),
-            email: data.user.email,
-            name: data.user.name,
-            accessToken: data.token,
-          };
-        } catch (error) {
-          console.error("Verify OTP failed:", error);
-          return null;
+        if (!response.success) {
+          throw new Error(response.message);
         }
+
+        const data = response.data;
+
+        return {
+          id: String(data.user.id),
+          email: data.user.email,
+          name: data.user.name,
+          accessToken: data.token,
+        };
       },
     }),
   ],
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.token;
+        token.accessToken = user.accessToken;
       }
       return token;
     },
 
-    async session({ session }) {
+    async session({ session, token }) {
+      session.accessToken = token.accessToken as string;
       return session;
     },
   },

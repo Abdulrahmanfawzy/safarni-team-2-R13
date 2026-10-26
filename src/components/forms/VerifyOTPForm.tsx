@@ -39,8 +39,8 @@ const VerifyOTPForm = () => {
           reset();
 
           // redirect user
-          const callbackUrl = searchParam.get("callbackUrl");
-          router.replace(String(callbackUrl) || "/");
+          const callbackUrl = searchParam.get("callbackUrl") || "/";
+          router.replace(String(callbackUrl));
         }
       },
       onError: (error) => {

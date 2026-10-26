@@ -32,12 +32,10 @@ const LoginForm = () => {
       onSuccess: (data) => {
         if (data.ok) {
           toast.success("Login successful.");
-
-          // redirect user
-          const callbackUrl = searchParam.get("callbackUrl");
-          router.replace(String(callbackUrl) || "/");
-
           reset();
+          // redirect user
+          const callbackUrl = searchParam.get("callbackUrl") || "/";
+          router.push(String(callbackUrl));
         }
       },
       onError: (error) => {
@@ -73,7 +71,10 @@ const LoginForm = () => {
             isPassword={true}
             icon={<Lock className="size-5" />}
           />
-          <Link href={"forget-password"} className={"flex justify-end!"}>
+          <Link
+            href={`forget-password?${new URLSearchParams(searchParam.toString())}`}
+            className={"flex justify-end!"}
+          >
             <Button
               className={"w-fit px-0  flex! justify-end!"}
               variant={"link"}

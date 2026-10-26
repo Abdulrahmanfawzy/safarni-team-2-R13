@@ -34,5 +34,6 @@ export const verifyOtpSchema = z.object({
 // reset password schema
 export const resetPasswordSchema = z.object({
   password: z.string().regex(passwordRegex, passwordErrorMessage),
-  confirm_password: z.string().regex(passwordRegex, passwordErrorMessage),
+  password_confirmation: z.string().regex(passwordRegex, passwordErrorMessage),
+  code: z.string().min(4, "otp code is required"),
 });

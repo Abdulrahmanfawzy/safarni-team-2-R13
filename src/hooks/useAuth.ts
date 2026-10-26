@@ -1,7 +1,13 @@
-import { registerUser } from "@/actions/auth.actions";
 import {
+  forgetPasswordAction,
+  registerUser,
+  resetPasswordAction,
+} from "@/actions/auth.actions";
+import {
+  ForgetPasswordPayload,
   LoginPayload,
   RegisterPayload,
+  ResetPasswordPayload,
   VerifyOtpPayload,
 } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
@@ -22,7 +28,9 @@ export const useAuth = () => {
       });
 
       if (!result?.ok) {
-        throw new Error("OTP verification failed. Please try again.");
+        throw new Error(
+          result?.error || "OTP verification failed. Please try again.",
+        );
       }
 
       return result;
@@ -38,10 +46,26 @@ export const useAuth = () => {
       });
 
       if (!result?.ok) {
-        throw new Error("OTP verification failed. Please try again.");
+        throw new Error(
+          result?.error || "Login failed. Please check your Email or password.",
+        );
       }
 
       return result;
+    },
+  });
+
+  const forgetPassword = useMutation({
+    mutationKey: ["forget-password"],
+    mutationFn: async (payload: ForgetPasswordPayload) => {
+      return forgetPasswordAction(payload);
+    },
+  });
+
+  const resetPassword = useMutation({
+    mutationKey: ["reset-password"],
+    mutationFn: async (payload: ResetPasswordPayload) => {
+      return resetPasswordAction(payload);
     },
   });
 
@@ -49,5 +73,7 @@ export const useAuth = () => {
     register,
     verifyOtp,
     login,
+    forgetPassword,
+    resetPassword,
   };
 };
