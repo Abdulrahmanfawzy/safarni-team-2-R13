@@ -1,12 +1,10 @@
-'use client';
-
-import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 
 export default function AccountSecurityPage() {
-  const [biometricEnabled, setBiometricEnabled] = useState(false);
-  const [faceIdEnabled, setFaceIdEnabled] = useState(true);
+  // قيم ثابتة للعرض (UI-only) بدون حاجة لـ useState
+  const biometricEnabled = false;
+  const faceIdEnabled = true;
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm space-y-6">
@@ -26,13 +24,11 @@ export default function AccountSecurityPage() {
       </h1>
 
       <div className="space-y-6 max-w-2xl mx-auto">
-        {/* Biometric ID Toggle */}
+        {/* Biometric ID Toggle (Static UI) */}
         <div className="flex items-center justify-between py-2">
           <span className="text-sm font-medium text-gray-800">Biometric ID</span>
-          <button
-            type="button"
-            onClick={() => setBiometricEnabled(!biometricEnabled)}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+          <div
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
               biometricEnabled ? 'bg-blue-600' : 'bg-gray-200'
             }`}
           >
@@ -41,16 +37,14 @@ export default function AccountSecurityPage() {
                 biometricEnabled ? 'translate-x-6' : 'translate-x-1'
               }`}
             />
-          </button>
+          </div>
         </div>
 
-        {/* Face ID Toggle */}
+        {/* Face ID Toggle (Static UI) */}
         <div className="flex items-center justify-between py-2 border-t border-gray-100 pt-4">
           <span className="text-sm font-medium text-gray-800">Face ID</span>
-          <button
-            type="button"
-            onClick={() => setFaceIdEnabled(!faceIdEnabled)}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+          <div
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
               faceIdEnabled ? 'bg-blue-600' : 'bg-gray-200'
             }`}
           >
@@ -59,15 +53,12 @@ export default function AccountSecurityPage() {
                 faceIdEnabled ? 'translate-x-6' : 'translate-x-1'
               }`}
             />
-          </button>
+          </div>
         </div>
 
         {/* Device Management */}
         <div className="border-t border-gray-100 pt-4">
-          <button
-            type="button"
-            className="w-full flex items-center justify-between py-3 hover:bg-gray-50 rounded-xl px-2 transition-colors text-left"
-          >
+          <div className="w-full flex items-center justify-between py-3 rounded-xl px-2 text-left">
             <div>
               <h3 className="text-sm font-medium text-gray-800">Device Management</h3>
               <p className="text-xs text-gray-400 mt-0.5">
@@ -75,15 +66,12 @@ export default function AccountSecurityPage() {
               </p>
             </div>
             <ChevronRight className="w-4 h-4 text-gray-400" />
-          </button>
+          </div>
         </div>
 
         {/* Deactivate Account */}
         <div className="border-t border-gray-100 pt-4">
-          <button
-            type="button"
-            className="w-full flex items-center justify-between py-3 hover:bg-gray-50 rounded-xl px-2 transition-colors text-left"
-          >
+          <div className="w-full flex items-center justify-between py-3 rounded-xl px-2 text-left">
             <div>
               <h3 className="text-sm font-medium text-gray-800">Deactivate Account</h3>
               <p className="text-xs text-gray-400 mt-0.5">
@@ -91,15 +79,12 @@ export default function AccountSecurityPage() {
               </p>
             </div>
             <ChevronRight className="w-4 h-4 text-gray-400" />
-          </button>
+          </div>
         </div>
 
         {/* Delete Account */}
         <div className="border-t border-gray-100 pt-4">
-          <button
-            type="button"
-            className="w-full flex items-center justify-between py-3 hover:bg-red-50/50 rounded-xl px-2 transition-colors text-left"
-          >
+          <div className="w-full flex items-center justify-between py-3 rounded-xl px-2 text-left">
             <div>
               <h3 className="text-sm font-medium text-red-500">Delete Account</h3>
               <p className="text-xs text-red-400/80 mt-0.5">
@@ -107,7 +92,7 @@ export default function AccountSecurityPage() {
               </p>
             </div>
             <ChevronRight className="w-4 h-4 text-red-400" />
-          </button>
+          </div>
         </div>
       </div>
     </div>
