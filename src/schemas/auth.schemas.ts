@@ -16,6 +16,8 @@ export const registerSchema = z.object({
   name: z.string().min(1, "name is required"),
   email: z.email(),
   password: z.string().regex(passwordRegex, passwordErrorMessage),
+  password_confirmation: z.string().regex(passwordRegex, passwordErrorMessage),
+  phone: z.string().min(11, "phone is required"),
 });
 
 // forget password schema

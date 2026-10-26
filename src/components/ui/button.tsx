@@ -45,12 +45,12 @@ function Button({
   className,
   variant = "default",
   size = "default",
-  isloading,
+  isLoading,
   children,
   ...props
 }: ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
-    isloading?: boolean;
+    isLoading?: boolean;
   }) {
   return (
     <ButtonPrimitive
@@ -58,10 +58,10 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      {isloading ? (
-        <span>
+      {isLoading ? (
+        <>
           <Spinner /> Loading...
-        </span>
+        </>
       ) : (
         children
       )}

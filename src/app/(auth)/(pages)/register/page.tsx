@@ -5,6 +5,7 @@ import FormHeader from "@/components/shared/FormHeader";
 import Link from "next/link";
 const Register = () => {
   return (
+    
     <AuthLayout image={registerImage}>
       <div className="flex flex-col gap-3 text-center w-full">
         {/* Header */}
