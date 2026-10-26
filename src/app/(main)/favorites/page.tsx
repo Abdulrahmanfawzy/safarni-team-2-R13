@@ -103,7 +103,7 @@ export default function FavoritePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 text-slate-800 font-sans p-6 md:p-10">
+    <div className="min-h-screen text-slate-800 font-sans mt-5">
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* Header & Back Button */}

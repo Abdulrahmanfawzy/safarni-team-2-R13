@@ -180,6 +180,6 @@
 }
 @layer utilities {
   .main_container {
-    @apply mx-auto w-full max-w-360 flex-1 space-y-10 px-4 pb-16 md:px-25;
+    @apply mx-auto w-full max-w-360 flex-1 space-y-7 px-4 pb-16 md:px-25;
   }
 }

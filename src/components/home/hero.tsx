@@ -26,19 +26,19 @@ function HeroImage({
 
 export default function Hero() {
   return (
-    <section className="grid items-center gap-10 py-6 lg:grid-cols-2">
-      <div className="max-w-md space-y-4">
-        <h1 className="text-3xl font-bold leading-tight text-gray-900 md:text-4xl">
-          Visit The Most <br />
-          <span className="text-app-primary">Beautiful Places In</span> <br />
-          The World
-        </h1>
-        <p className="text-xs leading-relaxed text-gray-500">
-          Explore stunning destinations around the globe. Find travel
-          inspiration, top attractions, and plan your next adventure—all from
-          one platform.
-        </p>
-      </div>
+<section className="flex flex-col items-center justify-between gap-10 py-6 lg:flex-row">
+  <div className="w-full max-w-[513px] space-y-4">
+    <h1 className="text-3xl font-semibold leading-[1.5] text-gray-900 md:text-[51px]">
+      Visit The Most <br />
+      <span className="text-app-primary">Beautiful Places In</span> <br />
+      The World
+    </h1>
+    <p className="text-base leading-[1.7] text-gray-600 md:text-xl">
+      Explore stunning destinations around the globe. Find travel
+      inspiration, top attractions, and plan your next adventure—all from
+      one platform.
+    </p>
+  </div>
 
       {/* collage */}
       <div className="flex justify-center gap-3 lg:justify-end">

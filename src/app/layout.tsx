@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Travel is the only thing you buy that makes you richer.",
 };
 
+export const instant = false;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.className} h-full antialiased`}>

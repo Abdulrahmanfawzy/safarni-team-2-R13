@@ -23,7 +23,7 @@ import marsaAlam from "@/assets/images/home/marsa-alam.jpg";
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Favorite", href: "/favorite" },
+  { label: "Favorites", href: "/favorites" },
   { label: "Compare", href: "/compare" },
   { label: "maps", href: "/maps" },
 ];
