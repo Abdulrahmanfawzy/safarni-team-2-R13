@@ -5,13 +5,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import logo from "@/assets/images/logo.png";
 import { NAV_LINKS } from "@/constants/home";
-
+import { Suspense } from "react";
+import SearchDialog from "@/components/search/SearchDialog";
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
   const openFilters = () => {
-    // keep the current search (e.g. q=Paris) when on /search, start clean elsewhere
+    
     const sp = new URLSearchParams(
       pathname === "/search" ? window.location.search : ""
     );
@@ -49,19 +50,11 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Actions */}
+        
         <div className="flex items-center gap-5">
-          <Link
-            href="/search"
-            aria-label="Search"
-            className="text-gray-900 transition hover:text-app-primary"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-          </Link>
-
+       <Suspense fallback={null}>
+  <SearchDialog />
+</Suspense>
           <button
             type="button"
             onClick={openFilters}
