@@ -23,7 +23,7 @@ export type SortKey =
 export interface Tour {
   id: string;
   title: string;
-  image: StaticImageData;
+  image: StaticImageData| string;
   location: string;
   style: AdventureStyle;
   rating: number;

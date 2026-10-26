@@ -8,7 +8,7 @@ export default function DestinationCard({ item }: { item: Destination }) {
       href={`/destination/${item.id}`}
       className="block rounded-2xl bg-white p-2 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md"
     >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+      <div className="relative aspect-square overflow-hidden rounded-xl">
         <Image
           src={item.image}
           alt={item.name}
@@ -20,17 +20,17 @@ export default function DestinationCard({ item }: { item: Destination }) {
 
       <div className="space-y-1 px-1 pb-1 pt-3">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="truncate text-xs font-semibold text-gray-900">
+          <h3 className="truncate text-base font-semibold text-gray-900">
             {item.name}
           </h3>
-          <span className="flex shrink-0 items-center gap-0.5 text-[10px] text-gray-700">
+          <span className="flex shrink-0 items-center gap-0.5 text-xs text-gray-700">
             <span className="text-yellow-400">★</span>
             {item.rating.toFixed(1)}
           </span>
         </div>
 
-        <p className="flex items-center gap-1 text-[10px] text-gray-400">
-          <svg viewBox="0 0 24 24" className="h-3 w-3 text-app-primary" fill="none" stroke="currentColor" strokeWidth="2">
+        <p className="flex items-center gap-1 text-xs text-gray-400">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-app-primary" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
             <circle cx="12" cy="10" r="2.5" />
           </svg>
