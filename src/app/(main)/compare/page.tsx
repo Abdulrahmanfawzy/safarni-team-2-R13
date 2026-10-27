@@ -2,10 +2,14 @@ import { BackButton } from "@/components/shared/BackButton";
 import CompareCard from "./_components/CompareCard";
 import ComparePriceCard from "./_components/ComparePriceCard";
 import SearchInput from "@/components/shared/SearchInput";
-import { getAccessToken } from "@/lib/getAccessToken";
 
-const ComparePage = async () => {
-  const x = await getAccessToken();
+const ComparePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) => {
+  const paramsValue = await searchParams;
+  
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">
@@ -30,13 +34,6 @@ const ComparePage = async () => {
           ))}
         </div>
       </div>
-
-      {/* <div className="flex min-h-64 flex-col items-center justify-center gap-2 text-center">
-        <h2 className="text-xl font-semibold text-gray-900">Start comparing</h2>
-        <p className="max-w-md text-sm text-gray-500">
-          Search for an item to compare its details and prices.
-        </p>
-      </div> */}
     </div>
   );
 };
