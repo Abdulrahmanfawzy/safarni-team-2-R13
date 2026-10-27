@@ -1,18 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import SearchInput from "@/components/shared/SearchInput";
 import PlaceList from "@/components/search/PlaceList";
 import { POPULAR_PLACES } from "@/constants/places";
-import { searchPlaces } from "@/lib/search-places";
+import type { Place } from "@/constants/places";
+import { getSuggestions } from "@/actions/SearchSuggestions";
 
 interface SearchDialogProps {
-  /** "icon" (default) = just the magnifier, used in the header. "bar" = full-width search-bar look, used on pages like /search. */
+   
   trigger?: "icon" | "bar";
-  /** Pre-fills the dialog with the current query, e.g. the ?q= already on the page. */
+  
   initialQuery?: string;
 }
 
@@ -23,9 +24,31 @@ export default function SearchDialog({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [term, setTerm] = useState(initialQuery);
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const typed = term.trim();
-  const suggestions = useMemo(() => searchPlaces(term), [term]);
+
+   
+  useEffect(() => {
+    if (!open) return;
+
+    let cancelled = false;
+    setLoading(true);
+
+    const timer = setTimeout(async () => {
+      const result = await getSuggestions(typed);
+      if (!cancelled) {
+        setPlaces(result);
+        setLoading(false);
+      }
+    }, typed === "" ? 0 : 300);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [open, typed]);
 
   const openDialog = () => {
     setTerm(initialQuery);
@@ -43,6 +66,9 @@ export default function SearchDialog({
     handleOpenChange(false);
     router.push(`/search?q=${encodeURIComponent(value)}`);
   };
+
+  
+  const popular = places.length > 0 ? places : POPULAR_PLACES;
 
   return (
     <>
@@ -83,24 +109,26 @@ export default function SearchDialog({
           <div className="max-h-[60vh] overflow-y-auto">
             {typed === "" ? (
               <PlaceList
-                places={POPULAR_PLACES}
+                places={popular}
                 variant="popular"
                 onSelect={(p) => commit(p.name)}
               />
-            ) : suggestions.length > 0 ? (
+            ) : places.length > 0 ? (
               <PlaceList
-                places={suggestions}
+                places={places}
                 variant="suggestion"
                 onSelect={(p) => commit(p.name)}
               />
             ) : (
-              <PlaceList
-                places={[
-                  { id: "typed", name: typed, label: `Search for "${typed}"` },
-                ]}
-                variant="suggestion"
-                onSelect={(p) => commit(p.name)}
-              />
+              !loading && (
+                <PlaceList
+                  places={[
+                    { id: "typed", name: typed, label: `Search for "${typed}"` },
+                  ]}
+                  variant="suggestion"
+                  onSelect={(p) => commit(p.name)}
+                />
+              )
             )}
           </div>
         </DialogContent>
