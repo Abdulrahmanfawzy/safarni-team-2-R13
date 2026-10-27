@@ -1,5 +1,5 @@
 import { Plane, Armchair } from "lucide-react";
-import { FlightIllustration } from "./flight-illustration";
+import { FlightIllustration } from "./FlightIllustration";
 
 const qrRows = [
   "111111100101101111111",

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Circle } from "lucide-react";
-import { FlightIllustration } from "./flight-illustration";
+import { FlightIllustration } from "./FlightIllustration";
 
 const rows = [
   [1, 2, null, 3, 4, 5],
