@@ -1,47 +1,79 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Check, Circle } from "lucide-react";
 import { FlightIllustration } from "./FlightIllustration";
+import { PassengerFieldArray } from "./PassengerFieldArray";
+import { Button } from "@/components/ui/button";
+import type { FlightSeat } from "@/types/flight.seat";
 
-const rows = [
-  [1, 2, null, 3, 4, 5],
-  [6, 7, null, 8, 9, 10],
-  [11, 12, null, 13, 14, 15],
-  [16, 17, null, 18, 19, 20],
-  [21, 22, null, 23, 24, 25],
-  [26, 27, null, 28, 29, 30],
-];
+interface SeatSelectionProps {
+  flightId: number;
+  seats: FlightSeat[];
+}
 
-const unavailableSeats = new Set([
-  1, 3, 5, 7, 11, 12, 14, 15, 18, 19, 21, 22, 25, 27, 29,
-]);
+function formatPrice(price: string): string {
+  const amount = Number(price);
 
-const initiallySelected = 6;
+  if (!Number.isFinite(amount)) {
+    return price;
+  }
 
-export function SeatSelection() {
-  const [selectedSeat, setSelectedSeat] = useState<number | null>(
-    initiallySelected,
+  return `$${amount.toFixed(2)}`;
+}
+
+export function SeatSelection({ flightId, seats }: SeatSelectionProps) {
+  const [selectedSeatIds, setSelectedSeatIds] = useState<number[]>([]);
+  const [isPassengerSheetOpen, setIsPassengerSheetOpen] = useState(false);
+
+  const selectedSeats = useMemo(
+    () => seats.filter((seat) => selectedSeatIds.includes(seat.id)),
+    [seats, selectedSeatIds],
   );
 
+  const totalPrice = selectedSeats.reduce((total, seat) => {
+    const price = Number(seat.price);
+    return total + (Number.isFinite(price) ? price : 0);
+  }, 0);
+
+  const toggleSeat = (seat: FlightSeat) => {
+    if (seat.status !== "available") {
+      return;
+    }
+
+    setSelectedSeatIds((current) =>
+      current.includes(seat.id)
+        ? current.filter((id) => id !== seat.id)
+        : [...current, seat.id],
+    );
+  };
+
+  const seatRows = useMemo(() => {
+    const rows: FlightSeat[][] = [];
+
+    for (let index = 0; index < seats.length; index += 5) {
+      rows.push(seats.slice(index, index + 5));
+    }
+
+    return rows;
+  }, [seats]);
+
   return (
-    <main
-      className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 px-5   sm:px-8 
-    lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.82fr)] lg:items-center lg:gap-8 lg:px-10"
-    >
+    <main className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 px-5 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.82fr)] lg:items-center lg:gap-8 lg:px-10">
       <section className="min-w-0">
         <FlightIllustration />
       </section>
 
       <section className="mx-auto w-full max-w-sm py-4">
-        <h1 className="mb-1 text-sm lg:text-[26px] text-center font-semibold text-gray-900">
+        <h1 className="mb-1 text-center text-sm font-semibold text-gray-900 lg:text-[26px]">
           Choose seat
         </h1>
 
-        <div
-          className="mb-1 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] lg:text-[20px]
-         text-gray-600"
-        >
+        <p className="mb-3 text-center text-xs text-gray-500">
+          Select one or more available seats.
+        </p>
+
+        <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-gray-600 lg:text-sm">
           <span className="flex items-center gap-1.5">
             <Circle size={7} fill="#1e429f" className="text-[#1e429f]" />
             Available
@@ -58,87 +90,117 @@ export function SeatSelection() {
           </span>
         </div>
 
-        <div
-          className="grid  w-full max-w-60 grid-cols-[repeat(6,minmax(55px,1fr))] gap-x-2
-          gap-y-1"
-          role="group"
-          aria-label="Choose an airplane seat"
-        >
-          {rows.flatMap((row, rowIndex) =>
-            row.map((seat, seatIndex) => {
-              if (seat === null) {
-                return (
-                  <span
-                    key={`aisle-${rowIndex}-${seatIndex}`}
-                    aria-hidden="true"
+        {seats.length === 0 ? (
+          <p className="rounded-md bg-gray-50 p-4 text-sm text-gray-600">
+            No seats were returned for this flight.
+          </p>
+        ) : (
+          <div
+            className="grid w-full grid-cols-[repeat(6,minmax(0,1fr))] gap-x-2 gap-y-1"
+            role="group"
+            aria-label="Choose airplane seats"
+          >
+            {seatRows.flatMap((row, rowIndex) => [
+              ...row
+                .slice(0, 2)
+                .map((seat) => (
+                  <SeatButton
+                    key={seat.id}
+                    seat={seat}
+                    selected={selectedSeatIds.includes(seat.id)}
+                    onSelect={toggleSeat}
                   />
-                );
-              }
-
-              const unavailable = unavailableSeats.has(seat);
-              const selected = selectedSeat === seat;
-
-              return (
-                <button
-                  key={seat}
-                  type="button"
-                  disabled={unavailable}
-                  aria-pressed={selected}
-                  aria-label={`Seat ${seat}${
-                    unavailable
-                      ? ", unavailable"
-                      : selected
-                        ? ", selected"
-                        : ", available"
-                  }`}
-                  onClick={() => setSelectedSeat(seat)}
-                  className={`flex aspect-square min-h-0 items-center justify-center 
-                    rounded-[2px] text-[10px] font-medium transition focus-visible:outline-2
-                     focus-visible:outline-offset-2 focus-visible:outline-[#1e429f] ${
-                       selected
-                         ? "bg-green-500 text-white"
-                         : unavailable
-                           ? "cursor-not-allowed bg-gray-200 text-gray-500"
-                           : "bg-[#1e429f] text-white hover:bg-[#17367f]"
-                     }`}
-                >
-                  {selected ? <Check size={12} /> : seat}
-                </button>
-              );
-            }),
-          )}
-        </div>
-
-        <div className="pt-1 space-y-1 ">
-          <div className="flex items-center justify-between text-[11px] lg:text[20px]">
-            <span className="text-gray-600">Ticket price</span>
-            <span className="font-semibold text-[#1e429f]">$150.00</span>
+                )),
+              <span
+                key={`aisle-${rowIndex}`}
+                aria-hidden="true"
+                className="min-w-1"
+              />,
+              ...row
+                .slice(2)
+                .map((seat) => (
+                  <SeatButton
+                    key={seat.id}
+                    seat={seat}
+                    selected={selectedSeatIds.includes(seat.id)}
+                    onSelect={toggleSeat}
+                  />
+                )),
+            ])}
           </div>
+        )}
 
-          <div className="flex items-center justify-between text-[11px] lg:text[20px]">
-            <span className="text-gray-600">Total Price</span>
-            <span className="font-semibold text-[#1e429f]">$150.00</span>
-          </div>
-
-          <div className="flex items-center justify-between text-[11px] lg:text[20px]">
-            <span className="text-gray-600">Your Seat</span>
+        <div className="space-y-1 pt-3">
+          <div className="flex items-center justify-between text-[11px] lg:text-sm">
+            <span className="text-gray-600">Selected seats</span>
             <span className="font-semibold text-[#1e429f]">
-              {selectedSeat ?? "—"}
+              {selectedSeats.length > 0
+                ? selectedSeats.map((seat) => seat.seat_number).join(", ")
+                : "—"}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between text-[11px] lg:text-sm">
+            <span className="text-gray-600">Total price</span>
+            <span className="font-semibold text-[#1e429f]">
+              {formatPrice(String(totalPrice))}
             </span>
           </div>
         </div>
 
-        <button
+        <Button
           type="button"
-          disabled={selectedSeat === null}
-          onClick={() => {
-            window.location.href = "/flight-booking/boarding-pass";
-          }}
-          className="mt-2 h-9 w-full rounded-[3px] bg-app-primary px-4 text-xs font-medium text-white transition hover:bg-app-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={selectedSeats.length === 0}
+          onClick={() => setIsPassengerSheetOpen(true)}
+          className="mt-3 h-9 w-full rounded-[3px] text-xs font-medium"
         >
           Continue
-        </button>
+        </Button>
       </section>
+
+      <PassengerFieldArray
+        key={`${flightId}-${selectedSeatIds.join("-")}`}
+        open={isPassengerSheetOpen}
+        onOpenChange={setIsPassengerSheetOpen}
+        flightId={flightId}
+        seats={selectedSeats}
+      />
     </main>
+  );
+}
+
+interface SeatButtonProps {
+  seat: FlightSeat;
+  selected: boolean;
+  onSelect: (seat: FlightSeat) => void;
+}
+
+function SeatButton({ seat, selected, onSelect }: SeatButtonProps) {
+  const unavailable = seat.status !== "available";
+
+  return (
+    <button
+      type="button"
+      disabled={unavailable}
+      aria-pressed={selected}
+      aria-label={`Seat ${seat.seat_number}, ${
+        unavailable ? "unavailable" : selected ? "selected" : "available"
+      }`}
+      title={`${seat.seat_number} — ${seat.cabin_class} — ${formatPrice(seat.price)}`}
+      onClick={() => onSelect(seat)}
+      className={`flex aspect-square min-w-0 items-center justify-center rounded-[2px] text-[10px] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e429f] ${
+        selected
+          ? "bg-green-500 text-white"
+          : unavailable
+            ? "cursor-not-allowed bg-gray-200 text-gray-500"
+            : "bg-[#1e429f] text-white hover:bg-[#17367f]"
+      }`}
+    >
+      {selected ? (
+        <Check size={12} aria-hidden="true" />
+      ) : (
+        <span className="truncate px-0.5">{seat.seat_number}</span>
+      )}
+    </button>
   );
 }
