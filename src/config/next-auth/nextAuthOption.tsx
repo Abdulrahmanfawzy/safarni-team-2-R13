@@ -76,16 +76,16 @@ export const nextAuthOption: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.accessToken = user.accessToken;
+    async jwt(param) {
+      if (param.user) {
+        param.token.accessToken = param.user.accessToken;
       }
-      return token;
+      return param.token;
     },
 
-    async session({ session, token }) {
-      session.accessToken = token.accessToken as string;
-      return session;
+    async session(param) {
+      param.session.token = param.token.accessToken;
+      return param.session;
     },
   },
   pages: {

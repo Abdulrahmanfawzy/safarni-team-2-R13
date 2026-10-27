@@ -1,8 +1,8 @@
 import { Mail } from "lucide-react";
-import AuthLayout from "../../_components/AuthLayouts";
 import OtpImage from "@/assets/images/auth-images/otp.png";
 import FormHeader from "@/components/shared/FormHeader";
 import VerifyOTPForm from "@/components/forms/VerifyOTPForm";
+import AuthLayout from "../_components/AuthLayouts";
 const VerifyOTP = () => {
   return (
     <AuthLayout image={OtpImage}>

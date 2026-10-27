@@ -1,19 +1,16 @@
-"use client";
+"use server";
+import { decode } from "next-auth/jwt";
+import { cookies } from "next/headers";
 
-import { useSession } from "next-auth/react";
+// use it if you want send token with API request
+export const getAccessToken = async () => {
+  const cookie = await cookies();
+  const nextAuthToken = cookie.get("next-auth.session-token")?.value;
 
-type sessionType = {
-  data: {
-    expires: string;
-    user: { name: string; email: string };
-  };
-  status: "authenticated" | "unauthenticated" | "loading";
+  const token = await decode({
+    token: nextAuthToken,
+    secret: process.env.NEXTAUTH_SECRET!,
+  });
+
+  return token?.accessToken;
 };
-
-// Todo
-const useAccessToken = () => {
-  const data = useSession();
-  console.log(data);
-};
-
-export default useAccessToken;

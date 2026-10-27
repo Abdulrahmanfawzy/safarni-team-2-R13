@@ -1,9 +1,9 @@
-import LoginForm from "@/components/forms/LoginForm";
-import AuthLayout from "../../_components/AuthLayouts";
-import loginImage from "@/assets/images/auth-images/login.png";
+import RegisterForm from "@/components/forms/RegisterForm";
+import registerImage from "@/assets/images/auth-images/register.png";
 import FormHeader from "@/components/shared/FormHeader";
 import Link from "next/link";
-const Login = async ({
+import AuthLayout from "../_components/AuthLayouts";
+const Register = async ({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string>>;
@@ -11,27 +11,27 @@ const Login = async ({
   const params = await searchParams;
   const query = new URLSearchParams(params).toString();
   return (
-    <AuthLayout image={loginImage}>
+    <AuthLayout image={registerImage}>
       <div className="flex flex-col gap-3 text-center w-full">
         {/* Header */}
         <div className="mb-4">
           <FormHeader
-            title="Welcome Again"
-            description="welcome back! please fill your Data"
+            title="Register your Account"
+            description="create your account to get the best experience"
           />
         </div>
 
         {/* Form */}
-        <LoginForm />
+        <RegisterForm />
 
         {/* Sign Up Link */}
         <p className="text-sm font-medium">
-          {"Don't"} have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href={`/register?${query}`}
+            href={`/login?${query}`}
             className="text-app-primary hover:underline font-semibold"
           >
-            sign up
+            Sign in
           </Link>
         </p>
       </div>
@@ -39,4 +39,4 @@ const Login = async ({
   );
 };
 
-export default Login;
+export default Register;
