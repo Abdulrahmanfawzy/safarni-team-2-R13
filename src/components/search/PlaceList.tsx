@@ -3,7 +3,6 @@ import { Landmark, MapPin } from "lucide-react";
 
 interface PlaceListProps {
   places: Place[];
-  /** "popular" = landmark icon + tagline, "suggestion" = pin icon */
   variant: "popular" | "suggestion";
   onSelect: (place: Place) => void;
 }
