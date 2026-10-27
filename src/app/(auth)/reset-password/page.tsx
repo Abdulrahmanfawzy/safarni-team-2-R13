@@ -1,9 +1,9 @@
 import ResetPasswordForm from "@/components/forms/ResetPasswordForm";
-import AuthLayout from "../../_components/AuthLayouts";
 import ResetImage from "@/assets/images/auth-images/new-password.png";
 
 import FormHeader from "@/components/shared/FormHeader";
 import { Lock } from "lucide-react";
+import AuthLayout from "../_components/AuthLayouts";
 const ResetPassword = () => {
   return (
     <AuthLayout image={ResetImage}>

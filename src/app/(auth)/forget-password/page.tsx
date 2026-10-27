@@ -1,9 +1,9 @@
-import AuthLayout from "@/app/(auth)/_components/AuthLayouts";
 import forgetPasswordImage from "@/assets/images/auth-images/forget-password.png";
 import ForgetPasswordForm from "@/components/forms/ForgetPasswordForm";
 import FormHeader from "@/components/shared/FormHeader";
 import { KeyRound } from "lucide-react";
 import Link from "next/link";
+import AuthLayout from "../_components/AuthLayouts";
 
 const ForgetPassword = () => {
   return (

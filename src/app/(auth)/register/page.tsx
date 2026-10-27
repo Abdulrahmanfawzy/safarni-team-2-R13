@@ -1,9 +1,15 @@
 import RegisterForm from "@/components/forms/RegisterForm";
-import AuthLayout from "../../_components/AuthLayouts";
 import registerImage from "@/assets/images/auth-images/register.png";
 import FormHeader from "@/components/shared/FormHeader";
 import Link from "next/link";
-const Register = () => {
+import AuthLayout from "../_components/AuthLayouts";
+const Register = async ({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) => {
+  const params = await searchParams;
+  const query = new URLSearchParams(params).toString();
   return (
     <AuthLayout image={registerImage}>
       <div className="flex flex-col gap-3 text-center w-full">
@@ -22,7 +28,7 @@ const Register = () => {
         <p className="text-sm font-medium">
           Already have an account?{" "}
           <Link
-            href={"/login"}
+            href={`/login?${query}`}
             className="text-app-primary hover:underline font-semibold"
           >
             Sign in

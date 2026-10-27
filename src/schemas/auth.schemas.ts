@@ -16,6 +16,8 @@ export const registerSchema = z.object({
   name: z.string().min(1, "name is required"),
   email: z.email(),
   password: z.string().regex(passwordRegex, passwordErrorMessage),
+  password_confirmation: z.string().regex(passwordRegex, passwordErrorMessage),
+  phone: z.string().min(11, "phone is required"),
 });
 
 // forget password schema
@@ -26,10 +28,12 @@ export const forgetPasswordSchema = z.object({
 // Verify OTP schema
 export const verifyOtpSchema = z.object({
   code: z.string().min(1, "OTP  is required"),
+  email: z.email().optional(),
 });
 
 // reset password schema
 export const resetPasswordSchema = z.object({
   password: z.string().regex(passwordRegex, passwordErrorMessage),
-  confirm_password: z.string().regex(passwordRegex, passwordErrorMessage),
+  password_confirmation: z.string().regex(passwordRegex, passwordErrorMessage),
+  code: z.string().min(4, "otp code is required"),
 });

@@ -98,6 +98,7 @@ const MyInput = <T extends FieldValues>({
                   id={name}
                   placeholder={placeholder}
                   {...field}
+                  {...props}
                 />
                 {/* Icon */}
                 <Icon icon={icon} />
