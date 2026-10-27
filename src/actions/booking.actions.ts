@@ -3,30 +3,34 @@
 import { isAxiosError } from "axios";
 import { apiClient } from "@/lib/axios";
 import type {
-  ApiResponse,
   BookingActionResult,
+  BookingDetails,
   CreateBookingPayload,
-} from "@/types/flight.seat";
+  CreateBookingResponse,
+} from "@/types/boarding.pass";
 
 export async function createFlightBooking(
   payload: CreateBookingPayload,
 ): Promise<BookingActionResult> {
   try {
-    const response = await apiClient.post<ApiResponse<unknown>>(
+    const response = await apiClient.post<CreateBookingResponse>(
       "/bookings",
       payload,
     );
 
-    if (!response.data.success) {
+    const result = response.data;
+
+    if (!result.success) {
       return {
         success: false,
-        message: response.data.message || "Unable to create the booking.",
+        message: result.message || "Unable to create the booking.",
       };
     }
 
     return {
       success: true,
-      message: response.data.message || "Booking created successfully.",
+      message: result.message || "Booking created successfully.",
+      booking: result.data as BookingDetails,
     };
   } catch (error: unknown) {
     if (isAxiosError<{ message?: string }>(error)) {

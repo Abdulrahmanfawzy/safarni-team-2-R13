@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -49,7 +49,6 @@ export function PassengerFieldArray({
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const {
     register,
     control,
@@ -65,6 +64,7 @@ export function PassengerFieldArray({
     control,
     name: "passengers",
   });
+const router = useRouter();
 
   const onSubmit = async (values: PassengerFormValues) => {
     setServerError("");
@@ -75,6 +75,8 @@ export function PassengerFieldArray({
       flight_id: flightId,
       passengers: values.passengers.map((passenger) => ({
         ...passenger,
+        full_name: passenger.full_name.trim(),
+        passport_number: passenger.passport_number.trim(),
         age: Number(passenger.age),
         seat_id: Number(passenger.seat_id),
       })),
@@ -83,12 +85,19 @@ export function PassengerFieldArray({
     try {
       const result = await createFlightBooking(payload);
 
-      if (!result.success) {
-        setServerError(result.message);
+      if (!result.success || !result.booking) {
+        setServerError(result.message || "Unable to create the booking.");
         return;
       }
 
-      setSuccessMessage(result.message);
+      // Keep the response available for the boarding-pass page.
+      sessionStorage.setItem(
+        "safarni.latestFlightBooking",
+        JSON.stringify(result.booking),
+      );
+
+      onOpenChange(false);
+      router.push("/flight-booking/boarding-pass");
     } catch {
       setServerError("Unable to submit the booking. Please try again.");
     } finally {
