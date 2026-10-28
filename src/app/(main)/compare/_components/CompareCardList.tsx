@@ -6,12 +6,10 @@ export default async function CompareCardList({
 }: {
   searchValue: string;
 }) {
+  // call api request
   const result = await compareToursSearch(searchValue);
 
-  if (!result.success) {
-    return <p className="text-center text-red-500">{result.message}</p>;
-  }
-
+  // if result is empty
   if (result?.data?.items.length === 0) {
     return (
       <>

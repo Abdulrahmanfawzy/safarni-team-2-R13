@@ -1,9 +1,15 @@
+"use client";
 import { SelectedItem } from "@/types/compare.type";
 import { Check } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 const ComparePriceCard = ({ item }: { item: SelectedItem }) => {
   return (
-    <div className="flex flex-col gap-4 w-full  rounded-lg border border-gray-300 bg-gray-50 p-6">
+    <div
+      className={cn(
+        "flex flex-col gap-4 w-full  rounded-lg border border-gray-300 bg-gray-50 p-6",
+      )}
+    >
       {/* Title and Price */}
       <div className="space-y-2">
         <h2 className="text-xl font-medium">{item.title}</h2>

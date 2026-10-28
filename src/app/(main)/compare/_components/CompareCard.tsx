@@ -4,29 +4,34 @@ import Image from "next/image";
 import compareImage from "@/assets/images/compare.png";
 import { Item } from "@/types/compare.type";
 
-import { useSetTourIdParam } from "@/hooks/useSetTourIdParam";
+import { useSetParams } from "@/hooks/useSetParams";
 import { Loader } from "lucide-react";
 
 const CompareCard = ({ item }: { item: Item }) => {
-  const { tourIds, setTourIds, isPending } = useSetTourIdParam();
+  const { allParam, setParam, isPending } = useSetParams("tour_id");
   const id = String(item.id);
 
   return (
     <div
       onClick={() => {
         if (!isPending) {
-          setTourIds(id);
+          setParam(id);
         }
       }}
       className={cn(
-        tourIds.includes(id) && "border-2 border-app-primary",
-        "p-4 rounded-4xl relative shadow-app-card-shadow",
+        isPending ? "cursor-" : "cursor-pointer",
+        allParam.includes(id) && "border-2 border-app-primary",
+        "p-4 rounded-4xl relative  shadow-app-card-shadow",
       )}
     >
       {isPending && (
         <div className="absolute p-4 rounded-4xl text-black flex justify-center items-center inset-0 z-20  backdrop-blur-sm gap-2">
           <Loader className="animate-spin" />
-          <p>Add to compare</p>
+          {allParam.includes(id) ? (
+            <p>Remove from compare</p>
+          ) : (
+            <p>Add to compare</p>
+          )}
         </div>
       )}
 
@@ -43,16 +48,6 @@ const CompareCard = ({ item }: { item: Item }) => {
           <p className="text-gray-500 text-base">{item.description}</p>
         </div>
       </div>
-
-      {/* <div className="flex justify-center mt-2 items-center">
-        <Button
-          onClick={() => setTourIds(id)}
-          variant={tourIds.includes(id) ? "secondary" : "default"}
-          className="h-8"
-        >
-          {tourIds.includes(id) ? "Selected" : "Select"}
-        </Button>
-      </div> */}
     </div>
   );
 };

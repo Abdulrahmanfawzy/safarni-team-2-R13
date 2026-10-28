@@ -22,12 +22,13 @@ const Page = async ({
     : params.tour_id
       ? [params.tour_id]
       : [];
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <BackButton />
         <SearchInput
-          resetParams={["tour_id"]}
+          resetParams={["tour_id", "tour_plane"]}
           paramKey="q"
           placeholder="Search for a tour..."
         />
@@ -54,12 +55,15 @@ const Page = async ({
           </Suspense>
 
           {/* Compare Price Cards */}
+
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-medium text-gray-900">Compare</h2>
+            <h2 className="text-2xl font-medium text-gray-900">
+              Price Compare
+            </h2>
             {tourIds.length === 0 ? (
               <div className="flex min-h-full items-center justify-center">
                 <p className="text-sm text-gray-500">
-                  Select a card to start comparing.
+                  Select a tour to start comparing.
                 </p>
               </div>
             ) : (

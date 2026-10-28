@@ -1,23 +1,26 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 
-export const useSetTourIdParam = () => {
+export const useSetParams = (paramKey: string) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const tourIds = searchParams.getAll("tour_id");
-  function setTourIds(id: string) {
+  const allParam = searchParams.getAll(paramKey);
+
+  function setParam(id: string, mode: "append" | "set" = "append") {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (tourIds.includes(id)) {
-      params.delete("tour_id");
+    if (allParam.includes(id)) {
+      params.delete(paramKey);
 
-      tourIds
+      allParam
         .filter((selectedId) => selectedId !== id)
-        .forEach((selectedId) => params.append("tour_id", selectedId));
+        .forEach((selectedId) => params.append(paramKey, selectedId));
+    } else if (mode == "set") {
+      params.set(paramKey, id);
     } else {
-      params.append("tour_id", id);
+      params.append(paramKey, id);
     }
     startTransition(() => {
       router.replace(`?${params.toString()}`, {
@@ -27,8 +30,8 @@ export const useSetTourIdParam = () => {
   }
 
   return {
-    tourIds,
-    setTourIds,
+    allParam,
+    setParam,
     isPending,
   };
 };
