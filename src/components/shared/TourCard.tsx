@@ -29,18 +29,16 @@ export default function TourCard({
     else setLocalFav((v) => !v);
   };
 
-  const duration = tour.days
-    ? `${tour.days} Days`
-    : tour.hours
-    ? `${tour.hours} hour`
-    : null;
+  const duration =
+    tour.durationText ??
+    (tour.days ? `${tour.days} days` : tour.hours ? `${tour.hours} hours` : "");
 
   return (
     <article
       onClick={() => onClick?.(tour)}
       className={`cursor-pointer rounded-2xl bg-white p-2 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md ${className}`}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">
+      <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-gray-100">
         {tour.image && (
           <Image
             src={tour.image}
