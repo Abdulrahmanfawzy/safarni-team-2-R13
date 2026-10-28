@@ -1,35 +1,91 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import type { FlightSearchParams } from "@/types/flight.details";
 import type { TripType } from "./TripTypeSelector";
 
 interface FlightSearchFormProps {
   tripType: TripType;
 }
 
+function toApiTripType(tripType: TripType): FlightSearchParams["type"] {
+  switch (tripType) {
+    case "One Way":
+      return "one_way";
+    case "Multi City":
+      return "multi_city";
+    default:
+      return "round_trip";
+  }
+}
+
 export default function FlightSearchForm({ tripType }: FlightSearchFormProps) {
-  const [origin, setOrigin] = useState("Montreal,Canada");
-  const [destination, setDestination] = useState("Tokyo,Japan");
-  const [departure, setDeparture] = useState("2026-12-16");
-  const [returnDate, setReturnDate] = useState("2027-01-06");
-  const [passengers, setPassengers] = useState("1");
-  const [searchMessage, setSearchMessage] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [origin, setOrigin] = useState("Aswan");
+  const [destination, setDestination] = useState("Cairo");
+  const [departure, setDeparture] = useState("2026-10-27");
+  const [returnDate, setReturnDate] = useState("2026-10-29");
+  const [passengers, setPassengers] = useState("2");
+  const [formError, setFormError] = useState("");
+
+  const isRoundTrip = tripType === "Round Trip";
+  const isOneWay = tripType === "One Way";
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setFormError("");
 
-    setSearchMessage(
-      `${tripType}: ${origin} to ${destination} · ${passengers} passenger(s)`,
+    if (tripType === "Multi City") {
+      setFormError(
+        "Multi-city searches are not implemented yet. Select Round Trip or One Way.",
+      );
+      return;
+    }
+
+    if (isRoundTrip && returnDate < departure) {
+      setFormError(
+        "The return date cannot be earlier than the departure date.",
+      );
+      return;
+    }
+
+    const search: FlightSearchParams = {
+      type: toApiTripType(tripType),
+      location: origin.trim(),
+      dest: destination.trim(),
+      departure,
+      passenger: Number(passengers),
+      ...(isRoundTrip ? { return: returnDate } : {}),
+    };
+
+    const searchParams = new URLSearchParams();
+
+    searchParams.set("type", search.type);
+    searchParams.set("location", search.location);
+    searchParams.set("dest", search.dest);
+    searchParams.set("departure", search.departure);
+    searchParams.set("passenger", String(search.passenger));
+
+    if (search.return) {
+      searchParams.set("return", search.return);
+    }
+
+    router.push(
+      `${pathname.replace(/\/$/, "")}/flight-details?${searchParams.toString()}`,
     );
   }
 
   const inputClassName =
     "h-[31px] rounded-[3px] border-[#dce1e8] px-2 text-[11px] shadow-none focus-visible:ring-1";
 
-  const labelClassName = "block text-xs lg:text-[18px] font-medium text-[#252525]";
+  const labelClassName =
+    "block text-xs font-medium text-[#252525] lg:text-[16px]";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -63,11 +119,7 @@ export default function FlightSearchForm({ tripType }: FlightSearchFormProps) {
         />
       </div>
 
-      <div
-        className={`grid gap-3 ${
-          tripType === "One Way" ? "grid-cols-1" : "grid-cols-2"
-        }`}
-      >
+      <div className={`grid gap-3 ${isOneWay ? "grid-cols-1" : "grid-cols-2"}`}>
         <div className="min-w-0 space-y-1">
           <label htmlFor="flight-departure" className={labelClassName}>
             Departure
@@ -82,7 +134,7 @@ export default function FlightSearchForm({ tripType }: FlightSearchFormProps) {
           />
         </div>
 
-        {tripType !== "One Way" && (
+        {isRoundTrip && (
           <div className="min-w-0 space-y-1">
             <label htmlFor="flight-return" className={labelClassName}>
               Return
@@ -98,13 +150,13 @@ export default function FlightSearchForm({ tripType }: FlightSearchFormProps) {
             />
           </div>
         )}
-      </div>
 
-      {tripType === "Multi City" && (
-        <p className="text-xs text-slate-500">
-          Additional city segments are not implemented in this UI-only version.
-        </p>
-      )}
+        {tripType === "Multi City" && (
+          <p className="col-span-full text-xs text-slate-500">
+            Multi-city search is not supported by this form yet.
+          </p>
+        )}
+      </div>
 
       <div className="space-y-1">
         <label htmlFor="flight-passengers" className={labelClassName}>
@@ -127,24 +179,23 @@ export default function FlightSearchForm({ tripType }: FlightSearchFormProps) {
             ))}
           </select>
 
-                  <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-3.5 
-          -translate-y-1/2 text-slate-400" />
+          <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-3.5 -translate-y-1/2 text-slate-400" />
         </div>
       </div>
 
+      {formError && (
+        <p role="alert" className="text-xs text-red-600">
+          {formError}
+        </p>
+      )}
+
       <Button
         type="submit"
-              className="mt-2 h-10 lg:h-14 w-full rounded-[4px] bg-[#2447a8] text-sm lg:text-[20px] font-semibold
-         text-white hover:bg-[#1d3d91]"
+        className="mt-2 w-full rounded-[4px] bg-[#2447a8] text-sm font-semibold
+         text-white hover:bg-[#1d3d91]  lg:text-lg"
       >
         Search Flights
       </Button>
-
-      {searchMessage && (
-        <p role="status" className="pt-1 text-xs text-[#2447a8]">
-          {searchMessage}
-        </p>
-      )}
     </form>
   );
 }

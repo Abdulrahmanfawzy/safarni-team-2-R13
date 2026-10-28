@@ -1,4 +1,4 @@
-import { BoardingPassCard } from "../../_components/boarding-pass-card";
+import { BoardingPassCard } from "../../_components/BoardingPassCard";
 
 export default function BoardingPassPage() {
   return <BoardingPassCard />;

@@ -1,4 +1,4 @@
-import TourListing from "../_components/tour-listing";
+import TourListing from "../_components/TourListing";
 
 export const metadata = {
   title: "Tours | Safarni",
