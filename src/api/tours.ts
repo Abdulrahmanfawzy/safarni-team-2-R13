@@ -1,58 +1,55 @@
-import type { Tour } from "@/constants/tours";
+import type {
+  Tour,
+  TourApiItem,
+  ToursApiData,
+} from "@/types/tour";
 
-export interface TourItem {
-  id: number;
-  title: string;
-  slug: string;
-  duration: number;
-  duration_text: string;
-  price: string;
-  image: string | null;
-  rating: number | null;
-  reviews_count: number;
-  adventure_style: string;
+interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  errors: unknown[];
+  data: T;
 }
 
-interface TourSearchData {
-  items: TourItem[];
-  pagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
+export async function getTours(perPage = 10): Promise<ToursApiData> {
+  const baseUrl = process.env.API;
 
-export async function searchTours(
-  q: string,
-  perPage = 10,
-): Promise<TourSearchData> {
-  const url = new URL(`${process.env.API}/tours/search`);
-  url.searchParams.set("q", q);
+  if (!baseUrl) {
+    throw new Error("The API environment variable is not configured.");
+  }
+
+  const url = new URL(`${baseUrl.replace(/\/$/, "")}/tours`);
+
   url.searchParams.set("per_page", String(perPage));
 
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Tours search failed (${res.status})`);
+  const response = await fetch(url.toString(), {
+    cache: "no-store",
+  });
 
-  const json = await res.json();
-  return json.data as TourSearchData;
+  if (!response.ok) {
+    throw new Error(`Failed to fetch tours: ${response.status}`);
+  }
+
+  const result: ApiResponse<ToursApiData> = await response.json();
+
+  if (!result.success || !result.data) {
+    throw new Error("Invalid tours API response.");
+  }
+
+  return result.data;
 }
 
-// API item -> the shape TourCard expects
-export function toTour(t: TourItem): Tour {
+export function mapTourToUi(item: TourApiItem): Tour {
   return {
-    id: String(t.id),
-    title: t.title,
-    image: t.image ?? "",
-    rating: t.rating ?? 0,
-    reviews: t.reviews_count,
-    days: t.duration >= 24 ? Math.round(t.duration / 24) : undefined,
-    hours: t.duration < 24 ? t.duration : undefined,
-    pickup: false,
-    price: Number(t.price),
-    // the API has no location yet; the casts keep this compiling whatever the types are
-    location: "" as Tour["location"],
-    style: t.adventure_style as Tour["style"],
-    popularity: t.reviews_count,
+    id: item.id,
+    title: item.title,
+    slug: item.slug,
+    duration: item.duration,
+    durationText: item.duration_text,
+    price: Number(item.price),
+    image: item.image,
+    rating: item.rating,
+    reviewsCount: item.reviews_count,
+    adventureStyle: item.adventure_style,
   };
 }
