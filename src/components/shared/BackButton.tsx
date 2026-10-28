@@ -16,7 +16,7 @@ export function BackButton({
     if (historyBack) {
       router.back();
     } else if (path) {
-      router.replace(path);
+      router.push(path);
     } else {
       router.back();
     }

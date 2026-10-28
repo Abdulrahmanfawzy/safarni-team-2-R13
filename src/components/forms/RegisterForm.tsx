@@ -1,30 +1,67 @@
 "use client";
 import { useForm } from "react-hook-form";
 import MyInput from "../shared/MyInput";
-import { Lock, Mail, User } from "lucide-react";
+import { Lock, Mail, Phone, User } from "lucide-react";
 import { Button } from "../ui/button";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/schemas/auth.schemas";
 import { RegisterPayload } from "@/types/auth.types";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RegisterForm = () => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      phone: "",
+      password_confirmation: "",
     },
     resolver: zodResolver(registerSchema),
   });
+
+  // search params hook
+  const searchParams = useSearchParams();
+
+  // navigation hook
+  const router = useRouter();
+
+  // useAuth hook
+  const { register } = useAuth();
+
+  // submit register function
   const submitRegister = (formValues: RegisterPayload) => {
-    console.log(formValues);
+    register.mutate(formValues, {
+      onSuccess: (data) => {
+        toast.success(
+          data.message || "Register successfully , Verify Your Email.",
+        );
+
+        // Redirect user to verify otp nad save search params
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("email", data.data.user.email);
+        router.push(`/verify-otp?${params.toString()}`);
+
+        // reset form
+        reset();
+      },
+      onError: (error) => {
+        console.error("Registration failed:", error);
+        toast.error(error.message || "Register Failed ,  try again!");
+      },
+    });
   };
+
   return (
     <>
       <form
         onSubmit={handleSubmit(submitRegister)}
         className="w-full flex flex-col gap-3.5"
       >
+        {/* Name */}
         <div>
           <MyInput
             control={control}
@@ -36,6 +73,8 @@ const RegisterForm = () => {
             icon={<User className="size-5" />}
           />
         </div>
+
+        {/* Email */}
         <div>
           <MyInput
             control={control}
@@ -47,6 +86,7 @@ const RegisterForm = () => {
             icon={<Mail className="size-5" />}
           />
         </div>
+        {/* Password */}
         <div>
           <MyInput
             control={control}
@@ -58,7 +98,40 @@ const RegisterForm = () => {
             icon={<Lock className="size-5" />}
           />
         </div>
-        <Button type="submit">Sign Up</Button>
+
+        {/* Password Confirmation */}
+        <div>
+          <MyInput
+            control={control}
+            label="Confirm Password"
+            name="password_confirmation"
+            type="password"
+            placeholder="Confirm your Password"
+            isPassword={true}
+            icon={<Lock className="size-5" />}
+          />
+        </div>
+
+        {/* Phone */}
+        <div>
+          <MyInput
+            control={control}
+            label="Phone"
+            name="phone"
+            type="text"
+            placeholder="Enter your phone number"
+            isPassword={false}
+            icon={<Phone className="size-5" />}
+          />
+        </div>
+
+        <Button
+          isLoading={register.isPending}
+          disabled={register.isPending}
+          type="submit"
+        >
+          Sign Up
+        </Button>
       </form>
     </>
   );

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import logo from "@/assets/images/logo.png";
 import { NAV_LINKS } from "@/constants/home";
@@ -10,11 +11,10 @@ import SearchDialog from "@/components/search/SearchDialog";
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-
+  const x = useSession();
   const openFilters = () => {
-    
     const sp = new URLSearchParams(
-      pathname === "/search" ? window.location.search : ""
+      pathname === "/search" ? window.location.search : "",
     );
     sp.set("filters", "open");
     router.push(`/search?${sp.toString()}`, { scroll: false });
@@ -50,18 +50,23 @@ export default function Navbar() {
           })}
         </ul>
 
-        
         <div className="flex items-center gap-5">
-       <Suspense fallback={null}>
-  <SearchDialog />
-</Suspense>
+          <Suspense fallback={null}>
+            <SearchDialog />
+          </Suspense>
           <button
             type="button"
             onClick={openFilters}
             aria-label="Filters"
             className="text-gray-900 transition hover:text-app-primary"
           >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M4 6h16M7 12h10M10 18h4" />
             </svg>
           </button>
@@ -71,7 +76,13 @@ export default function Navbar() {
             aria-label="Profile"
             className="flex h-7 w-7 items-center justify-center rounded-full bg-app-primary/10 text-app-primary"
           >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="12" cy="8" r="4" />
               <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
             </svg>

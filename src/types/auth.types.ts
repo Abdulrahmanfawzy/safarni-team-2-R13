@@ -21,3 +21,31 @@ export type VerifyOtpPayload = z.infer<typeof verifyOtpSchema>;
 
 // reset password type from schema
 export type ResetPasswordPayload = z.infer<typeof resetPasswordSchema>;
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  location: string | null;
+  avatar_url: string | null;
+  role: string;
+  status: string;
+  is_verified: boolean;
+  created_at: Date;
+}
+// API response type
+
+export interface RegisterResponse {
+  user: User;
+}
+
+export interface LoginResponse {
+  user: User;
+  token: string;
+}
+
+export interface VerifyOtpResponse {
+  user: User;
+  token: string;
+}

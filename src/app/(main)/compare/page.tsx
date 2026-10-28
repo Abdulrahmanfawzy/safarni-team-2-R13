@@ -2,8 +2,10 @@ import { BackButton } from "@/components/shared/BackButton";
 import CompareCard from "./_components/CompareCard";
 import ComparePriceCard from "./_components/ComparePriceCard";
 import SearchInput from "@/components/shared/SearchInput";
+import { getAccessToken } from "@/lib/getAccessToken";
 
 const ComparePage = async () => {
+  const x = await getAccessToken();
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">

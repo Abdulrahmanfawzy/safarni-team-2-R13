@@ -6,16 +6,43 @@ import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetPasswordSchema } from "@/schemas/auth.schemas";
 import { ForgetPasswordPayload } from "@/types/auth.types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const ForgetPasswordForm = () => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
     },
     resolver: zodResolver(forgetPasswordSchema),
   });
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const {
+    forgetPassword: { mutate, isPending },
+  } = useAuth();
+
   const submitForgetPassword = (formValues: ForgetPasswordPayload) => {
-    console.log(formValues);
+    mutate(formValues, {
+      onSuccess: (data) => {
+        toast.success(
+          data.message ||
+            "Password reset OTP sent successfully check your mail.",
+        );
+        reset();
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("email", formValues.email);
+        // navigate user
+        router.push(`/reset-password?${params}`);
+      },
+      onError: (error) => {
+        console.error("forget password", error);
+        toast.error(error.message);
+      },
+    });
   };
   return (
     <>
@@ -34,7 +61,9 @@ const ForgetPasswordForm = () => {
             icon={<Mail className="size-5" />}
           />
         </div>
-        <Button type="submit">Reset Password</Button>
+        <Button isLoading={isPending} disabled={isPending} type="submit">
+          Reset Password
+        </Button>
       </form>
     </>
   );
