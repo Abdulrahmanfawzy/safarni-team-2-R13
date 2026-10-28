@@ -27,11 +27,11 @@ export default function CarsToolbar({
           <ArrowLeft className="size-4" />
         </button>
 
-        <SearchBar
+        {/* <SearchBar
           value={search}
           onChange={onSearchChange}
           placeholder="Search ..."
-        />
+        /> */}
 
         <button
           type="button"

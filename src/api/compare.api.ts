@@ -3,13 +3,7 @@ import { ApiResponse } from "@/types/global.type";
 
 export const compareToursSearch = async (
   searchValue: string,
-): Promise<
-  | ApiResponse<CompareTourResponse>
-  | {
-      message: string;
-      success: boolean;
-    }
-> => {
+): Promise<ApiResponse<CompareTourResponse>> => {
   try {
     const res = await fetch(
       `${process.env.API}/v1/compare/tours?search=${searchValue}`,
@@ -19,16 +13,13 @@ export const compareToursSearch = async (
     );
 
     const data = await res.json();
-
     if (!res.ok) {
-      return {
-        success: false,
-        message: data.message,
-      };
+      throw new Error(data.message || "fetch failed");
     }
+
     return data;
-  } catch (error: any) {
+  } catch (error) {
     console.error("compare Tours Search error", error);
-    throw new Error(error?.message);
+    throw new Error("fetch failed");
   }
 };
