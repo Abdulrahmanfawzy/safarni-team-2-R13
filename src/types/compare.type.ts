@@ -3,7 +3,7 @@ export interface CompareTourResponse {
   pagination: Pagination;
 }
 
-export interface Item {
+interface Item {
   id: number;
   image: null | string;
   title: string;
@@ -14,7 +14,7 @@ export interface Item {
   description: string;
 }
 
-export interface Pagination {
+interface Pagination {
   current_page: number;
   last_page: number;
   per_page: number;
@@ -31,7 +31,7 @@ export interface SelectedTourResponse {
   max_items: number;
 }
 
-export interface SelectedItem {
+interface SelectedItem {
   id: number;
   title: string;
   price: number;
@@ -41,7 +41,7 @@ export interface SelectedItem {
   features: Feature[];
 }
 
-export interface Feature {
+interface Feature {
   key: string;
   label: string;
   value: string;

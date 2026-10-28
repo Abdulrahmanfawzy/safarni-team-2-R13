@@ -1,7 +1,7 @@
 import { CompareTourResponse } from "@/types/compare.type";
 import { ApiResponse } from "@/types/global.type";
 
-export const compareToursSearch = async (
+export const getToursSearch = async (
   searchValue: string,
 ): Promise<ApiResponse<CompareTourResponse>> => {
   try {
@@ -14,12 +14,12 @@ export const compareToursSearch = async (
 
     const data = await res.json();
     if (!res.ok) {
-      throw new Error(data.message || "fetch failed");
+      throw new Error(data.message || "fetch failed.");
     }
 
     return data;
   } catch (error) {
     console.error("compare Tours Search error", error);
-    throw new Error("fetch failed");
+    throw new Error("fetch failed.");
   }
 };

@@ -1,9 +1,13 @@
 "use client";
-import { SelectedItem } from "@/types/compare.type";
 import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-const ComparePriceCard = ({ item }: { item: SelectedItem }) => {
+import { SelectedTourResponse } from "@/types/compare.type";
+const ComparePriceCard = ({
+  item,
+}: {
+  item: SelectedTourResponse["items"][number];
+}) => {
   return (
     <div
       className={cn(

@@ -2,12 +2,16 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import compareImage from "@/assets/images/compare.png";
-import { Item } from "@/types/compare.type";
 
 import { useSetParams } from "@/hooks/useSetParams";
 import { Loader } from "lucide-react";
+import { CompareTourResponse } from "@/types/compare.type";
 
-const CompareCard = ({ item }: { item: Item }) => {
+const CompareCard = ({
+  item,
+}: {
+  item: CompareTourResponse["items"][number];
+}) => {
   const { allParam, setParam, isPending } = useSetParams("tour_id");
   const id = String(item.id);
 
