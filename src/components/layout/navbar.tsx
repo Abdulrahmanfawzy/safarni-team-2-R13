@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import logo from "@/assets/images/logo.png";
 import { NAV_LINKS } from "@/constants/home";
