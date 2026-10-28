@@ -1,14 +1,14 @@
 import Badge from "@/components/shared/Badge";
 import Gallery from "../../_components/roomDetails/Gallery";
 import { StarIcon } from "lucide-react";
-import ReturnBack from "@/app/(auth)/_components/ReturnBack";
+import { BackButton } from "@/components/shared/BackButton";
 
 const HotelLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {/* Search */}
       <div className="flex items-center ">
-        <ReturnBack />
+        <BackButton />
       </div>
       {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 gap-4">

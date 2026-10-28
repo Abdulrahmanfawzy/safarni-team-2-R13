@@ -1,16 +1,23 @@
 import Title from "./_components/Title";
 import HotelCard from "./_components/HotelCard";
-import cardImage from "@/assets/images/hotel.jpg";
 import { BackButton } from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/SearchInput";
+import ServerDataFetcher from "@/components/common/ServerDataFetcher";
+import { getRecommendationHotels } from "@/api/hotel.api";
+import { Suspense } from "react";
+import HotelCardSkeleton from "@/components/skeletons/HotelCardSkeleton";
+import { GetRecommendProps } from "@/types/hotel.type";
+import RecomndedSection from "./_components/sections/RecomndedSection";
+import NearbyHotelsSection from "./_components/sections/NearbyHotelsSection";
 
-const ComparePage = async ({
+const page = async ({
   searchParams,
 }: {
-  searchParams?: Promise<{ q: string }>;
+  searchParams: Promise<Record<string, string | undefined>>;
 }) => {
-  const searchParamsValue = await searchParams;
-  console.log("server search param", searchParamsValue);
+  const params = await searchParams;
+
+  const searchValue = typeof params.q === "string" ? params.q.trim() : null;
 
   return (
     <div className="flex flex-col gap-8">
@@ -19,50 +26,51 @@ const ComparePage = async ({
         <BackButton />
         <SearchInput paramKey="q" />
       </div>
-      {/* Recommendation cards  */}
+
       <div className="space-y-3">
         {/* Header */}
-        <Title linkLabel="view all" title="Recommendation" linkPath="/hotels" />
+        <Title title="Recommendation" linkPath="/hotels" />
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((_, i) => {
-            return (
-              <HotelCard
-                key={i}
-                name="Oasis Overture"
-                image={cardImage}
-                discount={10}
-                rating={4.2}
-                location="New York, USA"
-                variant="vertical"
-              />
-            );
-          })}
-        </div>
+        {/* Recommendation cards  */}
+        <Suspense fallback={<HotelCardSkeleton variant="vertical" />}>
+          <ServerDataFetcher
+            fetcherFun={() =>
+              getRecommendationHotels({
+                search: searchValue,
+                sections: "recommended",
+              })
+            }
+          >
+            {(payload) => (
+              <RecomndedSection items={payload?.data?.data ?? []} />
+            )}
+          </ServerDataFetcher>
+        </Suspense>
       </div>
 
-      {/* Nearby Hotel cards*/}
       <div className="space-y-3">
         {/* Header */}
-        <Title linkLabel="view all" title="Nearby Hotel" linkPath="/hotels" />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2  ">
-          {[1, 2, 3, 4].map((_, i) => {
-            return (
-              <HotelCard
-                key={i}
-                name="Oasis Overture"
-                image={cardImage}
-                discount={10}
-                rating={4.2}
-                location="New York, USA"
-                variant="horizontal"
-              />
-            );
-          })}
-        </div>
+        <Title title="Nearby Hotel" linkPath="/hotels" />
+
+        {/* Nearby Hotel cards*/}
+
+        <Suspense fallback={<HotelCardSkeleton variant="horizontal" />}>
+          <ServerDataFetcher
+            fetcherFun={() =>
+              getRecommendationHotels({
+                search: null,
+                sections: "recommended",
+              })
+            }
+          >
+            {(payload) => (
+              <NearbyHotelsSection items={payload?.data?.data ?? []} />
+            )}
+          </ServerDataFetcher>
+        </Suspense>
       </div>
     </div>
   );
 };
 
-export default ComparePage;
+export default page;
