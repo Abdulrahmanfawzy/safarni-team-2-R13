@@ -8,10 +8,11 @@ import logo from "@/assets/images/logo.png";
 import { NAV_LINKS } from "@/constants/home";
 import { Suspense } from "react";
 import SearchDialog from "@/components/search/SearchDialog";
+import useAccessToken from "@/lib/getAccessToken";
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const x = useSession();
+  const x = useAccessToken();
   const openFilters = () => {
     const sp = new URLSearchParams(
       pathname === "/search" ? window.location.search : "",
