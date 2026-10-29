@@ -1,12 +1,20 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { cookies } from 'next/headers';
+import { getProfileAction } from '@/actions/profile.actions';
 
-export default function ProfileInfoPage() {
-  const initialData = {
-    name: 'Knee Due',
-    email: 'kneedue@gmail.com',
-    location: 'San Francisco, CA',
-    phone: '+1 234 567 8900',
+export default async function ProfileInfoPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value || '';
+
+  const profileResponse = await getProfileAction(token);
+  const user = profileResponse.success ? profileResponse.user : null;
+
+  const data = {
+    name: user?.name || user?.first_name ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : 'غير محدد',
+    email: user?.email || 'غير محدد',
+    location: user?.location || user?.address || 'غير محدد',
+    phone: user?.phone || user?.mobile || 'غير محدد',
   };
 
   return (
@@ -38,7 +46,7 @@ export default function ProfileInfoPage() {
               type="text"
               id="name"
               name="name"
-              defaultValue={initialData.name}
+              value={data.name}
               readOnly
               className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
@@ -53,7 +61,7 @@ export default function ProfileInfoPage() {
               type="email"
               id="email"
               name="email"
-              defaultValue={initialData.email}
+              value={data.email}
               readOnly
               className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
@@ -68,7 +76,7 @@ export default function ProfileInfoPage() {
               type="text"
               id="location"
               name="location"
-              defaultValue={initialData.location}
+              value={data.location}
               readOnly
               className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
@@ -83,7 +91,7 @@ export default function ProfileInfoPage() {
               type="tel"
               id="phone"
               name="phone"
-              defaultValue={initialData.phone}
+              value={data.phone}
               readOnly
               className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none transition-all cursor-default"
             />
