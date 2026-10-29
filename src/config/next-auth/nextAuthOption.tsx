@@ -35,18 +35,10 @@ export const nextAuthOption: NextAuthOptions = {
         }
 
         return {
-<<<<<<< HEAD
           id: String(data?.user.id),
           email: data?.user.email,
           name: data?.user.name,
           accessToken: data?.token,
-=======
-          id: String(data.user.id),
-          email: data.user.email,
-          name: data.user.name,
-          image: data.user.avatar_url,
-          accessToken: data.token,
->>>>>>> 21a1baf0496d7d737ea99115fbf12a01d7a52fa9
         };
       },
     }),
@@ -98,7 +90,8 @@ export const nextAuthOption: NextAuthOptions = {
     async session({ session, token }) {
       session.token = token.accessToken;
       if (session.user) {
-        session.user.image = (token.picture as string | null | undefined) ?? null;
+        session.user.image =
+          (token.picture as string | null | undefined) ?? null;
       }
       return session;
     },
