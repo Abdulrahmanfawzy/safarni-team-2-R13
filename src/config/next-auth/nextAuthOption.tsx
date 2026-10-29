@@ -14,7 +14,6 @@ export const nextAuthOption: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      // Login
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
@@ -31,10 +30,15 @@ export const nextAuthOption: NextAuthOptions = {
 
         const data = response.data;
 
+        if (!data) {
+          throw new Error(response.message || "login failed");
+        }
+
         return {
           id: String(data.user.id),
           email: data.user.email,
           name: data.user.name,
+          image: data.user.avatar_url,
           accessToken: data.token,
         };
       },
@@ -70,22 +74,27 @@ export const nextAuthOption: NextAuthOptions = {
           id: String(data.user.id),
           email: data.user.email,
           name: data.user.name,
+          image: data.user.avatar_url,
           accessToken: data.token,
         };
       },
     }),
   ],
   callbacks: {
-    async jwt(param) {
-      if (param.user) {
-        param.token.accessToken = param.user.accessToken;
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.picture = user.image;
       }
-      return param.token;
+      return token;
     },
 
-    async session(param) {
-      param.session.token = param.token.accessToken;
-      return param.session;
+    async session({ session, token }) {
+      session.token = token.accessToken;
+      if (session.user) {
+        session.user.image = (token.picture as string | null | undefined) ?? null;
+      }
+      return session;
     },
   },
   pages: {
