@@ -7,9 +7,9 @@ import {
 } from "@/components/skeletons/CompareSkeleton";
 import CompareCardList from "./_components/CompareCardList";
 import ComparePriceCardList from "./_components/ComparePriceCardList";
-import ServerDataFetcher from "@/components/common/ServerDataFetcher";
 import { getToursSearch } from "@/api/compare.api";
 import { selectedTours } from "@/actions/compare.action";
+import ServerDataFetcher from "@/components/shared/ServerDataFetcher";
 
 const Page = async ({
   searchParams,
@@ -54,7 +54,7 @@ const Page = async ({
               </div>
             }
           >
-            <ServerDataFetcher fetcherFun={() => getToursSearch(searchValue)}>
+            <ServerDataFetcher fetcherFn={() => getToursSearch(searchValue)}>
               {(payload) => (
                 <CompareCardList tourCards={payload?.data?.items ?? []} />
               )}
@@ -82,7 +82,7 @@ const Page = async ({
                   </div>
                 }
               >
-                <ServerDataFetcher fetcherFun={() => selectedTours(tourIds)}>
+                <ServerDataFetcher fetcherFn={() => selectedTours(tourIds)}>
                   {(payload) => (
                     <ComparePriceCardList
                       selctedTours={payload.data?.items ?? []}
