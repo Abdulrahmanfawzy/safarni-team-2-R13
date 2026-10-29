@@ -1,10 +1,10 @@
 import Title from "../_components/Title";
 import { BackButton } from "@/components/shared/BackButton";
-import ServerDataFetcher from "@/components/common/ServerDataFetcher";
 import HotelRoomsList from "../_components/sections/HotelRoomsList";
 import { getAvailableRooms } from "@/api/hotel.api";
 import { Suspense } from "react";
 import HotelCardSkeleton from "@/components/skeletons/HotelCardSkeleton";
+import ServerDataFetcher from "@/components/shared/ServerDataFetcher";
 
 const page = async ({ params }: { params: Promise<{ hotel_id: string }> }) => {
   const { hotel_id } = await params;
@@ -18,7 +18,7 @@ const page = async ({ params }: { params: Promise<{ hotel_id: string }> }) => {
         <Title title="Available Rooms" />
 
         <Suspense fallback={<HotelCardSkeleton variant="vertical" />}>
-          <ServerDataFetcher fetcherFun={() => getAvailableRooms(hotel_id)}>
+          <ServerDataFetcher fetcherFn={() => getAvailableRooms(hotel_id)}>
             {(payload) => <HotelRoomsList items={payload.data?.rooms ?? []} />}
           </ServerDataFetcher>
         </Suspense>

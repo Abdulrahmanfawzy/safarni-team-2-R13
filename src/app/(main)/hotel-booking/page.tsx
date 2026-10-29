@@ -1,14 +1,12 @@
 import Title from "./_components/Title";
-import HotelCard from "./_components/HotelCard";
 import { BackButton } from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/SearchInput";
-import ServerDataFetcher from "@/components/common/ServerDataFetcher";
 import { getRecommendationHotels } from "@/api/hotel.api";
 import { Suspense } from "react";
 import HotelCardSkeleton from "@/components/skeletons/HotelCardSkeleton";
-import { GetRecommendProps } from "@/types/hotel.type";
 import RecomndedSection from "./_components/sections/RecomndedSection";
 import NearbyHotelsSection from "./_components/sections/NearbyHotelsSection";
+import ServerDataFetcher from "@/components/shared/ServerDataFetcher";
 
 const page = async ({
   searchParams,
@@ -34,7 +32,7 @@ const page = async ({
         {/* Recommendation cards  */}
         <Suspense fallback={<HotelCardSkeleton variant="vertical" />}>
           <ServerDataFetcher
-            fetcherFun={() =>
+            fetcherFn={() =>
               getRecommendationHotels({
                 search: searchValue,
                 sections: "recommended",
@@ -56,7 +54,7 @@ const page = async ({
 
         <Suspense fallback={<HotelCardSkeleton variant="horizontal" />}>
           <ServerDataFetcher
-            fetcherFun={() =>
+            fetcherFn={() =>
               getRecommendationHotels({
                 search: null,
                 sections: "recommended",
