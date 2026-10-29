@@ -15,29 +15,9 @@ import { Grid, Navigation } from "swiper/modules";
 import Image from "next/image";
 import { useRef } from "react";
 import { NavigationOptions } from "swiper/types";
+import { Gallery } from "@/types/hotel.type";
 
-const defaultImages = [
-  "https://swiperjs.com/demos/images/abstract-1.jpg",
-  "https://swiperjs.com/demos/images/abstract-2.jpg",
-  "https://swiperjs.com/demos/images/abstract-3.jpg",
-  "https://swiperjs.com/demos/images/abstract-4.jpg",
-  "https://swiperjs.com/demos/images/abstract-5.jpg",
-  "https://swiperjs.com/demos/images/abstract-6.jpg",
-  "https://swiperjs.com/demos/images/abstract-7.jpg",
-  "https://swiperjs.com/demos/images/abstract-8.jpg",
-  "https://swiperjs.com/demos/images/abstract-9.jpg",
-  "https://swiperjs.com/demos/images/abstract-10.jpg",
-  "https://swiperjs.com/demos/images/abstract-4.jpg",
-  "https://swiperjs.com/demos/images/abstract-5.jpg",
-  "https://swiperjs.com/demos/images/abstract-6.jpg",
-  "https://swiperjs.com/demos/images/abstract-7.jpg",
-  "https://swiperjs.com/demos/images/abstract-4.jpg",
-  "https://swiperjs.com/demos/images/abstract-5.jpg",
-  "https://swiperjs.com/demos/images/abstract-6.jpg",
-  "https://swiperjs.com/demos/images/abstract-7.jpg",
-];
-
-const RoomGallery = () => {
+const RoomGallery = ({ gallery }: { gallery: Gallery }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
@@ -45,29 +25,8 @@ const RoomGallery = () => {
       <div className="flex items-center justify-between gap-3 text-lg font-meduim text-gray-900 sm:text-2xl">
         <h2>
           Gallery
-          <span className="text-blue-800"> (200)</span>
+          <span className="text-blue-800"> ({gallery.total_count})</span>
         </h2>
-        <Button
-          type="button"
-          variant="ghost"
-          className="text-blue-800 hover:bg-blue-50 hover:text-blue-800"
-        >
-          <label
-            htmlFor="addNewPhoto"
-            className="cursor-pointer flex items-center gap-2"
-          >
-            <Camera className="size-4 sm:size-6" />
-            <span>Add Photo</span>
-          </label>
-        </Button>
-
-        {/* hidden input */}
-        <input
-          id="addNewPhoto"
-          type="file"
-          accept="image/*"
-          className="hidden"
-        />
       </div>
 
       {/* Images */}
@@ -105,10 +64,6 @@ const RoomGallery = () => {
           pagination={{
             clickable: true,
           }}
-          navigation={{
-            prevEl: prevRef.current,
-            nextEl: nextRef.current,
-          }}
           onBeforeInit={(swiper) => {
             const nav = swiper.params.navigation as NavigationOptions;
             nav.prevEl = prevRef.current;
@@ -117,7 +72,7 @@ const RoomGallery = () => {
           modules={[Grid, Navigation]}
           className="h-35 w-full sm:h-45 lg:h-65"
         >
-          {defaultImages.map((image, index) => (
+          {gallery.photos.map((image, index) => (
             <SwiperSlide
               className="flex justify-center items-center"
               key={`${image}-${index}`}

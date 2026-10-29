@@ -26,7 +26,7 @@ const list = (v?: string) => (v ? v.split(",").filter(Boolean) : []);
 
 function parseFilters(sp: SearchParams): TourFilters {
   return {
-    q: "", 
+    q: "",
     sort: (sp.sort as SortKey | undefined) ?? "",
     min: Number(sp.min ?? PRICE_MIN),
     max: Number(sp.max ?? PRICE_MAX),
@@ -102,7 +102,9 @@ async function SearchResults({
     </>
   );
 }
-export const instant =false;
+
+export const instant = false;
+
 export default async function SearchPage({
   searchParams,
 }: {

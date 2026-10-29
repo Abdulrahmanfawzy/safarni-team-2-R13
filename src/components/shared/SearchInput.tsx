@@ -9,8 +9,8 @@ interface SearchInputProps {
   paramKey?: string;
   defaultValue?: string;
   debounceMs?: number;
-  
   basePath?: string;
+  resetParams?: string[];
   onChange?: (value: string) => void;
   onSubmit?: (value: string) => void;
 }
@@ -22,6 +22,7 @@ const SearchInput = ({
   debounceMs = 400,
   basePath,
   onChange,
+  resetParams,
   onSubmit,
 }: SearchInputProps) => {
   const router = useRouter();
@@ -56,6 +57,9 @@ const SearchInput = ({
           : new URLSearchParams();
       if (next) params.set(paramKey, next);
       else params.delete(paramKey);
+
+      resetParams?.forEach((key) => params.delete(key)); // use to delet params(like on compare page delete toure_id on search is empty or change)
+
       params.delete("page"); // a new search starts at page 1
 
       const query = params.toString();
@@ -78,7 +82,10 @@ const SearchInput = ({
       }}
       className="flex flex-1 items-center gap-2 rounded-xl border border-app-primary/30 bg-white px-3 py-2.5 focus-within:border-app-primary"
     >
-      <Search className="h-4 w-4 shrink-0 text-app-primary" aria-hidden="true" />
+      <Search
+        className="h-4 w-4 shrink-0 text-app-primary"
+        aria-hidden="true"
+      />
 
       <input
         type="text"

@@ -1,7 +1,7 @@
 "use client";
 
 // import { useState } from "react";
-import { ArrowLeft,  } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import SearchInput from "@/components/shared/SearchInput";
 
 type CarsToolbarProps = {
@@ -27,13 +27,17 @@ export default function CarsToolbar({
           <ArrowLeft className="size-4" />
         </button>
 
+        {/* <SearchBar
+          value={search}
+          onChange={onSearchChange}
+          placeholder="Search ..."
+        /> */}
         <SearchInput
           placeholder="Search cars or brands..."
           paramKey="search"
           defaultValue={search}
           onChange={onSearchChange}
         />
-
       </div>
 
       {/* {showFilters && (

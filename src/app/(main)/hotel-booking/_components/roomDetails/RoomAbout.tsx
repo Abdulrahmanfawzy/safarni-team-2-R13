@@ -1,14 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Bath, Maximize, Camera, Bed } from "lucide-react";
+import { About } from "@/types/hotel.type";
+import { Bath, Maximize, Bed } from "lucide-react";
 import { useState } from "react";
 
-const RoomAbout = () => {
+const RoomAbout = ({ about }: { about: About }) => {
   const [expanded, setExpanded] = useState(false);
-  const [limit, setLimit] = useState(100);
+  const [limit, setLimit] = useState(150);
 
-  const description =
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas quo commodi, optio ratione saepe Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi non natus autem reiciendis cum dignissimos minima dolorum optio mollitia, rerum quia quas amet aliquam sapiente aperiam. Quasi ea tenetur ullam..";
+  const description = about.description;
 
   const shortDescription =
     description.length > limit
@@ -21,17 +20,23 @@ const RoomAbout = () => {
       <div className="grid grid-cols-3 gap-3">
         <div className="flex items-center gap-2">
           <Bed className="size-7 shrink-0 text-blue-500" strokeWidth={2} />
-          <span className="text-sm text-gray-900 sm:text-lg">3 Beds</span>
+          <span className="text-sm text-gray-900 sm:text-lg">
+            {about.beds_count} Beds
+          </span>
         </div>
 
         <div className="flex items-center gap-2">
           <Bath className="size-7 shrink-0 text-blue-500" strokeWidth={2} />
-          <span className="text-sm text-gray-900 sm:text-lg">2 Bath</span>
+          <span className="text-sm text-gray-900 sm:text-lg">
+            {about.baths_count} Bath
+          </span>
         </div>
 
         <div className="flex items-center gap-2">
           <Maximize className="size-7 shrink-0 text-blue-500" strokeWidth={2} />
-          <span className="text-sm text-gray-900 sm:text-lg">1,848 Sqrt</span>
+          <span className="text-sm text-gray-900 sm:text-lg">
+            {about.area_sqft} Sqrt
+          </span>
         </div>
       </div>
 

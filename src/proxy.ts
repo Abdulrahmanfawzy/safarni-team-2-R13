@@ -42,6 +42,7 @@ export const config = {
     "/profile/:path*",
     "/flight-booking/:path*",
     "/car-booking/:path*",
+    "/hotel-booking/:hotelId/:roomId/book-room",
 
     // auth routes
     "/login/:path*",

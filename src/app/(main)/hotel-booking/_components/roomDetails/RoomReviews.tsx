@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import AddReview from "../AddReview";
+import { Reviews } from "@/types/hotel.type";
 
 type Review = {
   id: number;
@@ -50,7 +51,7 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
-const RoomReviews = () => {
+const RoomReviews = ({ reviews }: { reviews: Reviews }) => {
   return (
     <section className="space-y-5">
       {/* Heading */}
@@ -60,7 +61,7 @@ const RoomReviews = () => {
         </h2>
 
         {/* Add Review Dialog */}
-        <div>
+        {/* <div>
           <Dialog>
             <DialogTrigger
               render={
@@ -76,37 +77,48 @@ const RoomReviews = () => {
             />
             <AddReview />
           </Dialog>
-        </div>
+        </div> */}
       </div>
 
-      {reviews.map((review) => (
-        <article key={review.id} className="space-y-2">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <Avatar className="size-12 sm:size-14">
-                <AvatarImage src={review.avatar} alt={review.name} />
-                <AvatarFallback>
-                  {review.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <h3 className="text-base font-medium text-gray-900 sm:text-xl">
-                {review.name}
-              </h3>
+      {reviews.items.length > 0 ? (
+        reviews.items.map((review) => (
+          <article key={review?.id} className="space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <Avatar className="size-12 sm:size-14">
+                  <AvatarImage src={review.avatar} alt={review.name} />
+                  <AvatarFallback>
+                    {review.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
+                <h3 className="text-base font-medium text-gray-900 sm:text-xl">
+                  {review.name}
+                </h3>
+              </div>
+
+              <span className="text-sm text-gray-600 sm:text-lg">
+                {review.date}
+              </span>
             </div>
 
-            <span className="text-sm text-gray-600 sm:text-lg">
-              {review.date}
-            </span>
-          </div>
+            <StarRating rating={reviews.average_rating} />
 
-          <StarRating rating={review.rating} />
-
-          <p className="text-base text-gray-800 sm:text-xl">{review.comment}</p>
-        </article>
-      ))}
+            <p className="text-base text-gray-800 sm:text-xl">
+              {review.comment}
+            </p>
+          </article>
+        ))
+      ) : (
+        <div
+          role="status"
+          className="flex items-center justify-center text-center text-base text-gray-600 sm:text-lg h-15"
+        >
+          No reviews yet. Be the first to review this room.
+        </div>
+      )}
     </section>
   );
 };

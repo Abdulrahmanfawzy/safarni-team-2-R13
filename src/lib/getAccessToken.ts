@@ -1,16 +1,10 @@
 "use server";
-import { decode } from "next-auth/jwt";
-import { cookies } from "next/headers";
+import { nextAuthOption } from "@/config/next-auth/nextAuthOption";
+import { getServerSession } from "next-auth";
 
 // use it if you want send token with API request
 export const getAccessToken = async () => {
-  const cookie = await cookies();
-  const nextAuthToken = cookie.get("next-auth.session-token")?.value;
+  const session = await getServerSession(nextAuthOption);
 
-  const token = await decode({
-    token: nextAuthToken,
-    secret: process.env.NEXTAUTH_SECRET!,
-  });
-
-  return token?.accessToken;
+  return session?.token;
 };
