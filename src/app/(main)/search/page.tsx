@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BackButton } from "@/components/shared/BackButton";
 import TourCard from "@/components/shared/TourCard";
 import SearchFilterPanel from "@/components/search/SearchFilterPanel";
-// import { searchTours, toTour, type TourItem } from "@/api/tours";
+import { searchTours, toTour, type TourItem } from "@/api/tours";
 import { PRICE_MAX, PRICE_MIN } from "@/constants/tours";
 import type { AdventureStyle, SortKey } from "@/constants/tours";
 import { filterTours } from "@/lib/filter-tours";
