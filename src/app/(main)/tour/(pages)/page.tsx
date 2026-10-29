@@ -1,4 +1,7 @@
+import { Suspense } from "react";
+
 import TourListing from "../_components/TourListing";
+import TourListingSkeleton from "@/components/skeletons/TourListingSkeleton";
 
 export const metadata = {
   title: "Tours | Safarni",
@@ -6,5 +9,9 @@ export const metadata = {
 };
 
 export default function TourPage() {
-  return <TourListing />;
+  return (
+    <Suspense fallback={<TourListingSkeleton />}>
+      <TourListing />
+    </Suspense>
+  );
 }
