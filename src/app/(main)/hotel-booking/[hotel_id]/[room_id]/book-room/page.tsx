@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import DatePicker from "../../../_components/roomDetails/DatePicker";
+import { useParams } from "next/navigation";
 
 const CHECK_IN = [
   { id: "in-1", weekday: "Today", label: "4 Oct" },
@@ -19,6 +20,8 @@ const CHECK_OUT = [
 ];
 
 export default function BookHotel() {
+  const { hotel_id, room_id } = useParams();
+
   return (
     <form className="flex w-full  flex-col gap-3 bg-white">
       <div className="flex items-center justify-between">

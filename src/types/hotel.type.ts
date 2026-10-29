@@ -1,3 +1,8 @@
+export interface GetRecommendProps {
+  search: string | null;
+  sections: "recommended" | null;
+}
+
 export interface RecommendationHotelsResponse {
   data: Hotel[];
 }
@@ -5,6 +10,13 @@ export interface RecommendationHotelsResponse {
 export interface AvailableRoomsResponse {
   rooms: Room[];
   hotel: Hotel;
+}
+export interface RoomDetailsResponse {
+  id: number;
+  header: Header;
+  about: About;
+  gallery: Gallery;
+  reviews: Reviews;
 }
 
 export interface Hotel {
@@ -20,11 +32,6 @@ export interface Hotel {
   cover_photo: string;
 }
 
-export interface GetRecommendProps {
-  search: string | null;
-  sections: "recommended" | null;
-}
-
 export interface Room {
   id: number;
   room_name: string;
@@ -38,4 +45,36 @@ export interface Room {
   is_refundable: boolean;
   is_favorite: boolean;
   thumbnail_url: string;
+}
+
+export interface About {
+  beds_count: number;
+  baths_count: number;
+  area_sqft: number;
+  max_guests: number;
+  is_refundable: boolean;
+  description: string;
+}
+
+export interface Gallery {
+  total_count: number;
+  photos: string[];
+}
+
+export interface Header {
+  name: string;
+  hotel_name: string;
+  address: string;
+  rating: number;
+  reviews_count: number;
+  discount_badge: string;
+  price_per_night: number;
+  discount_percentage: number;
+  final_price_per_night: number;
+}
+
+export interface Reviews {
+  average_rating: number;
+  total_count: number;
+  items: unknown[];
 }

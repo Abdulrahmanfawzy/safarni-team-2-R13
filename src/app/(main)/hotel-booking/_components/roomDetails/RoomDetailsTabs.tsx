@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RoomAbout from "./RoomAbout";
 import RoomGallery from "./RoomGallery";
 import RoomReviews from "./RoomReviews";
+import { RoomDetailsResponse } from "@/types/hotel.type";
 
 const tabs = [
   { value: "about", label: "About" },
@@ -9,22 +10,12 @@ const tabs = [
   { value: "review", label: "Review" },
 ];
 
-const tabsContent = [
-  {
-    value: "about",
-    content: <RoomAbout />,
-  },
-  {
-    value: "gallery",
-    content: <RoomGallery />,
-  },
-  {
-    value: "review",
-    content: <RoomReviews />,
-  },
-];
-
-const RoomDetailsTabs = () => {
+const RoomDetailsTabs = ({ room }: { room: RoomDetailsResponse }) => {
+  const tabsContent = [
+    { value: "about", content: <RoomAbout about={room.about} /> },
+    { value: "gallery", content: <RoomGallery gallery={room.gallery} /> },
+    { value: "review", content: <RoomReviews reviews={room.reviews} /> },
+  ];
   return (
     <Tabs defaultValue="about" className="w-full">
       <TabsList className="grid h-auto w-full grid-cols-3 rounded-none bg-transparent">
