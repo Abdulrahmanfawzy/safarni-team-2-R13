@@ -32,10 +32,10 @@ export const nextAuthOption: NextAuthOptions = {
         const data = response.data;
 
         return {
-          id: String(data.user.id),
-          email: data.user.email,
-          name: data.user.name,
-          accessToken: data.token,
+          id: String(data?.user.id),
+          email: data?.user.email,
+          name: data?.user.name,
+          accessToken: data?.token,
         };
       },
     }),
@@ -67,10 +67,10 @@ export const nextAuthOption: NextAuthOptions = {
         const data = response.data;
 
         return {
-          id: String(data.user.id),
-          email: data.user.email,
-          name: data.user.name,
-          accessToken: data.token,
+          id: String(data?.user.id),
+          email: data?.user.email,
+          name: data?.user.name,
+          accessToken: data?.token,
         };
       },
     }),

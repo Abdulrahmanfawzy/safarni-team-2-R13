@@ -33,7 +33,7 @@ const RoomLayout = async ({
                   <Gallery images={payload?.data?.gallery?.photos} />
                 </div>
 
-                <div className="flex flex-col gap-7 md:px-8">
+                <div className="flex md:max-h-165 md:h-auto overflow-y-scroll flex-col gap-7 md:px-8">
                   <div className="flex justify-between items-center">
                     <Badge>{header?.discount_badge}</Badge>
                     <p className="flex items-center gap-1">

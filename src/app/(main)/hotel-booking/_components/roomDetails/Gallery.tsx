@@ -19,7 +19,7 @@ const Gallery = ({ images, alt = "Property" }: GalleryProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
 
   return (
-    <div className="relative h-115 md:h-165 w-full overflow-hidden rounded-xl bg-gray-100  ">
+    <div className="relative  h-115 md:h-165 w-full overflow-hidden rounded-xl bg-gray-100  ">
       {/* Main Gallery */}
       <Swiper
         spaceBetween={10}

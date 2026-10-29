@@ -20,7 +20,10 @@ export async function getRecommendationHotels({
     const response = await fetch(`${process.env.API}/hotels${param}`);
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(`Failed to fetch hotels: ${data.message}`);
+      const errors = data.errors
+        ? Object.values(data.errors).flat().join("\n")
+        : null;
+      throw new Error(`Failed to fetch hotels: ${errors || data.message}`);
     }
 
     console.log("data from server", data);
@@ -46,7 +49,12 @@ export async function getAvailableRooms(
     );
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(`Failed to fetch hotels Rooms: ${data.message}`);
+      const errors = data.errors
+        ? Object.values(data.errors).flat().join("\n")
+        : null;
+      throw new Error(
+        `Failed to fetch hotels Rooms: ${errors || data.message}`,
+      );
     }
 
     return data;
@@ -71,7 +79,12 @@ export const getRoomDetails = cache(
       );
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(`Failed to fetch Rooms Details: ${data.message}`);
+        const errors = data.errors
+          ? Object.values(data.errors).flat().join("\n")
+          : null;
+        throw new Error(
+          `Failed to fetch Rooms Details: ${errors || data.message}`,
+        );
       }
 
       return data;
