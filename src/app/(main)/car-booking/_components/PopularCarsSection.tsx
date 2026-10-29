@@ -10,7 +10,7 @@ export default function PopularCarsSection({ cars }: PopularCarsSectionProps) {
     <section aria-labelledby="popular-cars-heading" className="mt-4">
       <h2
         id="popular-cars-heading"
-        className="mb-2.5 text-[13px] font-medium text-slate-800"
+        className="mb-2.5 text-[13px] md:text-lg font-medium text-slate-800"
       >
         popular Cars
       </h2>
