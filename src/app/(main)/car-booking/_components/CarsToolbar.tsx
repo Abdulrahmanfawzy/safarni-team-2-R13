@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowLeft, SlidersHorizontal } from "lucide-react";
-import SearchBar from "@/components/shared/SearchBar";
+// import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import SearchInput from "@/components/shared/SearchInput";
 
 type CarsToolbarProps = {
   search: string;
@@ -13,7 +13,7 @@ export default function CarsToolbar({
   search,
   onSearchChange,
 }: CarsToolbarProps) {
-  const [showFilters, setShowFilters] = useState(false);
+  // const [showFilters, setShowFilters] = useState(false);
 
   return (
     <div className="mb-4">
@@ -32,24 +32,22 @@ export default function CarsToolbar({
           onChange={onSearchChange}
           placeholder="Search ..."
         /> */}
-
-        <button
-          type="button"
-          aria-label="Toggle filters"
-          aria-expanded={showFilters}
-          onClick={() => setShowFilters((current) => !current)}
-          className="flex size-8 shrink-0 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100"
-        >
-          <SlidersHorizontal className="size-4" />
-        </button>
+        <SearchInput
+          placeholder="Search cars or brands..."
+          paramKey="search"
+          defaultValue={search}
+          onChange={onSearchChange}
+        />
       </div>
 
-      {showFilters && (
+      {/* {showFilters && (
         <div className="mt-3 rounded-md border border-slate-200 bg-white p-3 text-xs text-slate-600">
           <p className="font-medium text-slate-900">Quick filters</p>
-          <p className="mt-1">Search by car model using the search field.</p>
+          <p className="mt-1">
+            Search by car model or brand, or select a brand below.
+          </p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

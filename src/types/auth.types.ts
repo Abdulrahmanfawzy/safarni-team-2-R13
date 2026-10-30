@@ -6,7 +6,24 @@ import {
   verifyOtpSchema,
 } from "@/schemas/auth.schemas";
 import { z } from "zod";
+import "next-auth";
+import "next-auth/jwt";
 
+declare module "next-auth" {
+  interface User {
+    accessToken?: string;
+  }
+
+  interface Session {
+    token?: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string;
+  }
+}
 // login type from  zod schema
 export type LoginPayload = z.infer<typeof loginSchema>;
 

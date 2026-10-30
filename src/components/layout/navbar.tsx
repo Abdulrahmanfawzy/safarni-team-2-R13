@@ -5,11 +5,11 @@ import Link from "next/link";
 
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import logo from "@/assets/images/logo.png";
 import { NAV_LINKS } from "@/constants/home";
 import SearchDialog from "@/components/search/SearchDialog";
- 
+
 const PROTECTED_ROUTES = ["/profile", "/flight-booking", "/car-booking"];
 
 function Avatar({
@@ -20,6 +20,11 @@ function Avatar({
   name?: string | null;
 }) {
   const [imgError, setImgError] = useState(false);
+
+  // reset the error state when the image URL changes
+  useEffect(() => {
+    setImgError(false);
+  }, [image]);
 
   const initials = (name ?? "").trim().slice(0, 2).toUpperCase() || "??";
 
@@ -56,14 +61,14 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    await signOut({ redirect: false }); 
+    await signOut({ redirect: false });
 
     const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r));
     if (isProtected) {
-      router.push("/"); 
+      router.push("/");
     }
 
-    router.refresh(); 
+    router.refresh();
   };
 
   return (
