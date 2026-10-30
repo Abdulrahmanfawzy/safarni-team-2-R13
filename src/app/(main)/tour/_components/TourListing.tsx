@@ -15,8 +15,8 @@ export default async function TourListing({ searchParams }: TourListingProps) {
       {(payload) => (
         <TourListingClient
           tours={payload.items.map(mapTourToUi)}
-          // currentPage={payload.meta.currentPage}
-          // lastPage={payload.meta.lastPage}
+          currentPage={payload.meta.currentPage}
+          lastPage={payload.meta.lastPage}
         />
       )}
     </ServerDataFetcher>
