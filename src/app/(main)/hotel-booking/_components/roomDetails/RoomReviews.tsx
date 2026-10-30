@@ -57,7 +57,7 @@ const RoomReviews = ({ reviews }: { reviews: Reviews }) => {
       </div>
 
       {reviews.items.length > 0 ? (
-        (reviews.items as Review[]).map((review) => (
+        reviews.items.map((review) => (
           <article key={review?.id} className="space-y-2">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">

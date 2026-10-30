@@ -12,8 +12,8 @@ export default function TourListing({ page }: TourListingProps) {
       {(payload) => (
         <TourListingClient
           tours={payload.items.map(mapTourToUi)}
-          currentPage={payload.meta.currentPage}
-          lastPage={payload.meta.lastPage}
+          // currentPage={payload.meta.currentPage}
+          // lastPage={payload.meta.lastPage}
         />
       )}
     </ServerDataFetcher>
