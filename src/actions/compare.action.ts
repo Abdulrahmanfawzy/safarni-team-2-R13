@@ -1,5 +1,6 @@
+"use server";
 import { apiClient } from "@/lib/axios";
-import { SelectedTourResponse } from "@/types/compare.type";
+import { CompareResponse, SelectedTourResponse } from "@/types/compare.type";
 import { ApiResponse } from "@/types/global.type";
 
 export const selectedTours = async (
@@ -24,17 +25,27 @@ export const selectedTours = async (
   }
 };
 
-export const toursCheckout = async (
-  tour_id: string,
-  full_name: string,
-  email: string,
-): Promise<ApiResponse<SelectedTourResponse>> => {
+export const CompareToursCheckout = async ({
+  tour_id,
+  full_name,
+  email,
+}: {
+  tour_id: string;
+  full_name: string;
+  email: string;
+}): Promise<ApiResponse<CompareResponse>> => {
   try {
     const res = await apiClient.post(
       `v1/tour-checkout/tours/${tour_id}/checkout`,
       {
         full_name,
         email,
+        payment_method: "visa",
+      },
+      {
+        headers: {
+          "Idempotency-Key": `Idempotency-Key-${tour_id}`,
+        },
       },
     );
 

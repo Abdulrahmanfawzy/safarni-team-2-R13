@@ -12,7 +12,10 @@ const CompareCard = ({
 }: {
   item: CompareTourResponse["items"][number];
 }) => {
-  const { allParam, setParam, isPending } = useSetParams("tour_id");
+  const { allParam, setParam, isPending } = useSetParams(
+    "tour_id",
+    "tour_plane",
+  );
   const id = String(item.id);
 
   return (
