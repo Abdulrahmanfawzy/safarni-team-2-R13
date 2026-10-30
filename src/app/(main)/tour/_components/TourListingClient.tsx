@@ -1,18 +1,27 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import SearchInput from "@/components/shared/SearchInput";
 import TourCard from "@/components/shared/TourCard";
 import type { Tour } from "@/types/tour";
 
+const TOURS_PATH = "/tour";
+
 interface TourListingClientProps {
   tours: Tour[];
+  currentPage: number;
+  lastPage: number;
 }
 
-export default function TourListingClient({ tours }: TourListingClientProps) {
+export default function TourListingClient({
+  tours,
+  currentPage,
+  lastPage,
+}: TourListingClientProps) {
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,25 +29,24 @@ export default function TourListingClient({ tours }: TourListingClientProps) {
 
   const filteredTours = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-
-    if (!query) {
-      return tours;
-    }
-
+    if (!query) return tours;
     return tours.filter((tour) => tour.title.toLowerCase().includes(query));
   }, [tours, searchQuery]);
 
   function toggleFavorite(tourId: number) {
-    setFavorites((currentFavorites) =>
-      currentFavorites.includes(tourId)
-        ? currentFavorites.filter((id) => id !== tourId)
-        : [...currentFavorites, tourId],
+    setFavorites((current) =>
+      current.includes(tourId)
+        ? current.filter((id) => id !== tourId)
+        : [...current, tourId],
     );
   }
 
   function handleTourClick(tour: Tour) {
-    router.push(`/destination/${encodeURIComponent(tour.slug)}`);
+    router.push(`${TOURS_PATH}/${tour.id}`);
   }
+
+  const hasPrev = currentPage > 1;
+  const hasNext = currentPage < lastPage;
 
   return (
     <main className="container mx-auto px-4 py-6">
@@ -84,6 +92,47 @@ export default function TourListingClient({ tours }: TourListingClientProps) {
             />
           ))}
         </div>
+      )}
+
+      {lastPage > 1 && (
+        <nav
+          aria-label="Tours pagination"
+          className="mt-8 flex items-center justify-center gap-4"
+        >
+          {hasPrev ? (
+            <Link
+              href={`${TOURS_PATH}?page=${currentPage - 1}`}
+              className="inline-flex items-center gap-1 rounded-lg border px-4 py-2"
+            >
+              <ChevronLeft size={18} aria-hidden="true" />
+              Previous
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-lg border px-4 py-2 opacity-40">
+              <ChevronLeft size={18} aria-hidden="true" />
+              Previous
+            </span>
+          )}
+
+          <span className="text-sm">
+            Page {currentPage} of {lastPage}
+          </span>
+
+          {hasNext ? (
+            <Link
+              href={`${TOURS_PATH}?page=${currentPage + 1}`}
+              className="inline-flex items-center gap-1 rounded-lg border px-4 py-2"
+            >
+              Next
+              <ChevronRight size={18} aria-hidden="true" />
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-lg border px-4 py-2 opacity-40">
+              Next
+              <ChevronRight size={18} aria-hidden="true" />
+            </span>
+          )}
+        </nav>
       )}
     </main>
   );

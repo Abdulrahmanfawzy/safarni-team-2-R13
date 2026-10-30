@@ -35,3 +35,56 @@ export interface Tour {
   reviewsCount: number;
   adventureStyle: string;
 }
+
+export interface TourLocation {
+  city: string;
+  country: string;
+}
+
+export interface TourSchedule {
+  id: number;
+  date: string;
+  end_date: string;
+  available_slots: number;
+  capacity: number;
+}
+
+export interface TourActivity {
+  id: number;
+  title: string;
+  image: string | null;
+}
+
+export interface TourImage {
+  id: number;
+  url: string;
+}
+
+export interface TourReview {
+  id: number;
+  author: string;
+  avatar: string | null;
+  rating: number;
+  comment: string;
+  created_at: string;
+}
+
+export interface TourDetailsApiItem extends TourApiItem {
+  location: TourLocation | null;
+  best_time_to_visit: string | null;
+  schedules: TourSchedule[];
+  top_activities: TourActivity[];
+  gallery_count: number;
+  images: TourImage[];
+  reviews: TourReview[];
+}
+
+export interface TourDetails extends Tour {
+  location: string;
+  bestTimeToVisit: string | null;
+  schedules: TourSchedule[];
+  topActivities: TourActivity[];
+  galleryCount: number;
+  gallery: string[];
+  reviews: TourReview[];
+}

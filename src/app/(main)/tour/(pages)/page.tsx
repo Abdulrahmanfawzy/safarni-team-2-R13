@@ -12,13 +12,10 @@ interface TourPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-export default async function TourPage({ searchParams }: TourPageProps) {
-  const { page } = await searchParams;
-  const currentPage = Math.max(1, Number(page) || 1);
-
+export default function TourPage({ searchParams }: TourPageProps) {
   return (
-    <Suspense key={currentPage} fallback={<TourListingSkeleton />}>
-      <TourListing page={currentPage} />
+    <Suspense fallback={<TourListingSkeleton />}>
+      <TourListing searchParams={searchParams} />
     </Suspense>
   );
 }
