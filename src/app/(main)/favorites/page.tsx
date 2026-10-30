@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, Star, Heart, Clock } from 'lucide-react';
+import { ChevronLeft, Star, Heart } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { getFavoritesAction } from '@/actions/favorite.actions';
-import FavoriteItemClient from '@/components/favorite-item-client'; // أو نضعها كـ Client Component داخلي
+
 
 export default async function FavoritePage() {
   // 1. جلب التوكن من الـ Cookies
@@ -12,7 +12,14 @@ export default async function FavoritePage() {
 
   // 2. جلب المفضلة من السيرفر عبر الـ Action
   const res = await getFavoritesAction(token);
-  const favorites = res.success && res.favorites ? res.favorites : [];
+  const favorites = res.success && res.data
+    ? [
+        ...(res.data.hotels || []),
+        ...(res.data.tours || []),
+        ...(res.data.rooms || []),
+        ...(res.data.cars || []),
+      ]
+    : [];
 
   return (
     <div className="min-h-screen text-slate-800 font-sans mt-5 px-4 sm:px-6">
