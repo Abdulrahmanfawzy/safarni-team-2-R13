@@ -30,6 +30,8 @@ export interface Tour {
   reviews: number;
   days?: number;
   hours?: number;
+  durationText?: string;
+  slug?: string;
   price: number;
   oldPrice?: number;
   pickup: boolean;
