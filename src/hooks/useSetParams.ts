@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 
-export const useSetParams = (paramKey: string) => {
+export const useSetParams = (paramKey: string, relatedParamKey?: string) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -17,11 +17,17 @@ export const useSetParams = (paramKey: string) => {
       allParam
         .filter((selectedId) => selectedId !== id)
         .forEach((selectedId) => params.append(paramKey, selectedId));
-    } else if (mode == "set") {
+
+      // Remove related param if it belongs to the removed ID
+      if (params.get(relatedParamKey ?? "") === id) {
+        params.delete(relatedParamKey!);
+      }
+    } else if (mode === "set") {
       params.set(paramKey, id);
     } else {
       params.append(paramKey, id);
     }
+
     startTransition(() => {
       router.replace(`?${params.toString()}`, {
         scroll: false,

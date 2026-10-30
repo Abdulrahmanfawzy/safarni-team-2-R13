@@ -1,10 +1,12 @@
 import { BackButton } from "@/components/shared/BackButton";
 import SearchInput from "@/components/shared/SearchInput";
 import { Suspense } from "react";
+
 import {
   CompareCardSkeleton,
   ComparePriceSkeleton,
 } from "@/components/skeletons/CompareSkeleton";
+
 import CompareCardList from "./_components/CompareCardList";
 import ComparePriceCardList from "./_components/ComparePriceCardList";
 import { getToursSearch } from "@/api/compare.api";
@@ -24,6 +26,12 @@ const Page = async ({
     ? params.tour_id
     : params.tour_id
       ? [params.tour_id]
+      : [];
+
+  const tour_plane = Array.isArray(params.tour_plane)
+    ? params.tour_plane
+    : params.tour_plane
+      ? [params.tour_plane]
       : [];
 
   return (
@@ -85,6 +93,7 @@ const Page = async ({
                 <ServerDataFetcher fetcherFn={() => selectedTours(tourIds)}>
                   {(payload) => (
                     <ComparePriceCardList
+                      tour_plane={tour_plane}
                       selctedTours={payload.data?.items ?? []}
                     />
                   )}
