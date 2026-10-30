@@ -12,7 +12,10 @@ const tabs = [
 
 const RoomDetailsTabs = ({ room }: { room: RoomDetailsResponse }) => {
   const tabsContent = [
-    { value: "about", content: <RoomAbout about={room.about} /> },
+    {
+      value: "about",
+      content: <RoomAbout about={room.about} />,
+    },
     { value: "gallery", content: <RoomGallery gallery={room.gallery} /> },
     { value: "review", content: <RoomReviews reviews={room.reviews} /> },
   ];
@@ -27,7 +30,11 @@ const RoomDetailsTabs = ({ room }: { room: RoomDetailsResponse }) => {
       </TabsList>
 
       {tabsContent.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value} className="mt-6">
+        <TabsContent
+          key={tab.value}
+          value={tab.value}
+          className="mt-6  max-h-100 overflow-y-auto h-full"
+        >
           {tab.content}
         </TabsContent>
       ))}

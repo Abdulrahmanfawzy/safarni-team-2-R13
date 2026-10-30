@@ -8,10 +8,17 @@ export const metadata = {
   description: "Explore tours and destinations.",
 };
 
-export default function TourPage() {
+interface TourPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default async function TourPage({ searchParams }: TourPageProps) {
+  const { page } = await searchParams;
+  const currentPage = Math.max(1, Number(page) || 1);
+
   return (
-    <Suspense fallback={<TourListingSkeleton />}>
-      <TourListing />
+    <Suspense key={currentPage} fallback={<TourListingSkeleton />}>
+      <TourListing page={currentPage} />
     </Suspense>
   );
 }

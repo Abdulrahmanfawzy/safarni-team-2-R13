@@ -93,7 +93,6 @@ const VerifyOTPForm = () => {
             type="button"
             variant={"link"}
             className="text-app-primary px-0"
-            onClick={() => console.log("Resend")}
           >
             send again
           </Button>

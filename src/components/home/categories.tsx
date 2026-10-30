@@ -12,9 +12,24 @@ interface CategoryItem {
   href: string;
 }
 
+// Explicit routes. Keys are lowercase category names or slugs from the API.
+const ROUTE_OVERRIDES: Record<string, string> = {
+  tour: "/tour",
+  tours: "/tour",
+};
+
 // Reuse the routes already defined in constants/home.ts
 const staticHref = (name: string) =>
   CATEGORIES.find((c) => c.label.toLowerCase() === name.toLowerCase())?.href;
+
+function resolveHref(name: string, slug: string): string {
+  return (
+    ROUTE_OVERRIDES[slug.toLowerCase()] ??
+    ROUTE_OVERRIDES[name.toLowerCase()] ??
+    staticHref(name) ??
+    `/${slug}`
+  );
+}
 
 async function loadCategories(): Promise<CategoryItem[]> {
   try {
@@ -23,7 +38,7 @@ async function loadCategories(): Promise<CategoryItem[]> {
       key: c.id,
       label: c.name,
       image: c.icon_url,
-      href: staticHref(c.name) ?? `/${c.slug}`,
+      href: resolveHref(c.name, c.slug),
     }));
   } catch {
     // API down: fall back to your static list
@@ -31,7 +46,7 @@ async function loadCategories(): Promise<CategoryItem[]> {
       key: c.label,
       label: c.label,
       image: c.image,
-      href: c.href,
+      href: ROUTE_OVERRIDES[c.label.toLowerCase()] ?? c.href,
     }));
   }
 }
