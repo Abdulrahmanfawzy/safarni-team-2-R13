@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Thumbs } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -17,6 +17,10 @@ interface GalleryProps {
 
 const Gallery = ({ images, alt = "Property" }: GalleryProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+
+  useEffect(() => {
+    return () => setThumbsSwiper(null);
+  }, []);
 
   return (
     <div className="relative  h-115 md:h-165 w-full overflow-hidden rounded-xl bg-gray-100  ">

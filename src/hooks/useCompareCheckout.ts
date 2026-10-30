@@ -8,6 +8,7 @@ const useCompareCheckout = () =>
       tour_id: string;
       full_name: string;
       email: string;
+      team: 1 | 2;
     }) => CompareToursCheckout(payload),
   });
 

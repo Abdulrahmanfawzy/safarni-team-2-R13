@@ -25,14 +25,21 @@ export const selectedTours = async (
   }
 };
 
+const REDIRECT_URLS = {
+  success: "https://safarni-team-2-r13.vercel.app/payment-success",
+  failed: "https://safarni-team-2-r13.vercel.app/payment-failed",
+};
+
 export const CompareToursCheckout = async ({
   tour_id,
   full_name,
   email,
+  team,
 }: {
   tour_id: string;
   full_name: string;
   email: string;
+  team: 1 | 2;
 }): Promise<ApiResponse<CompareResponse>> => {
   try {
     const res = await apiClient.post(
@@ -41,6 +48,10 @@ export const CompareToursCheckout = async ({
         full_name,
         email,
         payment_method: "visa",
+        team,
+        // لو الـ backend بيحتاج الـ redirect من الـ frontend:
+        success_url: REDIRECT_URLS.success,
+        failed_url: REDIRECT_URLS.failed,
       },
       {
         headers: {
