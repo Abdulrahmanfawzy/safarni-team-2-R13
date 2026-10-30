@@ -43,7 +43,11 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  serverExternalPackages: ["@react-pdf/renderer"],
   turbopack: {
+    resolveAlias: {
+      "media-engine": "./node_modules/media-engine/dist/index.js",
+    },
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
@@ -54,3 +58,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
