@@ -29,6 +29,7 @@ export const CAR_BRANDS: CarBrand[] = [
 export const POPULAR_CARS: Car[] = [
   {
     id: "mercedes-s500",
+    brand: "Mercedes",
     name: "S 500 Sedan",
     transmission: "Automatic",
     seats: 5,
@@ -39,6 +40,7 @@ export const POPULAR_CARS: Car[] = [
   },
   {
     id: "mercedes-gla250",
+    brand: "Mercedes",
     name: "GLA 250 SUV",
     transmission: "Automatic",
     seats: 7,
@@ -49,6 +51,7 @@ export const POPULAR_CARS: Car[] = [
   },
   {
     id: "volvo-xc40",
+    brand: "Volvo",
     name: "Volvo XC40",
     transmission: "Automatic",
     seats: 5,
@@ -59,6 +62,7 @@ export const POPULAR_CARS: Car[] = [
   },
   {
     id: "mazda-cx30",
+    brand: "Mazda",
     name: "Mazda CX-30",
     transmission: "Automatic",
     seats: 5,

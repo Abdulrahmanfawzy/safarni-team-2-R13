@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import logo from "@/assets/images/logo.png";
 import { BackButton } from "@/components/shared/BackButton";
 
@@ -29,7 +29,9 @@ const AuthGroupLayout = ({ children }: AuthGroupLayoutProps) => {
       </div>
 
       {/* Page Content */}
-      {children}
+      <Suspense fallback={null}>
+        {children}
+      </Suspense>
     </div>
   );
 };

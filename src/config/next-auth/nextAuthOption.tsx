@@ -24,7 +24,7 @@ export const nextAuthOption: NextAuthOptions = {
           password: credentials.password,
         });
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
           throw new Error(response.message || "login failed");
         }
 
@@ -64,7 +64,7 @@ export const nextAuthOption: NextAuthOptions = {
           code: credentials.code,
         });
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
           throw new Error(response.message);
         }
 
