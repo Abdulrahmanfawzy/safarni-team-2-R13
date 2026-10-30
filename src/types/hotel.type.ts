@@ -76,5 +76,25 @@ export interface Header {
 export interface Reviews {
   average_rating: number;
   total_count: number;
-  items: unknown[];
+  items: ReviewItem[];
+}
+
+export interface ReviewItem {
+  id: number;
+  user_name: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+  formatted_date: string;
+}
+
+export interface RoomAvailability {
+  room_id: number;
+  booked_ranges: BookedRange[];
+  disabled_dates: string[];
+}
+
+export interface BookedRange {
+  check_in: string;
+  check_out: string;
 }

@@ -40,7 +40,9 @@ const page = async ({
             }
           >
             {(payload) => (
-              <RecomndedSection items={payload?.data?.data ?? []} />
+              <>
+                <RecomndedSection items={payload?.data?.data ?? []} />
+              </>
             )}
           </ServerDataFetcher>
         </Suspense>

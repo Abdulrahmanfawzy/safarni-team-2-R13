@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { BookingRoomPayload, DateOption } from "@/types/bookingRoom.type";
 import { Controller, useForm } from "react-hook-form";
 import { bookingRoomSchema } from "@/schemas/bookingRoom.schema";
@@ -12,21 +12,7 @@ import useBookingRoom from "@/hooks/useBookingRoom";
 import GuestCounter from "@/app/(main)/hotel-booking/_components/GuestCounter";
 import DatePicker from "@/app/(main)/hotel-booking/_components/roomDetails/DatePicker";
 import { toast } from "sonner";
-import { checkoutBookingRoom } from "@/actions/hotel.action";
-
-const checkInOptions: DateOption[] = [
-  { value: "2026-10-29", weekday: "Today", label: "29 Oct" },
-  { value: "2026-10-30", weekday: "Tue", label: "30 Oct" },
-  { value: "2026-11-01", weekday: "Wed", label: "1 Nov" },
-  { value: "2026-11-02", weekday: "Thu", label: "2 Nov" },
-];
-
-const checkOutOptions: DateOption[] = [
-  { value: "2026-11-03", weekday: "Sun", label: "3 Nov" },
-  { value: "2026-11-04", weekday: "Mon", label: "4 Nov" },
-  { value: "2026-11-05", weekday: "Tue", label: "5 Nov" },
-  { value: "2026-11-06", weekday: "Wed", label: "6 Nov" },
-];
+import { useMemo } from "react";
 
 const guests = [
   { name: "adults", label: "Adults", description: "Ages 18 Or Above", min: 1 },
@@ -34,9 +20,48 @@ const guests = [
   { name: "infants", label: "Infants", description: "Under Ages 2", min: 0 },
 ] as const;
 
-export default function BookingRoomForm() {
-  const { room_id, hotel_id } = useParams();
-  const router = useRouter();
+export default function BookingRoomForm({
+  checkOut,
+  checkIn,
+}: {
+  checkOut: string[];
+  checkIn: string[];
+}) {
+  const checkInOptions: DateOption[] = useMemo(
+    () =>
+      checkIn.map((i) => {
+        return {
+          value: i,
+          weekday: new Date(i).toLocaleDateString("eg-en", {
+            weekday: "short",
+          }),
+          label: new Date(i).toLocaleDateString("eg-en", {
+            day: "numeric",
+            month: "short",
+          }),
+        };
+      }),
+    [checkIn],
+  );
+
+  const checkOutOptions: DateOption[] = useMemo(
+    () =>
+      checkOut.map((i) => {
+        return {
+          value: i,
+          weekday: new Date(i).toLocaleDateString("eg-en", {
+            weekday: "short",
+          }),
+          label: new Date(i).toLocaleDateString("eg-en", {
+            day: "numeric",
+            month: "short",
+          }),
+        };
+      }),
+    [checkIn],
+  );
+
+  const { room_id } = useParams();
   // use form for validation
   const { control, handleSubmit, reset } = useForm<BookingRoomPayload>({
     resolver: zodResolver(bookingRoomSchema),
@@ -50,12 +75,10 @@ export default function BookingRoomForm() {
     },
   });
 
-  // api call api hook
+  // call api hook
   const { isPending, mutate } = useBookingRoom();
 
   const onSubmit = async (values: BookingRoomPayload) => {
-    console.log(values);
-
     if (room_id) {
       const payload = {
         room_id: Array.isArray(room_id) ? room_id[0] : room_id,

@@ -1,30 +1,6 @@
-import { Star, SquarePen } from "lucide-react";
+import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import AddReview from "../AddReview";
 import { Reviews } from "@/types/hotel.type";
-
-type Review = {
-  id: number;
-  name: string;
-  avatar?: string;
-  date: string;
-  rating: number;
-  comment: string;
-};
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    name: "Dale Thiel",
-    avatar: "https://i.pravatar.cc/150?img=12",
-    date: "11 months ago",
-    rating: 3.5,
-    comment:
-      "I really enjoyed my stay—the room was clean, the staff were friendly, and everything I needed was nearby.",
-  },
-];
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div
@@ -86,21 +62,21 @@ const RoomReviews = ({ reviews }: { reviews: Reviews }) => {
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <Avatar className="size-12 sm:size-14">
-                  <AvatarImage src={review.avatar} alt={review.name} />
+                  <AvatarImage src={review.avatar} alt={review.user_name} />
                   <AvatarFallback>
-                    {review.name
+                    {review.user_name
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <h3 className="text-base font-medium text-gray-900 sm:text-xl">
-                  {review.name}
+                  {review.user_name}
                 </h3>
               </div>
 
               <span className="text-sm text-gray-600 sm:text-lg">
-                {review.date}
+                {review.formatted_date}
               </span>
             </div>
 
