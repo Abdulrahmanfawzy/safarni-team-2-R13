@@ -81,7 +81,7 @@ const RoomReviews = ({ reviews }: { reviews: Reviews }) => {
       </div>
 
       {reviews.items.length > 0 ? (
-        reviews.items.map((review) => (
+        (reviews.items as Review[]).map((review) => (
           <article key={review?.id} className="space-y-2">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ const RoomReviews = ({ reviews }: { reviews: Reviews }) => {
                   <AvatarFallback>
                     {review.name
                       .split(" ")
-                      .map((n) => n[0])
+                      .map((n: string) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>

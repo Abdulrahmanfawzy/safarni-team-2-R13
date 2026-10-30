@@ -42,7 +42,9 @@ const RegisterForm = () => {
 
         // Redirect user to verify otp nad save search params
         const params = new URLSearchParams(searchParams.toString());
-        params.set("email", data.data.user.email);
+        if (data.data?.user?.email || formValues.email) {
+          params.set("email", data.data?.user?.email || formValues.email);
+        }
         router.push(`/verify-otp?${params.toString()}`);
 
         // reset form
