@@ -11,6 +11,9 @@ const AddReview = () => {
             className="bg-gray-100 rounded-xl w-full resize-none size-40 p-4 placeholder:text-gray-600 placeholder:text-base   focus:outline-none border border-gray-300"
             placeholder="Write your review here..."
           />
+          <div>
+            
+          </div>
         </div>
         <Button className={"w-full text-base"}>Submit Review</Button>
       </DialogContent>

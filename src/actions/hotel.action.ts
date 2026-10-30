@@ -16,12 +16,12 @@ export async function bookingRoom(payload: BookingRoomRequest) {
       `${process.env.API}/hotels/rooms/${payload.room_id}/bookings`,
       {
         method: "POST",
-        body: JSON.stringify({ ...payload.body }),
+        body: JSON.stringify({ ...payload.body, team: 2 }),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           authorization: `bearer ${token}`,
-          "Idempotency-Key": `Idempotency-Key-${payload.room_id}`,
+          "Idempotency-Key": `Idempotency-Key-${payload.room_id}-team-2`,
         },
       },
     );
