@@ -2,8 +2,9 @@
 import { Calendar, ChevronRight, LogOut, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ProfileResponse } from "@/types/profile.type";
+import { signOut } from "next-auth/react";
 
 // nav links
 const navItems = [
@@ -31,7 +32,11 @@ const navItems = [
 
 export default function ProfileSidebar({ user }: { user: ProfileResponse }) {
   const pathname = usePathname();
-
+  const router = useRouter();
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.refresh();
+  };
   return (
     <aside className="w-full md:w-80 shrink-0 space-y-4">
       <div className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center gap-4 shadow-sm">
@@ -89,6 +94,7 @@ export default function ProfileSidebar({ user }: { user: ProfileResponse }) {
 
         <div className="pt-2">
           <button
+            onClick={handleLogout}
             type="button"
             className="w-full flex items-center justify-between p-3.5 hover:bg-red-50/50 transition-colors rounded-xl text-red-500 text-left"
           >
