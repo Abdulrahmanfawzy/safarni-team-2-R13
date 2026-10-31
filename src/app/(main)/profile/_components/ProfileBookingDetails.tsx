@@ -30,7 +30,9 @@ export default function ProfileBookingDetails({
       <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
         <div>
           <dt className="text-slate-400">Booking code</dt>
-          <dd className="font-semibold text-slate-800">{booking.booking_code}</dd>
+          <dd className="font-semibold text-slate-800">
+            {booking.booking_code}
+          </dd>
         </div>
         <div>
           <dt className="text-slate-400">Booking ID</dt>
@@ -72,12 +74,6 @@ export default function ProfileBookingDetails({
           <dt className="text-slate-400">Infants</dt>
           <dd className="font-semibold text-slate-800">{booking.infants}</dd>
         </div>
-        {booking.notes && (
-          <div className="col-span-2">
-            <dt className="text-slate-400">Notes</dt>
-            <dd className="font-semibold text-slate-800">{booking.notes}</dd>
-          </div>
-        )}
       </dl>
     </article>
   );
