@@ -1,43 +1,58 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API;
+import { getAccessToken } from "../lib/getAccessToken";
+import { ApiResponse } from "../types/global.type";
+import { ProfileBooking, ProfileResponse } from "../types/profile.type";
 
-export interface UserProfileData {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string;
-  avatar?: string;
-}
-
-export interface UserBooking {
-  id: number;
-  booking_code: string;
-  title: string;
-  status: string;
-  price: string | number;
-  date: string;
-}
-
-
-export async function getProfileApi(token: string) {
-  const res = await fetch(`${API_URL}/profile`, {
+// profile Info
+export async function getProfileApi(): Promise<ApiResponse<ProfileResponse>> {
+  const token = await getAccessToken();
+  const res = await fetch(`${process.env.API}/profile/show`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
+    next: {
+      revalidate: 60,
+      tags: ["profiel-info"],
+    },
   });
+  const data = await res.json();
 
-  if (!res.ok) throw new Error(`Failed to fetch profile (${res.status})`);
-  return res.json();
+  if (!res.ok) throw new Error(`Failed to fetch profile (${data.message})`);
+
+  return data;
+}
+// profile booking
+export async function getProfileBookingsApi(
+  service_type: "tours" | "hotels" | "flights" | "cars",
+): Promise<ApiResponse<ProfileBooking[]>> {
+  const token = await getAccessToken();
+  const res = await fetch(
+    `${process.env.API}/profile/bookings?service_type=${service_type}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    },
+  );
+  const data = await res.json();
+
+  if (!res.ok)
+    throw new Error(`Failed to fetch profile bookings (${data.mesage})`);
+  return data;
 }
 
-export async function updateProfileApi(token: string, bodyData: Record<string, unknown>) {
-  const res = await fetch(`${API_URL}/profile`, {
+export async function updateProfileApi(bodyData: Record<string, unknown>) {
+  const token = await getAccessToken();
+  const res = await fetch(`${process.env.API}/profile`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(bodyData),
   });
@@ -46,41 +61,33 @@ export async function updateProfileApi(token: string, bodyData: Record<string, u
   return res.json();
 }
 
-
-export async function getProfileBookingsApi(token: string) {
-  const res = await fetch(`${API_URL}/profile/bookings`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) throw new Error(`Failed to fetch bookings (${res.status})`);
-  return res.json();
-}
-
-export async function updateAccountSecurityApi(token: string, securityData: { biometric?: boolean; faceId?: boolean }) {
-  const res = await fetch(`${API_URL}/profile/security`, {
+export async function updateAccountSecurityApi(securityData: {
+  biometric?: boolean;
+  faceId?: boolean;
+}) {
+  const token = await getAccessToken();
+  const res = await fetch(`${process.env.API}/profile/security`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(securityData),
   });
 
-  if (!res.ok) throw new Error(`Failed to update security settings (${res.status})`);
+  if (!res.ok)
+    throw new Error(`Failed to update security settings (${res.status})`);
   return res.json();
 }
 
-export async function deleteAccountApi(token: string) {
-  const res = await fetch(`${API_URL}/profile/account`, {
+export async function deleteAccountApi() {
+  const token = await getAccessToken();
+
+  const res = await fetch(`${process.env.API}/profile/account`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -88,12 +95,13 @@ export async function deleteAccountApi(token: string) {
   return res.json();
 }
 
-export async function updateLanguageApi(token: string, lang: string) {
-  const res = await fetch(`${API_URL}/profile/settings`, {
+export async function updateLanguageApi(lang: string) {
+  const token = await getAccessToken();
+  const res = await fetch(`${process.env.API}/profile/settings`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ language: lang }),
   });
