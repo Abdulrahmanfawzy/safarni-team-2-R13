@@ -4,11 +4,15 @@ import { useMutation } from "@tanstack/react-query";
 const useCompareCheckout = () =>
   useMutation({
     mutationKey: ["checkout", "compare"],
-    mutationFn: (payload: {
+    mutationFn: ({
+      team = 2,
+      ...payload
+    }: {
       tour_id: string;
       full_name: string;
       email: string;
-    }) => CompareToursCheckout(payload),
+      team?: 1 | 2;
+    }) => CompareToursCheckout({ ...payload, team }),
   });
 
 export default useCompareCheckout;

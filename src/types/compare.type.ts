@@ -30,7 +30,11 @@ export interface SelectedTourResponse {
   items: SelectedItem[];
   max_items: number;
 }
-
+export interface CompareCheckoutResponse {
+   
+  payment_url?: string;
+  booking_id?: string;
+}
 interface SelectedItem {
   id: number;
   title: string;

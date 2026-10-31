@@ -3,17 +3,20 @@ import { getTours, mapTourToUi } from "@/api/ToursList";
 import TourListingClient from "./TourListingClient";
 
 interface TourListingProps {
-  page: number;
+  searchParams: Promise<{ page?: string }>;
 }
 
-export default function TourListing({ page }: TourListingProps) {
+export default async function TourListing({ searchParams }: TourListingProps) {
+  const { page } = await searchParams;
+  const currentPage = Math.max(1, Number(page) || 1);
+
   return (
-    <ServerDataFetcher fetcherFn={() => getTours(10, page)}>
+    <ServerDataFetcher fetcherFn={() => getTours(10, currentPage)}>
       {(payload) => (
         <TourListingClient
           tours={payload.items.map(mapTourToUi)}
-          // currentPage={payload.meta.currentPage}
-          // lastPage={payload.meta.lastPage}
+          currentPage={payload.meta.currentPage}
+          lastPage={payload.meta.lastPage}
         />
       )}
     </ServerDataFetcher>
