@@ -20,7 +20,11 @@ interface Pagination {
   per_page: number;
   total: number;
 }
-
+export interface CompareCheckoutResponse {
+  success: boolean;
+  message: string;
+  data?: CompareResponse;
+}
 export interface CompareToursError {
   message: string;
   success: boolean;

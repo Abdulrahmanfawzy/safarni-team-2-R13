@@ -1,9 +1,11 @@
+// src/app/(main)/tour/[id]/page.tsx  (your TourDetailsView file)
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Star } from "lucide-react";
 
 import { getTourById } from "@/api/ToursList";
+import BookingPanel from "@/app/(main)/tour/[id]/_components/BookingPanel";
 
 interface TourDetailsViewProps {
   params: Promise<{ id: string }>;
@@ -198,29 +200,12 @@ export default async function TourDetailsView({
         )}
       </section>
 
-      {/* Price + availability */}
-      <section className="mt-8 flex flex-col gap-4 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-500">Price per person</p>
-          <p className="text-2xl font-semibold">${tour.price.toFixed(2)}</p>
-          {tour.schedules.length > 0 && (
-            <ul className="mt-2 space-y-1 text-sm text-gray-600">
-              {tour.schedules.map((s) => (
-                <li key={s.id}>
-                  {formatDate(s.date)} · {s.available_slots} of {s.capacity}{" "}
-                  spots left
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <button
-          type="button"
-          className="rounded-xl bg-app-primary px-8 py-3 font-medium text-white"
-        >
-          Book now
-        </button>
-      </section>
+      {/* Price + schedules + Book now */}
+      <BookingPanel
+        tourId={id}
+        price={tour.price}
+        schedules={tour.schedules}
+      />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
+
 import { apiClient } from "@/lib/axios";
-import { CompareResponse, SelectedTourResponse } from "@/types/compare.type";
+import { SelectedTourResponse, CompareResponse } from "@/types/compare.type";
 import { ApiResponse } from "@/types/global.type";
 
 export const selectedTours = async (
@@ -12,10 +13,7 @@ export const selectedTours = async (
     });
 
     if (!res.status) {
-      return {
-        message: res.data.message,
-        success: false,
-      };
+      return { message: res.data.message, success: false };
     }
 
     return res.data;
@@ -49,22 +47,18 @@ export const CompareToursCheckout = async ({
         email,
         payment_method: "visa",
         team,
-        // لو الـ backend بيحتاج الـ redirect من الـ frontend:
         success_url: REDIRECT_URLS.success,
         failed_url: REDIRECT_URLS.failed,
       },
       {
         headers: {
-          "Idempotency-Key": `Idempotency-Key-${tour_id}`,
+          "Idempotency-Key": `Idempotency-Key-${tour_id}-${Date.now()}`,
         },
       },
     );
 
     if (!res.status) {
-      return {
-        message: res.data.message,
-        success: false,
-      };
+      return { message: res.data.message, success: false };
     }
 
     return res.data;
