@@ -129,7 +129,7 @@ export default function Navbar() {
           ) : isLoggedIn ? (
             <>
               <Link
-                href="/profile"
+                href="/profile/info"
                 aria-label="Profile"
                 title={displayName}
                 className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-app-primary/10 text-app-primary"
