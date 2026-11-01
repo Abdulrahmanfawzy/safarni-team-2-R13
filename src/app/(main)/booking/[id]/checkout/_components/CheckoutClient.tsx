@@ -11,7 +11,7 @@ import useCompareCheckout from "@/hooks/useCompareCheckout";
 import { TourBooking } from "@/types/booking.type";
 import { cn } from "@/lib/utils";
 
-const TEAM = 2; // غيّره لـ 1 لو فريقك الأول
+const TEAM = 2;  
 
 type Method = "paypal" | "mastercard" | "visa";
 const METHODS: { key: Method; label: string }[] = [
@@ -20,9 +20,9 @@ const METHODS: { key: Method; label: string }[] = [
   { key: "visa", label: "Visa" },
 ];
 
-// ✅ الـ id بييجي كـ prop بدل useParams
+ 
 export default function CheckoutClient({ id }: { id: string }) {
-  // ❌ شيل: const { id } = useParams<{ id: string }>();
+  
   const session = useSession();
 
   const [booking, setBooking] = useState<TourBooking | null>(null);

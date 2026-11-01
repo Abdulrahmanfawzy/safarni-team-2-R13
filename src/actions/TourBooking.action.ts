@@ -35,7 +35,7 @@ export const createPaypalOrder = async (
 ): Promise<ApiResponse<PaypalOrder>> => {
   try {
     const res = await apiClient.post(`/bookings/${bookingId}/paypal/order`, {
-      // add return_url / cancel_url here if the backend requires them
+      
     });
     return res.data;
   } catch (error) {

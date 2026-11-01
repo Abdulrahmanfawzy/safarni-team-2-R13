@@ -17,44 +17,57 @@ export interface FavoritesResponse {
   };
 }
 
-// 2. دالة جلب المفضلة
-export async function getFavorites(token: string): Promise<FavoritesResponse> {
-  const baseUrl = process.env.NEXT_BASE_API_URL || process.env.API;
-  const url = `${baseUrl}/favorites`;
+const getBaseUrl = () => process.env.NEXT_BASE_API_URL || process.env.API;
 
-  const res = await fetch(url, {
+// ⚠️ لو رجع 422 "selected service type is invalid" عدّل القيم دي حسب Postman
+const SERVICE_TYPES: Record<string, string> = {
+  tour: "tour",
+  hotel: "hotel",
+  room: "room",
+  car: "car",
+};
+
+export async function getFavorites(token: string): Promise<FavoritesResponse> {
+  const res = await fetch(`${getBaseUrl()}/favorites`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch favorites (${res.status})`);
-  }
-
-  const json = await res.json();
-  return json;
+  if (!res.ok) throw new Error(`Failed to fetch favorites (${res.status})`);
+  return res.json();
 }
 
-export async function toggleFavorite(token: string, itemId: number | string, itemType: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API;
-  const url = `${baseUrl}/favorites/toggle`;
-
-  const res = await fetch(url, {
+export async function toggleFavorite(
+  token: string,
+  itemId: number | string,
+  itemType: string,
+) {
+  const res = await fetch(`${getBaseUrl()}/favorites/toggle`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ item_id: itemId, type: itemType }),
+    body: JSON.stringify({
+      service_type: SERVICE_TYPES[itemType] ?? itemType,
+      service_item_id: Number(itemId),
+    }),
+    cache: "no-store",
   });
 
+  const json = await res.json().catch(() => null);
+
   if (!res.ok) {
-    throw new Error(`Failed to toggle favorite (${res.status})`);
+    console.error("toggleFavorite failed:", res.status, json);
+    throw new Error(
+      json?.message || `Failed to toggle favorite (${res.status})`,
+    );
   }
 
-  return await res.json();
+  return json;  
 }
