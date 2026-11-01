@@ -11,10 +11,16 @@ export interface TourRowItem {
   price: number;
 }
 
-export default function TourRowCard({ tour }: { tour: TourRowItem }) {
+export default function TourRowCard({
+  tour,
+  href,
+}: {
+  tour: TourRowItem;
+  href?: string;
+}) {
   return (
     <Link
-      href={`/destination/${tour.id}`}
+      href={href ?? `/destination/${tour.id}`}
       className="flex items-center gap-3 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md"
     >
       <div className="relative h-[64px] w-[64px] shrink-0 overflow-hidden rounded-xl bg-gray-100">

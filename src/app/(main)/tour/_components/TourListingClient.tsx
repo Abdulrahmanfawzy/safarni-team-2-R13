@@ -25,21 +25,12 @@ export default function TourListingClient({
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [favorites, setFavorites] = useState<number[]>([]);
 
   const filteredTours = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return tours;
     return tours.filter((tour) => tour.title.toLowerCase().includes(query));
   }, [tours, searchQuery]);
-
-  function toggleFavorite(tourId: number) {
-    setFavorites((current) =>
-      current.includes(tourId)
-        ? current.filter((id) => id !== tourId)
-        : [...current, tourId],
-    );
-  }
 
   function handleTourClick(tour: Tour) {
     router.push(`${TOURS_PATH}/${tour.id}`);
@@ -86,8 +77,6 @@ export default function TourListingClient({
                 popularity: tour.reviewsCount,
                 slug: tour.slug,
               }}
-              isFavorite={favorites.includes(tour.id)}
-              onToggleFavorite={() => toggleFavorite(tour.id)}
               onClick={() => handleTourClick(tour)}
             />
           ))}
