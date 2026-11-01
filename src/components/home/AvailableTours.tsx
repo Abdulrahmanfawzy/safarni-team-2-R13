@@ -16,7 +16,6 @@ async function loadTours(): Promise<TourRowItem[]> {
       price: t.price,
     }));
   } catch {
-    // API down: fall back to the static list
     return AVAILABLE_TOURS.map((t) => ({
       id: t.id,
       type: t.type,
@@ -36,7 +35,7 @@ export default async function AvailableTours() {
       <SectionHeader title="Available Tours" href="/search" />
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         {tours.map((t) => (
-          <TourRowCard key={t.id} tour={t} />
+          <TourRowCard key={t.id} tour={t} href={`/tour/${t.id}`} />
         ))}
       </div>
     </section>

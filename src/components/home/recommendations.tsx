@@ -15,7 +15,7 @@ async function loadRecommendations(): Promise<DestinationCardItem[]> {
       rating: r.rating,
     }));
   } catch {
-    // API down: fall back to the static list
+     
     return RECOMMENDATIONS.map((d) => ({
       id: d.id,
       name: d.name,
