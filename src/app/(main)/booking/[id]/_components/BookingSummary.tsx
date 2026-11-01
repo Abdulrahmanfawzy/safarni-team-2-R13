@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 import useCompareCheckout from "@/hooks/useCompareCheckout";
 import { TourBooking } from "@/types/booking.type";
 
-const TEAM = 2; // change to 1 if your team is the first one
+const TEAM = 2;  
 
 const BookingSummary = ({ booking }: { booking: TourBooking }) => {
   const { mutate, isPending } = useCompareCheckout();
@@ -29,7 +29,7 @@ const BookingSummary = ({ booking }: { booking: TourBooking }) => {
       },
       {
         onSuccess: (res) => {
-          const url = res.data?.payment?.checkout_url; // <-- changed
+          const url = res.data?.payment?.checkout_url;  
           if (res.success && url) {
             window.location.href = url;
           } else {

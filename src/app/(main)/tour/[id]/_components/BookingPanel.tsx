@@ -51,7 +51,7 @@ const BookingPanel = ({ tourId, price, schedules }: BookingPanelProps) => {
       {
         onSuccess: (res) => {
           if (res.success && res.data) {
-            // خزّن الحجز عشان صفحة /booking/[id] تقراه
+             
             try {
               sessionStorage.setItem(
                 `booking-${res.data.id}`,

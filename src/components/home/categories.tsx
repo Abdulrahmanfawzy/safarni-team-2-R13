@@ -12,7 +12,7 @@ interface CategoryItem {
   href: string;
 }
 
-// Explicit routes. Keys are lowercase category names or slugs from the API.
+ 
 const ROUTE_OVERRIDES: Record<string, string> = {
   tour: "/tour",
   tours: "/tour",
@@ -41,7 +41,7 @@ async function loadCategories(): Promise<CategoryItem[]> {
       href: resolveHref(c.name, c.slug),
     }));
   } catch {
-    // API down: fall back to your static list
+    
     return CATEGORIES.map((c) => ({
       key: c.label,
       label: c.label,
