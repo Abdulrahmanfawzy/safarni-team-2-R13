@@ -66,10 +66,7 @@ async function apiFetch<T>(
     );
   }
 
-  // Normalize Laravel's paginated response:
-  // { data: TourApiItem[], meta: TourPagination }
-  // into the existing UI contract:
-  // { items: TourApiItem[], pagination: TourPagination }
+ 
   if (Array.isArray(result.data)) {
     if (!result.meta) {
       throw new Error(
@@ -104,7 +101,7 @@ export function searchTours(q: string, perPage = 10): Promise<ToursApiData> {
   });
 }
 
-// API item -> camelCase UI shape
+ 
 export function mapTourToUi(item: TourApiItem): TourUi {
   return {
     id: item.id,
@@ -120,7 +117,7 @@ export function mapTourToUi(item: TourApiItem): TourUi {
   };
 }
 
-// API item -> the shape TourCard expects
+ 
 export function toTour(t: TourApiItem): Tour {
   return {
     id: String(t.id),
@@ -128,7 +125,7 @@ export function toTour(t: TourApiItem): Tour {
     image: t.image ?? "",
     rating: t.rating ?? 0,
     reviews: t.reviews_count,
-    // Assumes duration is expressed in hours.
+   
     days: t.duration >= 24 ? Math.round(t.duration / 24) : undefined,
     hours: t.duration < 24 ? t.duration : undefined,
     pickup: false,

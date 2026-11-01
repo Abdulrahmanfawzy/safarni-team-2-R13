@@ -1,34 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+
 import { Tour } from "@/constants/tours";
+import FavoriteButton from "@/components/shared/FavoriteButton";
 
 interface TourCardProps {
   tour: Tour;
   isFavorite?: boolean;
-  onToggleFavorite?: (id: string) => void;
   onClick?: (tour: Tour) => void;
   className?: string;
 }
 
 export default function TourCard({
   tour,
-  isFavorite,
-  onToggleFavorite,
+  isFavorite = false,
   onClick,
   className = "",
 }: TourCardProps) {
-  const [localFav, setLocalFav] = useState(false);
-  const fav = isFavorite ?? localFav;
-
-  const toggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onToggleFavorite) onToggleFavorite(tour.id);
-    else setLocalFav((v) => !v);
-  };
-
   const duration =
     tour.durationText ??
     (tour.days ? `${tour.days} days` : tour.hours ? `${tour.hours} hours` : "");
@@ -48,22 +37,12 @@ export default function TourCard({
             className="object-cover"
           />
         )}
-        <button
-          type="button"
-          aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-          onClick={toggle}
-          className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-4 w-4"
-            fill={fav ? "#ef4444" : "none"}
-            stroke={fav ? "#ef4444" : "#9ca3af"}
-            strokeWidth="2"
-          >
-            <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" />
-          </svg>
-        </button>
+        <FavoriteButton
+          id={tour.id}
+          type="tour"
+          initialFavorite={isFavorite}
+          className="absolute right-2 top-2"
+        />
       </div>
 
       <div className="space-y-1 px-1 pb-1 pt-2">

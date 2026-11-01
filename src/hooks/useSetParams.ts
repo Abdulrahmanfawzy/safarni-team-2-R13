@@ -18,7 +18,7 @@ export const useSetParams = (paramKey: string, relatedParamKey?: string) => {
         .filter((selectedId) => selectedId !== id)
         .forEach((selectedId) => params.append(paramKey, selectedId));
 
-      // Remove related param if it belongs to the removed ID
+      
       if (params.get(relatedParamKey ?? "") === id) {
         params.delete(relatedParamKey!);
       }

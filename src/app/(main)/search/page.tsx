@@ -92,11 +92,11 @@ async function SearchResults({
         </p>
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {tours.map((t) => (
-            <Link key={t.id} href={`/destination/${t.id}`}>
-              <TourCard tour={t} />
-            </Link>
-          ))}
+        {tours.map((t) => (
+  <Link key={t.id} href={`/tour/${t.id}`}>
+    <TourCard tour={t} />
+  </Link>
+))}
         </div>
       )}
     </>

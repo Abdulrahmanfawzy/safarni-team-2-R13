@@ -21,7 +21,7 @@ function Avatar({
 }) {
   const [imgError, setImgError] = useState(false);
 
-  // reset the error state when the image URL changes
+   
   useEffect(() => {
     setImgError(false);
   }, [image]);
