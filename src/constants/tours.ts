@@ -56,7 +56,7 @@ export const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 export const PRICE_MIN = 0;
 export const PRICE_MAX = 8500;
 
-// TODO: replace with data from your API / server action
+ 
 export const TOURS: Tour[] = [
   { id: "1", title: "Eiffel Tower", image: eiffel, location: "Paris", style: "City Breaks", rating: 4.5, reviews: 690, days: 5, price: 1050, oldPrice: 1300, pickup: true, popularity: 95 },
   { id: "2", title: "Paris City Tour", image: louvre, location: "Paris", style: "City Breaks", rating: 4.1, reviews: 350, days: 7, price: 1500, pickup: true, popularity: 70 },
@@ -65,7 +65,7 @@ export const TOURS: Tour[] = [
   { id: "5", title: "Tour de France", image: tdf, location: "Paris", style: "Road Trips", rating: 3.1, reviews: 256, hours: 6, price: 155, pickup: true, popularity: 40 },
   { id: "6", title: "Disneyland Paris", image: disney, location: "Paris", style: "City Breaks", rating: 4.3, reviews: 890, days: 10, price: 2100, oldPrice: 2600, pickup: true, popularity: 99 },
 
-  // placeholders so other popular places return results (swap images later)
+ 
   { id: "7", title: "Colosseum Tour", image: louvre, location: "Rome", style: "City Breaks", rating: 4.6, reviews: 720, days: 4, price: 900, oldPrice: 1100, pickup: true, popularity: 85 },
   { id: "8", title: "Desert Safari", image: swiss, location: "Dubai", style: "Adventure Travel", rating: 4.4, reviews: 540, hours: 8, price: 180, pickup: true, popularity: 90 },
   { id: "9", title: "Thames Cruise", image: cruise, location: "London", style: "Water Activity", rating: 4.2, reviews: 310, hours: 3, price: 75, oldPrice: 95, pickup: true, popularity: 60 },

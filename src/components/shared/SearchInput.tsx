@@ -36,12 +36,12 @@ const SearchInput = ({
     defaultValue ?? (paramKey ? (searchParams.get(paramKey) ?? "") : ""),
   );
 
-  // keep the input in sync if the dialog re-opens with a new defaultValue
+  
   useEffect(() => {
     if (defaultValue !== undefined) setValue(defaultValue);
   }, [defaultValue]);
 
-  // debounced URL update — runs whenever paramKey is set, independent of onSubmit
+ 
   useEffect(() => {
     if (!paramKey) return;
 
@@ -58,9 +58,9 @@ const SearchInput = ({
       if (next) params.set(paramKey, next);
       else params.delete(paramKey);
 
-      resetParams?.forEach((key) => params.delete(key)); // use to delet params(like on compare page delete toure_id on search is empty or change)
+      resetParams?.forEach((key) => params.delete(key));  
 
-      params.delete("page"); // a new search starts at page 1
+      params.delete("page");  
 
       const query = params.toString();
       startTransition(() => {
